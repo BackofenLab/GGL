@@ -50,3 +50,5 @@ aclocal.m4
 compile
 */.deps
 */.deps/*
+
+ggl.pc

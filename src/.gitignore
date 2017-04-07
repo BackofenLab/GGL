@@ -1,0 +1,8 @@
+/*/.deps
+/*/.deps/*
+/*/*/.deps
+/*/*/.deps/*
+*.dirstamp
+
+/doxygen.hh
+/sgm/HashMap.hh
