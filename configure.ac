@@ -382,7 +382,7 @@ fi
 # COMPILER AND LINKER FLAG DISTRIBUTION
 ###############################################################################
 
-AM_CXXFLAGS="$BOOST_CPPFLAGS $AM_CXXFLAGS"
+AM_CXXFLAGS="$BOOST_CPPFLAGS $AM_CXXFLAGS -DBOOST_SYSTEM_NO_DEPRECATED"
 AM_LDFLAGS="$BOOST_LDFLAGS $AM_LDFLAGS"
 
 # distribute the configure based compiler and linker setups
