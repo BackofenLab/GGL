@@ -1,4 +1,8 @@
 
+170407 Martin Mann
+	* configure.ac :
+	  + "-DBOOST_SYSTEM_NO_DEPRECATED" compiler flag to disable unneeded 
+	    dependency to boost_system library
 
 170407 moving source to github:BackofenLab/GGL
 

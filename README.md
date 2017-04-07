@@ -83,12 +83,13 @@ standard compilation-installation pipeline:
 ```bash
 source ./autogen.sh  # calls autotools, see content for details
 ./configure  # call with '--help' for configure options
-make 
+make
 make install # call with 'prefix=INSTALLPREFIX' for local installation
 ```
 
 
 <hr>
+
 # Library descriptions
 
 The package comes with separate libraries described in the following. Furthermore,
