@@ -1,0 +1,699 @@
+==============  BEGIN TEST  ==================
+==============================================
+               bin/hanser
+==============================================
+
+ --> checking help
+
+ => usage:	hanser -graph=... [...optional parameters]
+
+ => complete parameterlist:
+
+   -graph=..  The initial graph input file name or 'STDIN' when to read from standard
+         input (see -inputExample for a sample)
+         type=str   default="STDIN"
+  [-rules=..] The rules to be used instead of the predefined ones. A file name or
+         'STDIN' is expected.
+         type=str 
+  [-out=..] Output file name or 'STDOUT' when to write to standard output
+         type=str   default="STDOUT"
+  [-help] Displays help on all parameters
+         type=bool
+  [-inputExample] Displays an example for the graph GML input encoding
+         type=bool
+  [-v  ] Verbose output
+         type=bool
+  [-version] Version information
+         type=bool
+
+
+ => informations:
+
+
+Performs a ring perception to enumerate all rings within a given graph using the
+algorithm by Hanser et al. (1996).
+
+The graph has to be given in GML format. Use '-inputExample' for an example.
+
+
+
+ => usage:	hanser -graph=... [...optional parameters]
+
+
+ --> running solver
+ --> parameter =  -graph=hanser/single-loop.input -v
+
+ RULE remove single node
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (V)  -->  |
+
+ == RIGHT_SIDE_PATTERN ==
+
+
+
+ number of constraints = 1
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 0
+   nodeLabels = 
+   edgeLabels =  '*'
+
+ number of nodes with copy-and-paste operations = 0
+
+
+
+
+ RULE remove dangling end
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (*)  -->  |
+
+ == RIGHT_SIDE_PATTERN ==
+
+
+
+ number of constraints = 1
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 1
+   nodeLabels = 
+   edgeLabels =  '*'
+
+ number of nodes with copy-and-paste operations = 0
+
+
+
+
+ RULE close and decouple ring without self-loop
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (V)  -->  | 1 (*) | 1 (*) |
+     1 (E)  -->  | 0 (*) | 0 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (V)  -->  |
+     1 (ring)  -->  |
+
+
+ number of constraints = 1
+ + MC_NodeAdjacency 
+   id 1
+   op =
+   count 1
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(1) target(1) edgeLabels ()
+
+
+
+ RULE close and decouple ring with self-loops
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (V)  -->  | 1 (*) | 1 (*) |
+     1 (E)  -->  | 0 (*) | 0 (*) | 1 (*) | 1 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (V)  -->  |
+     1 (ring)  -->  |
+
+
+ number of constraints = 1
+ + MC_NodeAdjacency 
+   id 1
+   op =
+   count 2
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 2
+
+ copy-and-paste : source(0) pasteID(2) target(1) edgeLabels ()
+ copy-and-paste : source(1) pasteID(2) target() edgeLabels ()
+
+
+
+ RULE merging within triangle ring edge node with neighbored edge node
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (E)  -->  | 1 (*) | 2 (*) |
+     1 (V)  -->  | 0 (*) | 2 (*) |
+     2 (E)  -->  | 0 (*) | 1 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (V)  -->  | 1 (*) |
+     1 (E)  -->  | 0 (*) |
+
+
+ number of constraints = 2
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 2
+   nodeLabels =  '*'
+   edgeLabels = 
+ + MC_NodeAdjacency 
+   id 2
+   op =
+   count 2
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(2) target() edgeLabels ()
+
+
+
+ RULE merging within triangle ring self-looped edge node with neighbored edge node
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (E)  -->  | 0 (*) | 0 (*) | 1 (*) | 2 (*) |
+     1 (V)  -->  | 0 (*) | 2 (*) |
+     2 (E)  -->  | 0 (*) | 1 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (V)  -->  | 1 (*) |
+     1 (E)  -->  | 0 (*) |
+
+
+ number of constraints = 2
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 3
+   nodeLabels =  '*'
+   edgeLabels = 
+ + MC_NodeAdjacency 
+   id 2
+   op =
+   count 2
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(2) target() edgeLabels ()
+
+
+
+ RULE merging within triangle ring self-looped edge node with self-looped neighbored edge node
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (E)  -->  | 0 (*) | 0 (*) | 1 (*) | 2 (*) |
+     1 (V)  -->  | 0 (*) | 2 (*) |
+     2 (E)  -->  | 0 (*) | 1 (*) | 2 (*) | 2 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (V)  -->  | 1 (*) |
+     1 (E)  -->  | 0 (*) | 1 (*) | 1 (*) |
+
+
+ number of constraints = 2
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 3
+   nodeLabels =  '*'
+   edgeLabels = 
+ + MC_NodeAdjacency 
+   id 2
+   op =
+   count 3
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(2) target() edgeLabels ()
+
+
+
+ RULE merging edge node with neighbored edge node
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (E)  -->  | 1 (*) | 2 (*) |
+     1 (*)  -->  | 0 (*) |
+     2 (E)  -->  | 0 (*) | 3 (*) |
+     3 (*)  -->  | 2 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (*)  -->  |
+     1 (E)  -->  | 2 (*) |
+     2 (*)  -->  | 1 (*) |
+
+
+ number of constraints = 2
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 2
+   nodeLabels =  '*'
+   edgeLabels = 
+ + MC_NodeAdjacency 
+   id 2
+   op =
+   count 2
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(2) target() edgeLabels ()
+
+
+
+ RULE merging self-looped edge node with neighbored edge node
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (E)  -->  | 0 (*) | 0 (*) | 1 (*) | 2 (*) |
+     1 (*)  -->  | 0 (*) |
+     2 (E)  -->  | 0 (*) | 3 (*) |
+     3 (*)  -->  | 2 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (*)  -->  |
+     1 (E)  -->  | 2 (*) |
+     2 (*)  -->  | 1 (*) |
+
+
+ number of constraints = 2
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 3
+   nodeLabels =  '*'
+   edgeLabels = 
+ + MC_NodeAdjacency 
+   id 2
+   op =
+   count 2
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(2) target() edgeLabels ()
+
+
+
+ RULE merging edge node with self-looped neighbored edge node
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (E)  -->  | 1 (*) | 2 (*) |
+     1 (*)  -->  | 0 (*) |
+     2 (E)  -->  | 0 (*) | 2 (*) | 2 (*) | 3 (*) |
+     3 (*)  -->  | 2 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (*)  -->  |
+     1 (E)  -->  | 1 (*) | 1 (*) | 2 (*) |
+     2 (*)  -->  | 1 (*) |
+
+
+ number of constraints = 2
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 2
+   nodeLabels =  '*'
+   edgeLabels = 
+ + MC_NodeAdjacency 
+   id 2
+   op =
+   count 3
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(2) target() edgeLabels ()
+
+
+
+ RULE merging self-looped edge node with self-looped neighbored edge node
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (E)  -->  | 0 (*) | 0 (*) | 1 (*) | 2 (*) |
+     1 (*)  -->  | 0 (*) |
+     2 (E)  -->  | 0 (*) | 2 (*) | 2 (*) | 3 (*) |
+     3 (*)  -->  | 2 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (*)  -->  |
+     1 (E)  -->  | 1 (*) | 1 (*) | 2 (*) |
+     2 (*)  -->  | 1 (*) |
+
+
+ number of constraints = 2
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 3
+   nodeLabels =  '*'
+   edgeLabels = 
+ + MC_NodeAdjacency 
+   id 2
+   op =
+   count 3
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(2) target() edgeLabels ()
+
+
+
+ RULE break edge crossing 3 without self-loops
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (E)  -->  | 1 (*) | 2 (*) | 3 (*) |
+     1 (*)  -->  | 0 (*) |
+     2 (*)  -->  | 0 (*) |
+     3 (*)  -->  | 0 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (*)  -->  |
+     1 (*)  -->  |
+     2 (*)  -->  |
+     3 (E)  -->  |
+     4 (E)  -->  |
+     5 (E)  -->  |
+
+
+ number of constraints = 1
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 3
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(4) target(1) edgeLabels ()
+ copy-and-paste : source(0) pasteID(5) target(1) edgeLabels ()
+ copy-and-paste : source(0) pasteID(4) target(2) edgeLabels ()
+ copy-and-paste : source(0) pasteID(6) target(2) edgeLabels ()
+ copy-and-paste : source(0) pasteID(5) target(3) edgeLabels ()
+ copy-and-paste : source(0) pasteID(6) target(3) edgeLabels ()
+
+
+
+ RULE break edge crossing 3 with self-loops
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (E)  -->  | 0 (*) | 0 (*) | 1 (*) | 2 (*) | 3 (*) |
+     1 (*)  -->  | 0 (*) |
+     2 (*)  -->  | 0 (*) |
+     3 (*)  -->  | 0 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (*)  -->  |
+     1 (*)  -->  |
+     2 (*)  -->  |
+     3 (E)  -->  |
+     4 (E)  -->  |
+     5 (E)  -->  |
+
+
+ number of constraints = 1
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 4
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(4) target(0) edgeLabels ()
+ copy-and-paste : source(0) pasteID(5) target(0) edgeLabels ()
+ copy-and-paste : source(0) pasteID(6) target(0) edgeLabels ()
+ copy-and-paste : source(0) pasteID(4) target(1) edgeLabels ()
+ copy-and-paste : source(0) pasteID(5) target(1) edgeLabels ()
+ copy-and-paste : source(0) pasteID(4) target(2) edgeLabels ()
+ copy-and-paste : source(0) pasteID(6) target(2) edgeLabels ()
+ copy-and-paste : source(0) pasteID(5) target(3) edgeLabels ()
+ copy-and-paste : source(0) pasteID(6) target(3) edgeLabels ()
+
+
+
+ RULE transform vertex crossing 2 to edges
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (V)  -->  | 1 (*) | 2 (*) |
+     1 (*)  -->  | 0 (*) |
+     2 (*)  -->  | 0 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (*)  -->  |
+     1 (*)  -->  |
+     2 (E)  -->  |
+
+
+ number of constraints = 1
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 2
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(3) target(1) edgeLabels ()
+ copy-and-paste : source(0) pasteID(3) target(2) edgeLabels ()
+
+
+
+ RULE transform vertex crossing 3 to edges
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (V)  -->  | 1 (*) | 2 (*) | 3 (*) |
+     1 (*)  -->  | 0 (*) |
+     2 (*)  -->  | 0 (*) |
+     3 (*)  -->  | 0 (*) |
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (*)  -->  |
+     1 (*)  -->  |
+     2 (*)  -->  |
+     3 (E)  -->  |
+     4 (E)  -->  |
+     5 (E)  -->  |
+
+
+ number of constraints = 1
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 3
+   nodeLabels =  '*'
+   edgeLabels = 
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(4) target(1) edgeLabels ()
+ copy-and-paste : source(0) pasteID(5) target(1) edgeLabels ()
+ copy-and-paste : source(0) pasteID(4) target(2) edgeLabels ()
+ copy-and-paste : source(0) pasteID(6) target(2) edgeLabels ()
+ copy-and-paste : source(0) pasteID(5) target(3) edgeLabels ()
+ copy-and-paste : source(0) pasteID(6) target(3) edgeLabels ()
+
+
+
+ Input Graph 
+
+graph [
+  node [ id 0 label "A" ]
+  node [ id 1 label "B" ]
+  node [ id 2 label "C" ]
+  edge [ source 0 target 1 label "-" ]
+  edge [ source 0 target 2 label "-" ]
+  edge [ source 1 target 2 label "-" ]
+]
+
+
+ Initial P Graph 
+
+graph [
+  node [ id 0 label "V" ]
+  node [ id 1 label "V" ]
+  node [ id 2 label "V" ]
+  edge [ source 0 target 1 label "0-1" ]
+  edge [ source 0 target 2 label "0-2" ]
+  edge [ source 1 target 2 label "1-2" ]
+]
+
+
+
+ rule : transform vertex crossing 2 to edges
+graph [
+  node [ id 0 label "V" ]
+  node [ id 1 label "V" ]
+  node [ id 2 label "E" ]
+  edge [ source 0 target 1 label "1-2" ]
+  edge [ source 2 target 0 label "0-1" ]
+  edge [ source 2 target 1 label "0-2" ]
+]
+
+
+ rule : transform vertex crossing 2 to edges
+graph [
+  node [ id 0 label "V" ]
+  node [ id 1 label "E" ]
+  node [ id 2 label "E" ]
+  edge [ source 0 target 1 label "0-2" ]
+  edge [ source 2 target 0 label "1-2" ]
+  edge [ source 2 target 1 label "0-1" ]
+]
+
+
+ rule : merging within triangle ring edge node with neighbored edge node
+graph [
+  node [ id 0 label "V" ]
+  node [ id 1 label "E" ]
+  edge [ source 0 target 1 label "1-2" ]
+  edge [ source 1 target 1 label "0-1" ]
+  edge [ source 1 target 0 label "0-2" ]
+]
+
+
+ rule : close and decouple ring with self-loops
+graph [
+  node [ id 0 label "V" ]
+  node [ id 1 label "ring" ]
+  edge [ source 1 target 0 label "1-2" ]
+  edge [ source 1 target 0 label "0-2" ]
+  edge [ source 1 target 1 label "0-1" ]
+  edge [ source 1 target 1 label "1-2" ]
+  edge [ source 1 target 1 label "0-2" ]
+]
+
+
+ edge pruning
+
+graph [
+  node [ id 0 label "V" ]
+]
+
+
+ rule : remove single node
+graph [
+]
+
+
+ number of rings = 1
+
+ ring = 0-1 0-2 1-2
+ --> running solver
+ --> parameter =  -graph=hanser/two-fused-rings.input
+
+ Input Graph 
+
+graph [
+  node [ id 0 label "A" ]
+  node [ id 1 label "B" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "D" ]
+  node [ id 4 label "E" ]
+  edge [ source 0 target 1 label "-" ]
+  edge [ source 0 target 2 label "-" ]
+  edge [ source 0 target 3 label "-" ]
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 1 target 3 label "-" ]
+  edge [ source 3 target 4 label "-" ]
+]
+
+
+
+ number of rings = 3
+
+ ring = 0-1 0-2 1-2
+ ring = 0-1 0-3 1-3
+ ring = 0-2 0-3 1-2 1-3
+ --> running solver
+ --> parameter =  -graph=hanser/three-fused-rings.input
+
+ Input Graph 
+
+graph [
+  node [ id 0 label "a" ]
+  node [ id 1 label "b" ]
+  node [ id 2 label "c" ]
+  node [ id 3 label "d" ]
+  node [ id 4 label "e" ]
+  node [ id 5 label "f" ]
+  node [ id 6 label "g" ]
+  node [ id 7 label "h" ]
+  node [ id 8 label "i" ]
+  node [ id 9 label "j" ]
+  node [ id 10 label "k" ]
+  node [ id 11 label "l" ]
+  node [ id 12 label "m" ]
+  node [ id 13 label "n" ]
+  edge [ source 0 target 1 label "-" ]
+  edge [ source 0 target 5 label "-" ]
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 2 target 6 label "-" ]
+  edge [ source 3 target 4 label "-" ]
+  edge [ source 3 target 9 label "-" ]
+  edge [ source 4 target 5 label "-" ]
+  edge [ source 6 target 7 label "-" ]
+  edge [ source 6 target 10 label "-" ]
+  edge [ source 7 target 8 label "-" ]
+  edge [ source 7 target 13 label "-" ]
+  edge [ source 8 target 9 label "-" ]
+  edge [ source 10 target 11 label "-" ]
+  edge [ source 11 target 12 label "-" ]
+  edge [ source 12 target 13 label "-" ]
+]
+
+
+
+ number of rings = 6
+
+ ring = 0-1 0-5 1-2 10-11 11-12 12-13 2-6 3-4 3-9 4-5 6-10 7-13 7-8 8-9
+ ring = 0-1 0-5 1-2 2-3 3-4 4-5
+ ring = 0-1 0-5 1-2 2-6 3-4 3-9 4-5 6-7 7-8 8-9
+ ring = 10-11 11-12 12-13 2-3 2-6 3-9 6-10 7-13 7-8 8-9
+ ring = 10-11 11-12 12-13 6-10 6-7 7-13
+ ring = 2-3 2-6 3-9 6-7 7-8 8-9
+
+===============  END TEST  ===================

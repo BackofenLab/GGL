@@ -1,0 +1,24 @@
+
+==============  BEGIN TEST  ==================
+==============================================
+              sgm::MR_Counting  
+==============================================
+
+--> create sgm::MR_Counting mr
+
+--> create dummy graphs 
+
+--> create dummy match :
+
+ 4 3 2 5
+--> mr.reportHit(..)
+--> mr.reportHit(..)
+--> mr.getHits() = 2
+--> mr.resetHits(..)
+--> mr.getHits() = 0
+--> mr.reportHit(..)
+--> mr.getHits() = 1
+
+===============  TEST END  ===================
+==============================================
+

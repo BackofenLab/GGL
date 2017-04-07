@@ -1,0 +1,608 @@
+
+==============  BEGIN TEST  ==================
+==============================================
+         ggl::chem::AP_NSPDK  
+==============================================
+
+
+################################################
+
+load model 'Marvin:general:2013'
+ given     : 'c1cc2C=Cc3cccc(c1)c23'
+ parse     : -1
+ + protons : '[cH]1[cH]c2[cH][cH][cH]c3[CH]=[CH]c([cH]1)c23'
+ ->getFeatures( mol )
+ ring 'c:c-C=C-c:c' =  410:6.4932987e-02 1685:4.8398189e-02 2184:1.4519456e-01 2571:6.4932987e-02 3082:4.5914553e-02 3533:6.0993917e-02 3546:1.3442405e-01 3593:6.7212023e-02 3690:6.0993917e-02 4109:4.8398189e-02 4172:1.4995632e-01 5030:6.7212023e-02 5159:4.8398189e-02 7367:1.6765626e-01 8376:6.0993917e-02 8496:1.4995632e-01 9074:4.8398189e-02 9618:6.4932987e-02 9972:9.1829106e-02 10431:1.9359276e-01 11201:1.6765626e-01 11488:3.7489079e-02 11587:6.7212023e-02 13799:6.4932987e-02 13846:4.8398189e-02 14623:6.0993917e-02 14874:4.8398189e-02 15784:3.7489079e-02 15888:4.8398189e-02 16281:7.4978158e-02 16445:2.0924765e-01 16784:6.7212023e-02 17014:4.8398189e-02 17086:1.3949843e-01 17094:1.2198783e-01 17171:1.8365821e-01 17623:7.4978158e-02 18121:6.0993917e-02 18136:6.4932987e-02 18725:3.2536522e-01 19197:7.4978158e-02 19316:9.6796378e-02 19334:1.6370237e-01 19713:6.7212023e-02 19729:6.0993917e-02 19871:6.4932987e-02 20019:6.7212023e-02 20631:6.4932987e-02 20896:1.6370237e-01 21001:2.3657659e-01 21316:7.4978158e-02 21425:4.8398189e-02 21489:4.8398189e-02 22024:6.0993917e-02 22575:7.0972979e-02 23180:2.5148436e-01 23543:4.8398189e-02 23663:8.3828129e-02 24205:6.4932987e-02 24340:9.6796378e-02 24989:7.4978158e-02 25275:2.0924765e-01 25278:6.4932987e-02 25758:7.4978158e-02 25929:1.2986597e-01 26513:1.4519456e-01 27003:6.4932987e-02 27117:1.3774367e-01 27308:4.7315318e-02 28015:4.8398189e-02 29463:6.0993917e-02 29475:9.8221429e-02 31171:1.2198783e-01 31287:6.4932987e-02 31294:1.4995632e-01 31654:1.6366385e-01 31826:1.3949843e-01 32287:6.0993917e-02 32751:1.4995632e-01
+
+ ring 'c:c:c:c:c:c:c' =  90:7.0272841e-02 116:3.5136420e-02 239:8.0757283e-02 340:3.6514837e-02 574:8.1649661e-02 907:4.7140453e-02 1189:3.5136420e-02 1685:4.6373889e-02 2184:1.3693063e-01 2915:7.3029675e-02 3082:2.6919095e-02 3133:1.4054568e-01 3530:7.3029675e-02 3556:7.3029675e-02 3691:7.0272841e-02 4109:4.6373889e-02 4916:7.3029675e-02 5047:9.4280906e-02 5159:4.6373889e-02 5422:8.1649661e-02 5515:5.3838190e-02 5572:3.6514837e-02 6034:3.6514837e-02 6625:9.4280906e-02 6736:3.5136420e-02 7360:8.1649661e-02 7779:9.1287091e-02 7783:3.6514837e-02 7830:8.1649661e-02 7864:4.0824831e-02 8312:7.3029675e-02 8496:1.3116516e-01 9074:4.6373889e-02 9811:4.7140453e-02 9914:7.3029675e-02 9972:1.0767638e-01 10256:3.6514837e-02 10431:1.8549556e-01 10443:7.0272841e-02 10620:7.0272841e-02 11185:7.0272841e-02 11576:4.7140453e-02 11923:4.5643546e-02 12346:1.3693063e-01 12487:4.7140453e-02 13450:3.6514837e-02 13798:1.6329932e-01 13846:9.2747778e-02 14072:4.0824831e-02 14380:3.6514837e-02 14381:9.4280906e-02 14874:4.5643546e-02 14971:4.7140453e-02 15369:3.5136420e-02 15507:4.7140453e-02 15784:3.2791290e-02 15888:4.5643546e-02 16281:9.8373875e-02 16441:9.1287091e-02 16445:2.1228911e-01 16769:2.6919095e-02 16781:4.7140453e-02 17014:4.5643546e-02 17086:1.4696939e-01 17155:7.9893544e-02 17171:1.6151457e-01 17369:3.5136420e-02 17623:1.3116516e-01 17674:3.6514837e-02 17969:4.7140453e-02 18083:3.6514837e-02 18725:1.5978709e-01 18948:4.7140453e-02 19197:6.5582581e-02 19316:9.1287091e-02 19334:1.7654696e-01 19800:4.6373889e-02 19912:3.6514837e-02 20540:4.0824831e-02 20629:3.5136420e-02 20711:9.1287091e-02 20896:1.4712247e-01 20960:7.3029675e-02 20995:4.0824831e-02 21001:2.4343225e-01 21233:8.1649661e-02 21425:4.6373889e-02 21489:4.6373889e-02 21739:7.3029675e-02 21837:3.5136420e-02 22482:3.5136420e-02 22575:6.0858063e-02 22810:3.5136420e-02 23180:2.5819889e-01 23372:3.5136420e-02 23543:4.5643546e-02 24340:9.2747778e-02 25275:1.8257418e-01 25595:7.3029675e-02 26513:9.1287091e-02 26676:3.5136420e-02 26908:4.7140453e-02 27117:1.3459547e-01 27183:3.6514837e-02 27234:3.5136420e-02 27308:6.0858063e-02 28015:4.5643546e-02 28305:4.7140453e-02 28306:3.5136420e-02 29475:1.1769798e-01 30651:4.7140453e-02 31100:4.7140453e-02 31155:7.0272841e-02 31294:1.3116516e-01 31464:9.1287091e-02 31602:3.6514837e-02 31654:1.8641828e-01 31795:3.5136420e-02 31826:1.8257418e-01 32302:3.6514837e-02 32609:1.8257418e-01 32611:3.6514837e-02 32624:4.7140453e-02 32730:9.4280906e-02
+
+ ring 'c:c:c:c:c:c:c' =  90:7.0272841e-02 116:3.5136420e-02 239:8.0757283e-02 340:3.6514837e-02 574:8.1649661e-02 907:4.7140453e-02 1189:3.5136420e-02 1685:4.6373889e-02 2184:1.3693063e-01 2915:7.3029675e-02 3082:2.6919095e-02 3133:1.4054568e-01 3530:7.3029675e-02 3556:7.3029675e-02 3691:7.0272841e-02 4109:4.6373889e-02 4916:7.3029675e-02 5047:9.4280906e-02 5159:4.6373889e-02 5422:8.1649661e-02 5515:5.3838190e-02 5572:3.6514837e-02 6034:3.6514837e-02 6625:9.4280906e-02 6736:3.5136420e-02 7360:8.1649661e-02 7779:9.1287091e-02 7783:3.6514837e-02 7830:8.1649661e-02 7864:4.0824831e-02 8312:7.3029675e-02 8496:1.3116516e-01 9074:4.6373889e-02 9811:4.7140453e-02 9914:7.3029675e-02 9972:1.0767638e-01 10256:3.6514837e-02 10431:1.8549556e-01 10443:7.0272841e-02 10620:7.0272841e-02 11185:7.0272841e-02 11576:4.7140453e-02 11923:4.5643546e-02 12346:1.3693063e-01 12487:4.7140453e-02 13450:3.6514837e-02 13798:1.6329932e-01 13846:9.2747778e-02 14072:4.0824831e-02 14380:3.6514837e-02 14381:9.4280906e-02 14874:4.5643546e-02 14971:4.7140453e-02 15369:3.5136420e-02 15507:4.7140453e-02 15784:3.2791290e-02 15888:4.5643546e-02 16281:9.8373875e-02 16441:9.1287091e-02 16445:2.1228911e-01 16769:2.6919095e-02 16781:4.7140453e-02 17014:4.5643546e-02 17086:1.4696939e-01 17155:7.9893544e-02 17171:1.6151457e-01 17369:3.5136420e-02 17623:1.3116516e-01 17674:3.6514837e-02 17969:4.7140453e-02 18083:3.6514837e-02 18725:1.5978709e-01 18948:4.7140453e-02 19197:6.5582581e-02 19316:9.1287091e-02 19334:1.7654696e-01 19800:4.6373889e-02 19912:3.6514837e-02 20540:4.0824831e-02 20629:3.5136420e-02 20711:9.1287091e-02 20896:1.4712247e-01 20960:7.3029675e-02 20995:4.0824831e-02 21001:2.4343225e-01 21233:8.1649661e-02 21425:4.6373889e-02 21489:4.6373889e-02 21739:7.3029675e-02 21837:3.5136420e-02 22482:3.5136420e-02 22575:6.0858063e-02 22810:3.5136420e-02 23180:2.5819889e-01 23372:3.5136420e-02 23543:4.5643546e-02 24340:9.2747778e-02 25275:1.8257418e-01 25595:7.3029675e-02 26513:9.1287091e-02 26676:3.5136420e-02 26908:4.7140453e-02 27117:1.3459547e-01 27183:3.6514837e-02 27234:3.5136420e-02 27308:6.0858063e-02 28015:4.5643546e-02 28305:4.7140453e-02 28306:3.5136420e-02 29475:1.1769798e-01 30651:4.7140453e-02 31100:4.7140453e-02 31155:7.0272841e-02 31294:1.3116516e-01 31464:9.1287091e-02 31602:3.6514837e-02 31654:1.8641828e-01 31795:3.5136420e-02 31826:1.8257418e-01 32302:3.6514837e-02 32609:1.8257418e-01 32611:3.6514837e-02 32624:4.7140453e-02 32730:9.4280906e-02
+
+ ring 'c-C=C-c:c:c:c:c:c:c:c:c' =  239:1.0050378e-01 258:7.3771112e-02 350:1.0084390e-01 574:8.5769005e-02 1545:8.5769005e-02 2400:4.2884503e-02 2663:7.3771112e-02 2748:2.9049644e-02 3691:1.1065667e-01 4916:1.1619858e-01 5891:1.7429787e-01 6128:6.7229263e-02 6577:5.8099288e-02 6599:4.3505684e-02 7541:1.0084390e-01 7750:2.0100756e-01 8487:6.7229263e-02 8496:1.7402273e-01 8500:7.3771112e-02 8718:2.1442251e-02 9452:5.8099288e-02 9505:6.7229263e-02 10431:1.4573584e-01 10582:8.5769005e-02 11185:7.3771112e-02 11606:3.6885556e-02 11617:4.2884503e-02 11923:9.8724812e-02 12134:5.8099288e-02 12346:1.9744962e-01 13616:5.8099288e-02 13798:1.7153801e-01 13846:1.2144654e-01 13991:4.7946330e-02 14511:6.7229263e-02 15467:2.9049644e-02 15980:8.5769005e-02 16058:5.8099288e-02 16281:1.1601515e-01 16445:1.7447135e-01 16601:7.3771112e-02 17155:2.3058011e-01 17623:1.4501894e-01 17646:3.6885556e-02 18725:1.4411257e-02 19141:5.8099288e-02 19316:5.9234887e-02 19334:2.2039729e-01 19800:1.2144654e-01 20540:4.2884503e-02 20711:9.5892660e-02 20896:4.7227994e-02 21001:2.4068524e-01 21056:7.3771112e-02 21425:7.2867922e-02 21489:7.2867922e-02 21935:7.2867922e-02 21981:1.1846977e-01 22135:3.6885556e-02 22575:3.2820713e-02 22670:2.9049644e-02 23180:2.5819889e-01 25275:9.0659685e-02 25864:1.2060454e-01 26493:9.5892660e-02 27308:8.7521903e-02 27309:6.7229263e-02 27946:1.9744962e-02 28314:6.7229263e-02 29226:1.3445853e-01 29241:3.6885556e-02 29421:4.2884503e-02 29427:3.3614632e-02 29475:1.2594132e-01 30222:7.3771112e-02 30872:1.9033238e-01 31155:7.3771112e-02 31336:9.5892660e-02 31649:4.0201511e-02 31654:1.1529005e-01 31826:2.4175915e-01 32132:7.3771112e-02 32609:1.9178532e-01
+
+
+
+**********************************
+
+
+ testing non-aromatic molecules :
+
+ given     : 'O=C1C=CC(=O)C=C1'
+ parse     : -1
+ + protons : 'O=C1[CH]=[CH]C(=O)[CH]=[CH]1'
+ corrected : 'O=C1[CH]=[CH]C(=O)[CH]=[CH]1'
+ - protons : 'O=C1C=CC(=O)C=C1'
+
+ given     : 'C1=CC=C1'
+ parse     : -1
+ + protons : '[CH]1=[CH][CH]=[CH]1'
+ corrected : '[CH]1=[CH][CH]=[CH]1'
+ - protons : 'C1=CC=C1'
+
+ given     : 'NC(=O)CCCCC1CCSS1'
+ parse     : -1
+ + protons : '[NH2]C(=O)[CH2][CH2][CH2][CH2][CH]1[CH2][CH2]SS1'
+ corrected : '[NH2]C(=O)[CH2][CH2][CH2][CH2][CH]1[CH2][CH2]SS1'
+ - protons : 'NC(=O)CCCCC1CCSS1'
+
+ given     : 'O=C1CCCCC1'
+ parse     : -1
+ + protons : 'O=C1[CH2][CH2][CH2][CH2][CH2]1'
+ corrected : 'O=C1[CH2][CH2][CH2][CH2][CH2]1'
+ - protons : 'O=C1CCCCC1'
+
+ given     : 'CC(C=CC=C(C)C=CC1=C(C)CCCC1(C)C)=CCO'
+ parse     : -1
+ + protons : '[CH3]C(=[CH][CH2][OH])[CH]=[CH][CH]=C([CH3])[CH]=[CH]C1=C([CH3])[CH2][CH2][CH2]C1([CH3])[CH3]'
+ corrected : '[CH3]C(=[CH][CH2][OH])[CH]=[CH][CH]=C([CH3])[CH]=[CH]C1=C([CH3])[CH2][CH2][CH2]C1([CH3])[CH3]'
+ - protons : 'CC(=CCO)C=CC=C(C)C=CC1=C(C)CCCC1(C)C'
+
+ given     : 'CC(C=CC=C(C)C=CC1=C(C)CCCC1(C)C)=CC=O'
+ parse     : -1
+ + protons : '[CH3]C(=[CH][CH]=O)[CH]=[CH][CH]=C([CH3])[CH]=[CH]C1=C([CH3])[CH2][CH2][CH2]C1([CH3])[CH3]'
+ corrected : '[CH3]C(=[CH][CH]=O)[CH]=[CH][CH]=C([CH3])[CH]=[CH]C1=C([CH3])[CH2][CH2][CH2]C1([CH3])[CH3]'
+ - protons : 'CC(=CC=O)C=CC=C(C)C=CC1=C(C)CCCC1(C)C'
+
+ given     : '[O-]C(=O)CCC1NC=NC1=O'
+ parse     : -1
+ + protons : '[O-]C(=O)[CH2][CH2][CH]1[NH][CH]=NC1=O'
+ corrected : '[O-]C(=O)[CH2][CH2][CH]1[NH][CH]=NC1=O'
+ - protons : '[O-]C(=O)CCC1NC=NC1=O'
+
+ given     : 'CN1CC(=O)NC1=N'
+ parse     : -1
+ + protons : '[CH3]N1[CH2]C(=O)[NH]C1=[NH]'
+ corrected : '[CH3]N1[CH2]C(=O)[NH]C1=[NH]'
+ - protons : 'CN1CC(=O)NC1=N'
+
+ given     : 'OC1CCCCC1'
+ parse     : -1
+ + protons : '[OH][CH]1[CH2][CH2][CH2][CH2][CH2]1'
+ corrected : '[OH][CH]1[CH2][CH2][CH2][CH2][CH2]1'
+ - protons : 'OC1CCCCC1'
+
+ given     : 'C1CCCC#CCC1'
+ parse     : -1
+ + protons : '[CH2]1[CH2][CH2][CH2]C#C[CH2][CH2]1'
+ corrected : '[CH2]1[CH2][CH2][CH2]C#C[CH2][CH2]1'
+ - protons : 'C1CCCC#CCC1'
+
+
+**********************************
+
+
+ testing aromatic molecules :
+
+ given     : 'c1c2c(nc[nH]2)ncn1'
+ parse     : -1
+ + protons : '[cH]1n[cH]c2[nH][cH]nc2n1'
+ corrected : '[cH]1n[cH]c2[nH][cH]nc2n1'
+ - protons : 'c1ncc2[nH]cnc2n1'
+
+ given     : 'Oc1ccccc1'
+ parse     : -1
+ + protons : '[OH]c1[cH][cH][cH][cH][cH]1'
+ corrected : '[OH]c1[cH][cH][cH][cH][cH]1'
+ - protons : 'Oc1ccccc1'
+
+ given     : 'Nc1ncnc2[nH]cnc12'
+ parse     : -1
+ + protons : '[NH2]c1n[cH]nc2[nH][cH]nc12'
+ corrected : '[NH2]c1n[cH]nc2[nH][cH]nc12'
+ - protons : 'Nc1ncnc2[nH]cnc12'
+
+ given     : 'NC(=O)c1cccnc1'
+ parse     : -1
+ + protons : '[NH2]C(=O)c1[cH][cH][cH]n[cH]1'
+ corrected : '[NH2]C(=O)c1[cH][cH][cH]n[cH]1'
+ - protons : 'NC(=O)c1cccnc1'
+
+ given     : '[O-]C(=O)C(=O)Cc1ccccc1'
+ parse     : -1
+ + protons : '[O-]C(=O)C(=O)[CH2]c1[cH][cH][cH][cH][cH]1'
+ corrected : '[O-]C(=O)C(=O)[CH2]c1[cH][cH][cH][cH][cH]1'
+ - protons : '[O-]C(=O)C(=O)Cc1ccccc1'
+
+ given     : '[O-]C(=O)C(=O)Cc1c[nH]c2ccccc12'
+ parse     : -1
+ + protons : '[O-]C(=O)C(=O)[CH2]c1[cH][nH]c2[cH][cH][cH][cH]c12'
+ corrected : '[O-]C(=O)C(=O)[CH2]c1[cH][nH]c2[cH][cH][cH][cH]c12'
+ - protons : '[O-]C(=O)C(=O)Cc1c[nH]c2ccccc12'
+
+ given     : '[O-]C(=O)C(=O)Cc1cnc2ccccc12'
+ parse     : -1
+ + protons : '[O-]C(=O)C(=O)[CH2]c1[cH]nc2[cH][cH][cH][cH]c12'
+ corrected : '[O-]C(=O)C(=O)[CH2]c1[cH]nc2[cH][cH][cH][cH]c12'
+ - protons : '[O-]C(=O)C(=O)Cc1cnc2ccccc12'
+
+ given     : 'COc1cc(cc(OC)c1O)C=CC([O-])=O'
+ parse     : -1
+ + protons : '[CH3]Oc1[cH]c([CH]=[CH]C([O-])=O)[cH]c(O[CH3])c1[OH]'
+ corrected : '[CH3]Oc1[cH]c([CH]=[CH]C([O-])=O)[cH]c(O[CH3])c1[OH]'
+ - protons : 'COc1cc(C=CC([O-])=O)cc(OC)c1O'
+
+ given     : 'COc1cc(C=CCO)ccc1O'
+ parse     : -1
+ + protons : '[CH3]Oc1[cH]c([CH]=[CH][CH2][OH])[cH][cH]c1[OH]'
+ corrected : '[CH3]Oc1[cH]c([CH]=[CH][CH2][OH])[cH][cH]c1[OH]'
+ - protons : 'COc1cc(C=CCO)ccc1O'
+
+ given     : '[H]C(=C([H])c1c[nH]cn1)C([O-])=O'
+ parse     : -1
+ + protons : '[O-]C(=O)[CH]=[CH]c1[cH][nH][cH]n1'
+ corrected : '[O-]C(=O)[CH]=[CH]c1[cH][nH][cH]n1'
+ - protons : '[O-]C(=O)C=Cc1c[nH]cn1'
+
+ given     : 'CC(=O)n1ccnc1'
+ parse     : -1
+ + protons : '[CH3]C(=O)n1[cH][cH]n[cH]1'
+ corrected : '[CH3]C(=O)n1[cH][cH]n[cH]1'
+ - protons : 'CC(=O)n1ccnc1'
+
+ given     : 'COc1cc(C=CC=O)ccc1O'
+ parse     : -1
+ + protons : '[CH3]Oc1[cH]c([CH]=[CH][CH]=O)[cH][cH]c1[OH]'
+ corrected : '[CH3]Oc1[cH]c([CH]=[CH][CH]=O)[cH][cH]c1[OH]'
+ - protons : 'COc1cc(C=CC=O)ccc1O'
+
+ given     : 'Cc1ncsc1CCO'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]sc1[CH2][CH2][OH]'
+ corrected : '[CH3]c1n[cH]sc1[CH2][CH2][OH]'
+ - protons : 'Cc1ncsc1CCO'
+
+ given     : 'Oc1ccc(cc1)C=CC(=O)c1ccc(O)cc1O'
+ parse     : -1
+ + protons : '[OH]c1[cH][cH]c([cH][cH]1)[CH]=[CH]C(=O)c2[cH][cH]c([OH])[cH]c2[OH]'
+ corrected : '[OH]c1[cH][cH]c([cH][cH]1)[CH]=[CH]C(=O)c2[cH][cH]c([OH])[cH]c2[OH]'
+ - protons : 'Oc1ccc(cc1)C=CC(=O)c2ccc(O)cc2O'
+
+ given     : 'c1ccncc1'
+ parse     : -1
+ + protons : '[cH]1[cH][cH]n[cH][cH]1'
+ corrected : '[cH]1[cH][cH]n[cH][cH]1'
+ - protons : 'c1ccncc1'
+
+ given     : 'c1ccccc1-c2ccccc2'
+ parse     : -1
+ + protons : '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+ corrected : '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+ - protons : 'c1ccc(cc1)-c2ccccc2'
+
+ given     : 'c1ccccc1c2ccccc2'
+ parse     : -1
+ + protons : '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+ corrected : '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+ - protons : 'c1ccc(cc1)-c2ccccc2'
+
+ given     : 'c1[nH]c2c(n1)c(=O)[nH]c(n2)N'
+ parse     : -1
+ + protons : '[NH2]c1nc2[nH][cH]nc2c(=O)[nH]1'
+ corrected : '[NH2]c1nc2[nH][cH]nc2c(=O)[nH]1'
+ - protons : 'Nc1nc2[nH]cnc2c(=O)[nH]1'
+
+ given     : 'c1nc2c(=O)[nH]c(nc2n1[CH]3[CH]([CH]([CH](O3)CO)O)O)N'
+ parse     : -1
+ + protons : '[NH2]c1nc2c(n[cH]n2[CH]3O[CH]([CH2][OH])[CH]([OH])[CH]3[OH])c(=O)[nH]1'
+ corrected : '[NH2]c1nc2c(n[cH]n2[CH]3O[CH]([CH2][OH])[CH]([OH])[CH]3[OH])c(=O)[nH]1'
+ - protons : 'Nc1nc2c(ncn2C3OC(CO)C(O)C3O)c(=O)[nH]1'
+
+ given     : 'c1nc2c(n1[CH]3C[CH]([CH](O3)CO)O)[nH]c(nc2=O)N'
+ parse     : -1
+ + protons : '[NH2]c1nc(=O)c2n[cH]n([CH]3[CH2][CH]([OH])[CH]([CH2][OH])O3)c2[nH]1'
+ corrected : '[NH2]c1nc(=O)c2n[cH]n([CH]3[CH2][CH]([OH])[CH]([CH2][OH])O3)c2[nH]1'
+ - protons : 'Nc1nc(=O)c2ncn(C3CC(O)C(CO)O3)c2[nH]1'
+
+ given     : 'n1c(c2c(nc1)ncn2)N'
+ parse     : -1
+ + protons : '[NH2]c1n[cH]nc2n[cH]nc12'
+ corrected : '[NH2]c1n[cH]nc2n[cH]nc12'
+ - protons : 'Nc1ncnc2ncnc12'
+
+ given     : 'Nc1ncnc2n(cnc12)[CH]1O[CH](CO)[CH](O)[CH]1O'
+ parse     : -1
+ + protons : '[NH2]c1n[cH]nc2c1n[cH]n2[CH]3O[CH]([CH2][OH])[CH]([OH])[CH]3[OH]'
+ corrected : '[NH2]c1n[cH]nc2c1n[cH]n2[CH]3O[CH]([CH2][OH])[CH]([OH])[CH]3[OH]'
+ - protons : 'Nc1ncnc2c1ncn2C3OC(CO)C(O)C3O'
+
+ given     : 'n2c1c(ncnc1n(c2)[CH]3O[CH]([CH](O)C3)CO)N'
+ parse     : -1
+ + protons : '[NH2]c1n[cH]nc2c1n[cH]n2[CH]3[CH2][CH]([OH])[CH]([CH2][OH])O3'
+ corrected : '[NH2]c1n[cH]nc2c1n[cH]n2[CH]3[CH2][CH]([OH])[CH]([CH2][OH])O3'
+ - protons : 'Nc1ncnc2c1ncn2C3CC(O)C(CO)O3'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)(=O)OP(O)(=O)OP(O)([O-])=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])(=O)OP([OH])(=O)OP([OH])([O-])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])(=O)OP([OH])(=O)OP([OH])([O-])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)(=O)OP(O)(=O)OP(O)([O-])=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)(=O)OP(O)(O)=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])(=O)OP([OH])([OH])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])(=O)OP([OH])([OH])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)(=O)OP(O)(O)=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CC(O)=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2]C([OH])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2]C([OH])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CC(O)=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)(O)=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])([OH])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])([OH])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)(O)=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCO)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2][OH])c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2][OH])=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCO)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(C[CH]=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH]=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH]=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CC=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)([O-])=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])([O-])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])([O-])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)([O-])=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)(=O)OP(O)([O-])=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])(=O)OP([OH])([O-])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])(=O)OP([OH])([O-])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)(=O)OP(O)([O-])=O)=C2C)c(N)n1'
+
+ given     : 'Oc1ccc(cc1)c2cn3c(nc(Cc4ccccc4)c3=O)c(Cc5ccccc5)[nH]2'
+ parse     : -1
+ + protons : '[OH]c1[cH][cH]c([cH][cH]1)-c2[cH]n3c(nc([CH2]c4[cH][cH][cH][cH][cH]4)c3=O)c([CH2]c5[cH][cH][cH][cH][cH]5)[nH]2'
+ corrected : '[OH]c1[cH][cH]c([cH][cH]1)-c2[cH]n3c(nc([CH2]c4[cH][cH][cH][cH][cH]4)c3=O)c([CH2]c5[cH][cH][cH][cH][cH]5)[nH]2'
+ - protons : 'Oc1ccc(cc1)-c2cn3c(nc(Cc4ccccc4)c3=O)c(Cc5ccccc5)[nH]2'
+
+ given     : 'CC[CH](C)c1nc2c(CCCNC(N)=N)[nH]c(cn2c1=O)c3c[nH]c4ccccc43'
+ parse     : -1
+ + protons : '[CH3][CH2][CH]([CH3])c1nc2c([CH2][CH2][CH2][NH]C([NH2])=[NH])[nH]c([cH]n2c1=O)-c3[cH][nH]c4[cH][cH][cH][cH]c43'
+ corrected : '[CH3][CH2][CH]([CH3])c1nc2c([CH2][CH2][CH2][NH]C([NH2])=[NH])[nH]c([cH]n2c1=O)-c3[cH][nH]c4[cH][cH][cH][cH]c43'
+ - protons : 'CCC(C)c1nc2c(CCCNC(N)=N)[nH]c(cn2c1=O)-c3c[nH]c4ccccc43'
+
+ given     : 'OS(=O)(=O)Oc1ccc(Cc2nc3c(Cc4ccccc4)[nH]c(cn3c2=O)c5ccc(OS(O)(=O)=O)cc5)cc1'
+ parse     : -1
+ + protons : '[OH]S(=O)(=O)Oc1[cH][cH]c([CH2]c2nc3c([CH2]c4[cH][cH][cH][cH][cH]4)[nH]c([cH]n3c2=O)-c5[cH][cH]c(OS([OH])(=O)=O)[cH][cH]5)[cH][cH]1'
+ corrected : '[OH]S(=O)(=O)Oc1[cH][cH]c([CH2]c2nc3c([CH2]c4[cH][cH][cH][cH][cH]4)[nH]c([cH]n3c2=O)-c5[cH][cH]c(OS([OH])(=O)=O)[cH][cH]5)[cH][cH]1'
+ - protons : 'OS(=O)(=O)Oc1ccc(Cc2nc3c(Cc4ccccc4)[nH]c(cn3c2=O)-c5ccc(OS(O)(=O)=O)cc5)cc1'
+
+ given     : 'Oc1ccc(Cc2nc3c(Cc4ccccc4)[nH]c(cn3c2=O)c5ccc(O)cc5)cc1'
+ parse     : -1
+ + protons : '[OH]c1[cH][cH]c([CH2]c2nc3c([CH2]c4[cH][cH][cH][cH][cH]4)[nH]c([cH]n3c2=O)-c5[cH][cH]c([OH])[cH][cH]5)[cH][cH]1'
+ corrected : '[OH]c1[cH][cH]c([CH2]c2nc3c([CH2]c4[cH][cH][cH][cH][cH]4)[nH]c([cH]n3c2=O)-c5[cH][cH]c([OH])[cH][cH]5)[cH][cH]1'
+ - protons : 'Oc1ccc(Cc2nc3c(Cc4ccccc4)[nH]c(cn3c2=O)-c5ccc(O)cc5)cc1'
+
+
+################################################
+
+load model 'OpenBabel:2013'
+ given     : 'c1cc2C=Cc3cccc(c1)c23'
+ parse     : -1
+ + protons : '[cH]1[cH]c2[cH][cH][cH]c3[CH]=[CH]c([cH]1)c23'
+ ->getFeatures( mol )
+ ring 'c:c-C=C-c:c' =  410:6.4932987e-02 1685:4.8398189e-02 2184:1.4519456e-01 2571:6.4932987e-02 3082:4.5914553e-02 3533:6.0993917e-02 3546:1.3442405e-01 3593:6.7212023e-02 3690:6.0993917e-02 4109:4.8398189e-02 4172:1.4995632e-01 5030:6.7212023e-02 5159:4.8398189e-02 7367:1.6765626e-01 8376:6.0993917e-02 8496:1.4995632e-01 9074:4.8398189e-02 9618:6.4932987e-02 9972:9.1829106e-02 10431:1.9359276e-01 11201:1.6765626e-01 11488:3.7489079e-02 11587:6.7212023e-02 13799:6.4932987e-02 13846:4.8398189e-02 14623:6.0993917e-02 14874:4.8398189e-02 15784:3.7489079e-02 15888:4.8398189e-02 16281:7.4978158e-02 16445:2.0924765e-01 16784:6.7212023e-02 17014:4.8398189e-02 17086:1.3949843e-01 17094:1.2198783e-01 17171:1.8365821e-01 17623:7.4978158e-02 18121:6.0993917e-02 18136:6.4932987e-02 18725:3.2536522e-01 19197:7.4978158e-02 19316:9.6796378e-02 19334:1.6370237e-01 19713:6.7212023e-02 19729:6.0993917e-02 19871:6.4932987e-02 20019:6.7212023e-02 20631:6.4932987e-02 20896:1.6370237e-01 21001:2.3657659e-01 21316:7.4978158e-02 21425:4.8398189e-02 21489:4.8398189e-02 22024:6.0993917e-02 22575:7.0972979e-02 23180:2.5148436e-01 23543:4.8398189e-02 23663:8.3828129e-02 24205:6.4932987e-02 24340:9.6796378e-02 24989:7.4978158e-02 25275:2.0924765e-01 25278:6.4932987e-02 25758:7.4978158e-02 25929:1.2986597e-01 26513:1.4519456e-01 27003:6.4932987e-02 27117:1.3774367e-01 27308:4.7315318e-02 28015:4.8398189e-02 29463:6.0993917e-02 29475:9.8221429e-02 31171:1.2198783e-01 31287:6.4932987e-02 31294:1.4995632e-01 31654:1.6366385e-01 31826:1.3949843e-01 32287:6.0993917e-02 32751:1.4995632e-01
+
+ ring 'c:c:c:c:c:c:c' =  90:7.0272841e-02 116:3.5136420e-02 239:8.0757283e-02 340:3.6514837e-02 574:8.1649661e-02 907:4.7140453e-02 1189:3.5136420e-02 1685:4.6373889e-02 2184:1.3693063e-01 2915:7.3029675e-02 3082:2.6919095e-02 3133:1.4054568e-01 3530:7.3029675e-02 3556:7.3029675e-02 3691:7.0272841e-02 4109:4.6373889e-02 4916:7.3029675e-02 5047:9.4280906e-02 5159:4.6373889e-02 5422:8.1649661e-02 5515:5.3838190e-02 5572:3.6514837e-02 6034:3.6514837e-02 6625:9.4280906e-02 6736:3.5136420e-02 7360:8.1649661e-02 7779:9.1287091e-02 7783:3.6514837e-02 7830:8.1649661e-02 7864:4.0824831e-02 8312:7.3029675e-02 8496:1.3116516e-01 9074:4.6373889e-02 9811:4.7140453e-02 9914:7.3029675e-02 9972:1.0767638e-01 10256:3.6514837e-02 10431:1.8549556e-01 10443:7.0272841e-02 10620:7.0272841e-02 11185:7.0272841e-02 11576:4.7140453e-02 11923:4.5643546e-02 12346:1.3693063e-01 12487:4.7140453e-02 13450:3.6514837e-02 13798:1.6329932e-01 13846:9.2747778e-02 14072:4.0824831e-02 14380:3.6514837e-02 14381:9.4280906e-02 14874:4.5643546e-02 14971:4.7140453e-02 15369:3.5136420e-02 15507:4.7140453e-02 15784:3.2791290e-02 15888:4.5643546e-02 16281:9.8373875e-02 16441:9.1287091e-02 16445:2.1228911e-01 16769:2.6919095e-02 16781:4.7140453e-02 17014:4.5643546e-02 17086:1.4696939e-01 17155:7.9893544e-02 17171:1.6151457e-01 17369:3.5136420e-02 17623:1.3116516e-01 17674:3.6514837e-02 17969:4.7140453e-02 18083:3.6514837e-02 18725:1.5978709e-01 18948:4.7140453e-02 19197:6.5582581e-02 19316:9.1287091e-02 19334:1.7654696e-01 19800:4.6373889e-02 19912:3.6514837e-02 20540:4.0824831e-02 20629:3.5136420e-02 20711:9.1287091e-02 20896:1.4712247e-01 20960:7.3029675e-02 20995:4.0824831e-02 21001:2.4343225e-01 21233:8.1649661e-02 21425:4.6373889e-02 21489:4.6373889e-02 21739:7.3029675e-02 21837:3.5136420e-02 22482:3.5136420e-02 22575:6.0858063e-02 22810:3.5136420e-02 23180:2.5819889e-01 23372:3.5136420e-02 23543:4.5643546e-02 24340:9.2747778e-02 25275:1.8257418e-01 25595:7.3029675e-02 26513:9.1287091e-02 26676:3.5136420e-02 26908:4.7140453e-02 27117:1.3459547e-01 27183:3.6514837e-02 27234:3.5136420e-02 27308:6.0858063e-02 28015:4.5643546e-02 28305:4.7140453e-02 28306:3.5136420e-02 29475:1.1769798e-01 30651:4.7140453e-02 31100:4.7140453e-02 31155:7.0272841e-02 31294:1.3116516e-01 31464:9.1287091e-02 31602:3.6514837e-02 31654:1.8641828e-01 31795:3.5136420e-02 31826:1.8257418e-01 32302:3.6514837e-02 32609:1.8257418e-01 32611:3.6514837e-02 32624:4.7140453e-02 32730:9.4280906e-02
+
+ ring 'c:c:c:c:c:c:c' =  90:7.0272841e-02 116:3.5136420e-02 239:8.0757283e-02 340:3.6514837e-02 574:8.1649661e-02 907:4.7140453e-02 1189:3.5136420e-02 1685:4.6373889e-02 2184:1.3693063e-01 2915:7.3029675e-02 3082:2.6919095e-02 3133:1.4054568e-01 3530:7.3029675e-02 3556:7.3029675e-02 3691:7.0272841e-02 4109:4.6373889e-02 4916:7.3029675e-02 5047:9.4280906e-02 5159:4.6373889e-02 5422:8.1649661e-02 5515:5.3838190e-02 5572:3.6514837e-02 6034:3.6514837e-02 6625:9.4280906e-02 6736:3.5136420e-02 7360:8.1649661e-02 7779:9.1287091e-02 7783:3.6514837e-02 7830:8.1649661e-02 7864:4.0824831e-02 8312:7.3029675e-02 8496:1.3116516e-01 9074:4.6373889e-02 9811:4.7140453e-02 9914:7.3029675e-02 9972:1.0767638e-01 10256:3.6514837e-02 10431:1.8549556e-01 10443:7.0272841e-02 10620:7.0272841e-02 11185:7.0272841e-02 11576:4.7140453e-02 11923:4.5643546e-02 12346:1.3693063e-01 12487:4.7140453e-02 13450:3.6514837e-02 13798:1.6329932e-01 13846:9.2747778e-02 14072:4.0824831e-02 14380:3.6514837e-02 14381:9.4280906e-02 14874:4.5643546e-02 14971:4.7140453e-02 15369:3.5136420e-02 15507:4.7140453e-02 15784:3.2791290e-02 15888:4.5643546e-02 16281:9.8373875e-02 16441:9.1287091e-02 16445:2.1228911e-01 16769:2.6919095e-02 16781:4.7140453e-02 17014:4.5643546e-02 17086:1.4696939e-01 17155:7.9893544e-02 17171:1.6151457e-01 17369:3.5136420e-02 17623:1.3116516e-01 17674:3.6514837e-02 17969:4.7140453e-02 18083:3.6514837e-02 18725:1.5978709e-01 18948:4.7140453e-02 19197:6.5582581e-02 19316:9.1287091e-02 19334:1.7654696e-01 19800:4.6373889e-02 19912:3.6514837e-02 20540:4.0824831e-02 20629:3.5136420e-02 20711:9.1287091e-02 20896:1.4712247e-01 20960:7.3029675e-02 20995:4.0824831e-02 21001:2.4343225e-01 21233:8.1649661e-02 21425:4.6373889e-02 21489:4.6373889e-02 21739:7.3029675e-02 21837:3.5136420e-02 22482:3.5136420e-02 22575:6.0858063e-02 22810:3.5136420e-02 23180:2.5819889e-01 23372:3.5136420e-02 23543:4.5643546e-02 24340:9.2747778e-02 25275:1.8257418e-01 25595:7.3029675e-02 26513:9.1287091e-02 26676:3.5136420e-02 26908:4.7140453e-02 27117:1.3459547e-01 27183:3.6514837e-02 27234:3.5136420e-02 27308:6.0858063e-02 28015:4.5643546e-02 28305:4.7140453e-02 28306:3.5136420e-02 29475:1.1769798e-01 30651:4.7140453e-02 31100:4.7140453e-02 31155:7.0272841e-02 31294:1.3116516e-01 31464:9.1287091e-02 31602:3.6514837e-02 31654:1.8641828e-01 31795:3.5136420e-02 31826:1.8257418e-01 32302:3.6514837e-02 32609:1.8257418e-01 32611:3.6514837e-02 32624:4.7140453e-02 32730:9.4280906e-02
+
+ ring 'c-C=C-c:c:c:c:c:c:c:c:c' =  239:1.0050378e-01 258:7.3771112e-02 350:1.0084390e-01 574:8.5769005e-02 1545:8.5769005e-02 2400:4.2884503e-02 2663:7.3771112e-02 2748:2.9049644e-02 3691:1.1065667e-01 4916:1.1619858e-01 5891:1.7429787e-01 6128:6.7229263e-02 6577:5.8099288e-02 6599:4.3505684e-02 7541:1.0084390e-01 7750:2.0100756e-01 8487:6.7229263e-02 8496:1.7402273e-01 8500:7.3771112e-02 8718:2.1442251e-02 9452:5.8099288e-02 9505:6.7229263e-02 10431:1.4573584e-01 10582:8.5769005e-02 11185:7.3771112e-02 11606:3.6885556e-02 11617:4.2884503e-02 11923:9.8724812e-02 12134:5.8099288e-02 12346:1.9744962e-01 13616:5.8099288e-02 13798:1.7153801e-01 13846:1.2144654e-01 13991:4.7946330e-02 14511:6.7229263e-02 15467:2.9049644e-02 15980:8.5769005e-02 16058:5.8099288e-02 16281:1.1601515e-01 16445:1.7447135e-01 16601:7.3771112e-02 17155:2.3058011e-01 17623:1.4501894e-01 17646:3.6885556e-02 18725:1.4411257e-02 19141:5.8099288e-02 19316:5.9234887e-02 19334:2.2039729e-01 19800:1.2144654e-01 20540:4.2884503e-02 20711:9.5892660e-02 20896:4.7227994e-02 21001:2.4068524e-01 21056:7.3771112e-02 21425:7.2867922e-02 21489:7.2867922e-02 21935:7.2867922e-02 21981:1.1846977e-01 22135:3.6885556e-02 22575:3.2820713e-02 22670:2.9049644e-02 23180:2.5819889e-01 25275:9.0659685e-02 25864:1.2060454e-01 26493:9.5892660e-02 27308:8.7521903e-02 27309:6.7229263e-02 27946:1.9744962e-02 28314:6.7229263e-02 29226:1.3445853e-01 29241:3.6885556e-02 29421:4.2884503e-02 29427:3.3614632e-02 29475:1.2594132e-01 30222:7.3771112e-02 30872:1.9033238e-01 31155:7.3771112e-02 31336:9.5892660e-02 31649:4.0201511e-02 31654:1.1529005e-01 31826:2.4175915e-01 32132:7.3771112e-02 32609:1.9178532e-01
+
+
+
+**********************************
+
+
+ testing non-aromatic molecules :
+
+ given     : 'O=C1C=CC(=O)C=C1'
+ parse     : -1
+ + protons : 'O=C1[CH]=[CH]C(=O)[CH]=[CH]1'
+ corrected : 'O=C1[CH]=[CH]C(=O)[CH]=[CH]1'
+ - protons : 'O=C1C=CC(=O)C=C1'
+
+ given     : 'C1=CC=C1'
+ parse     : -1
+ + protons : '[CH]1=[CH][CH]=[CH]1'
+ corrected : '[CH]1=[CH][CH]=[CH]1'
+ - protons : 'C1=CC=C1'
+
+ given     : 'NC(=O)CCCCC1CCSS1'
+ parse     : -1
+ + protons : '[NH2]C(=O)[CH2][CH2][CH2][CH2][CH]1[CH2][CH2]SS1'
+ corrected : '[NH2]C(=O)[CH2][CH2][CH2][CH2][CH]1[CH2][CH2]SS1'
+ - protons : 'NC(=O)CCCCC1CCSS1'
+
+ given     : 'O=C1CCCCC1'
+ parse     : -1
+ + protons : 'O=C1[CH2][CH2][CH2][CH2][CH2]1'
+ corrected : 'O=C1[CH2][CH2][CH2][CH2][CH2]1'
+ - protons : 'O=C1CCCCC1'
+
+ given     : 'CC(C=CC=C(C)C=CC1=C(C)CCCC1(C)C)=CCO'
+ parse     : -1
+ + protons : '[CH3]C(=[CH][CH2][OH])[CH]=[CH][CH]=C([CH3])[CH]=[CH]C1=C([CH3])[CH2][CH2][CH2]C1([CH3])[CH3]'
+ corrected : '[CH3]C(=[CH][CH2][OH])[CH]=[CH][CH]=C([CH3])[CH]=[CH]C1=C([CH3])[CH2][CH2][CH2]C1([CH3])[CH3]'
+ - protons : 'CC(=CCO)C=CC=C(C)C=CC1=C(C)CCCC1(C)C'
+
+ given     : 'CC(C=CC=C(C)C=CC1=C(C)CCCC1(C)C)=CC=O'
+ parse     : -1
+ + protons : '[CH3]C(=[CH][CH]=O)[CH]=[CH][CH]=C([CH3])[CH]=[CH]C1=C([CH3])[CH2][CH2][CH2]C1([CH3])[CH3]'
+ corrected : '[CH3]C(=[CH][CH]=O)[CH]=[CH][CH]=C([CH3])[CH]=[CH]C1=C([CH3])[CH2][CH2][CH2]C1([CH3])[CH3]'
+ - protons : 'CC(=CC=O)C=CC=C(C)C=CC1=C(C)CCCC1(C)C'
+
+ given     : '[O-]C(=O)CCC1NC=NC1=O'
+ parse     : -1
+ + protons : '[O-]C(=O)[CH2][CH2][CH]1[NH][CH]=NC1=O'
+ corrected : '[O-]C(=O)[CH2][CH2][CH]1[NH][CH]=NC1=O'
+ - protons : '[O-]C(=O)CCC1NC=NC1=O'
+
+ given     : 'CN1CC(=O)NC1=N'
+ parse     : -1
+ + protons : '[CH3]N1[CH2]C(=O)[NH]C1=[NH]'
+ corrected : '[CH3]N1[CH2]C(=O)[NH]C1=[NH]'
+ - protons : 'CN1CC(=O)NC1=N'
+
+ given     : 'OC1CCCCC1'
+ parse     : -1
+ + protons : '[OH][CH]1[CH2][CH2][CH2][CH2][CH2]1'
+ corrected : '[OH][CH]1[CH2][CH2][CH2][CH2][CH2]1'
+ - protons : 'OC1CCCCC1'
+
+ given     : 'C1CCCC#CCC1'
+ parse     : -1
+ + protons : '[CH2]1[CH2][CH2][CH2]C#C[CH2][CH2]1'
+ corrected : '[CH2]1[CH2][CH2][CH2]C#C[CH2][CH2]1'
+ - protons : 'C1CCCC#CCC1'
+
+
+**********************************
+
+
+ testing aromatic molecules :
+
+ given     : 'c1c2c(nc[nH]2)ncn1'
+ parse     : -1
+ + protons : '[cH]1n[cH]c2[nH][cH]nc2n1'
+ corrected : '[cH]1n[cH]c2[nH][cH]nc2n1'
+ - protons : 'c1ncc2[nH]cnc2n1'
+
+ given     : 'Oc1ccccc1'
+ parse     : -1
+ + protons : '[OH]c1[cH][cH][cH][cH][cH]1'
+ corrected : '[OH]c1[cH][cH][cH][cH][cH]1'
+ - protons : 'Oc1ccccc1'
+
+ given     : 'Nc1ncnc2[nH]cnc12'
+ parse     : -1
+ + protons : '[NH2]c1n[cH]nc2[nH][cH]nc12'
+ corrected : '[NH2]c1n[cH]nc2[nH][cH]nc12'
+ - protons : 'Nc1ncnc2[nH]cnc12'
+
+ given     : 'NC(=O)c1cccnc1'
+ parse     : -1
+ + protons : '[NH2]C(=O)c1[cH][cH][cH]n[cH]1'
+ corrected : '[NH2]C(=O)c1[cH][cH][cH]n[cH]1'
+ - protons : 'NC(=O)c1cccnc1'
+
+ given     : '[O-]C(=O)C(=O)Cc1ccccc1'
+ parse     : -1
+ + protons : '[O-]C(=O)C(=O)[CH2]c1[cH][cH][cH][cH][cH]1'
+ corrected : '[O-]C(=O)C(=O)[CH2]c1[cH][cH][cH][cH][cH]1'
+ - protons : '[O-]C(=O)C(=O)Cc1ccccc1'
+
+ given     : '[O-]C(=O)C(=O)Cc1c[nH]c2ccccc12'
+ parse     : -1
+ + protons : '[O-]C(=O)C(=O)[CH2]c1[cH][nH]c2[cH][cH][cH][cH]c12'
+ corrected : '[O-]C(=O)C(=O)[CH2]c1[cH][nH]c2[cH][cH][cH][cH]c12'
+ - protons : '[O-]C(=O)C(=O)Cc1c[nH]c2ccccc12'
+
+ given     : '[O-]C(=O)C(=O)Cc1cnc2ccccc12'
+ parse     : -1
+ + protons : '[O-]C(=O)C(=O)[CH2]c1[cH]nc2[cH][cH][cH][cH]c12'
+ corrected : '[O-]C(=O)C(=O)[CH2]c1[cH]nc2[cH][cH][cH][cH]c12'
+ - protons : '[O-]C(=O)C(=O)Cc1cnc2ccccc12'
+
+ given     : 'COc1cc(cc(OC)c1O)C=CC([O-])=O'
+ parse     : -1
+ + protons : '[CH3]Oc1[cH]c([CH]=[CH]C([O-])=O)[cH]c(O[CH3])c1[OH]'
+ corrected : '[CH3]Oc1[cH]c([CH]=[CH]C([O-])=O)[cH]c(O[CH3])c1[OH]'
+ - protons : 'COc1cc(C=CC([O-])=O)cc(OC)c1O'
+
+ given     : 'COc1cc(C=CCO)ccc1O'
+ parse     : -1
+ + protons : '[CH3]Oc1[cH]c([CH]=[CH][CH2][OH])[cH][cH]c1[OH]'
+ corrected : '[CH3]Oc1[cH]c([CH]=[CH][CH2][OH])[cH][cH]c1[OH]'
+ - protons : 'COc1cc(C=CCO)ccc1O'
+
+ given     : '[H]C(=C([H])c1c[nH]cn1)C([O-])=O'
+ parse     : -1
+ + protons : '[O-]C(=O)[CH]=[CH]c1[cH][nH][cH]n1'
+ corrected : '[O-]C(=O)[CH]=[CH]c1[cH][nH][cH]n1'
+ - protons : '[O-]C(=O)C=Cc1c[nH]cn1'
+
+ given     : 'CC(=O)n1ccnc1'
+ parse     : -1
+ + protons : '[CH3]C(=O)n1[cH][cH]n[cH]1'
+ corrected : '[CH3]C(=O)n1[cH][cH]n[cH]1'
+ - protons : 'CC(=O)n1ccnc1'
+
+ given     : 'COc1cc(C=CC=O)ccc1O'
+ parse     : -1
+ + protons : '[CH3]Oc1[cH]c([CH]=[CH][CH]=O)[cH][cH]c1[OH]'
+ corrected : '[CH3]Oc1[cH]c([CH]=[CH][CH]=O)[cH][cH]c1[OH]'
+ - protons : 'COc1cc(C=CC=O)ccc1O'
+
+ given     : 'Cc1ncsc1CCO'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]sc1[CH2][CH2][OH]'
+ corrected : '[CH3]c1n[cH]sc1[CH2][CH2][OH]'
+ - protons : 'Cc1ncsc1CCO'
+
+ given     : 'Oc1ccc(cc1)C=CC(=O)c1ccc(O)cc1O'
+ parse     : -1
+ + protons : '[OH]c1[cH][cH]c([cH][cH]1)[CH]=[CH]C(=O)c2[cH][cH]c([OH])[cH]c2[OH]'
+ corrected : '[OH]c1[cH][cH]c([cH][cH]1)[CH]=[CH]C(=O)c2[cH][cH]c([OH])[cH]c2[OH]'
+ - protons : 'Oc1ccc(cc1)C=CC(=O)c2ccc(O)cc2O'
+
+ given     : 'c1ccncc1'
+ parse     : -1
+ + protons : '[cH]1[cH][cH]n[cH][cH]1'
+ corrected : '[cH]1[cH][cH]n[cH][cH]1'
+ - protons : 'c1ccncc1'
+
+ given     : 'c1ccccc1-c2ccccc2'
+ parse     : -1
+ + protons : '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+ corrected : '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+ - protons : 'c1ccc(cc1)-c2ccccc2'
+
+ given     : 'c1ccccc1c2ccccc2'
+ parse     : -1
+ + protons : '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+ corrected : '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+ - protons : 'c1ccc(cc1)-c2ccccc2'
+
+ given     : 'c1[nH]c2c(n1)c(=O)[nH]c(n2)N'
+ parse     : -1
+ + protons : '[NH2]c1nc2[nH][cH]nc2c(=O)[nH]1'
+ corrected : '[NH2]c1nc2[nH][cH]nc2c(=O)[nH]1'
+ - protons : 'Nc1nc2[nH]cnc2c(=O)[nH]1'
+
+ given     : 'c1nc2c(=O)[nH]c(nc2n1[CH]3[CH]([CH]([CH](O3)CO)O)O)N'
+ parse     : -1
+ + protons : '[NH2]c1nc2c(n[cH]n2[CH]3O[CH]([CH2][OH])[CH]([OH])[CH]3[OH])c(=O)[nH]1'
+ corrected : '[NH2]c1nc2c(n[cH]n2[CH]3O[CH]([CH2][OH])[CH]([OH])[CH]3[OH])c(=O)[nH]1'
+ - protons : 'Nc1nc2c(ncn2C3OC(CO)C(O)C3O)c(=O)[nH]1'
+
+ given     : 'c1nc2c(n1[CH]3C[CH]([CH](O3)CO)O)[nH]c(nc2=O)N'
+ parse     : -1
+ + protons : '[NH2]c1nc(=O)c2n[cH]n([CH]3[CH2][CH]([OH])[CH]([CH2][OH])O3)c2[nH]1'
+ corrected : '[NH2]c1nc(=O)c2n[cH]n([CH]3[CH2][CH]([OH])[CH]([CH2][OH])O3)c2[nH]1'
+ - protons : 'Nc1nc(=O)c2ncn(C3CC(O)C(CO)O3)c2[nH]1'
+
+ given     : 'n1c(c2c(nc1)ncn2)N'
+ parse     : -1
+ + protons : '[NH2]c1n[cH]nc2n[cH]nc12'
+ corrected : '[NH2]c1n[cH]nc2n[cH]nc12'
+ - protons : 'Nc1ncnc2ncnc12'
+
+ given     : 'Nc1ncnc2n(cnc12)[CH]1O[CH](CO)[CH](O)[CH]1O'
+ parse     : -1
+ + protons : '[NH2]c1n[cH]nc2c1n[cH]n2[CH]3O[CH]([CH2][OH])[CH]([OH])[CH]3[OH]'
+ corrected : '[NH2]c1n[cH]nc2c1n[cH]n2[CH]3O[CH]([CH2][OH])[CH]([OH])[CH]3[OH]'
+ - protons : 'Nc1ncnc2c1ncn2C3OC(CO)C(O)C3O'
+
+ given     : 'n2c1c(ncnc1n(c2)[CH]3O[CH]([CH](O)C3)CO)N'
+ parse     : -1
+ + protons : '[NH2]c1n[cH]nc2c1n[cH]n2[CH]3[CH2][CH]([OH])[CH]([CH2][OH])O3'
+ corrected : '[NH2]c1n[cH]nc2c1n[cH]n2[CH]3[CH2][CH]([OH])[CH]([CH2][OH])O3'
+ - protons : 'Nc1ncnc2c1ncn2C3CC(O)C(CO)O3'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)(=O)OP(O)(=O)OP(O)([O-])=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])(=O)OP([OH])(=O)OP([OH])([O-])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])(=O)OP([OH])(=O)OP([OH])([O-])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)(=O)OP(O)(=O)OP(O)([O-])=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)(=O)OP(O)(O)=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])(=O)OP([OH])([OH])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])(=O)OP([OH])([OH])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)(=O)OP(O)(O)=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CC(O)=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2]C([OH])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2]C([OH])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CC(O)=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)(O)=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])([OH])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])([OH])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)(O)=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCO)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2][OH])c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2][OH])=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCO)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(C[CH]=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH]=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH]=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CC=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)([O-])=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])([O-])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])([O-])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)([O-])=O)=C2C)c(N)n1'
+
+ given     : 'Cc1ncc(C[n+]2csc(CCOP(O)(=O)OP(O)([O-])=O)c2C)c(N)n1'
+ parse     : -1
+ + protons : '[CH3]c1n[cH]c([CH2][n+]2[cH]sc([CH2][CH2]OP([OH])(=O)OP([OH])([O-])=O)c2[CH3])c([NH2])n1'
+ corrected : '[CH3]c1n[cH]c([CH2][N+]2=[CH]SC([CH2][CH2]OP([OH])(=O)OP([OH])([O-])=O)=C2[CH3])c([NH2])n1'
+ - protons : 'Cc1ncc(C[N+]2=CSC(CCOP(O)(=O)OP(O)([O-])=O)=C2C)c(N)n1'
+
+ given     : 'Oc1ccc(cc1)c2cn3c(nc(Cc4ccccc4)c3=O)c(Cc5ccccc5)[nH]2'
+ parse     : -1
+ + protons : '[OH]c1[cH][cH]c([cH][cH]1)-c2[cH]n3c(nc([CH2]c4[cH][cH][cH][cH][cH]4)c3=O)c([CH2]c5[cH][cH][cH][cH][cH]5)[nH]2'
+ corrected : '[OH]c1[cH][cH]c([cH][cH]1)-c2[cH]n3c(nc([CH2]c4[cH][cH][cH][cH][cH]4)c3=O)c([CH2]c5[cH][cH][cH][cH][cH]5)[nH]2'
+ - protons : 'Oc1ccc(cc1)-c2cn3c(nc(Cc4ccccc4)c3=O)c(Cc5ccccc5)[nH]2'
+
+ given     : 'CC[CH](C)c1nc2c(CCCNC(N)=N)[nH]c(cn2c1=O)c3c[nH]c4ccccc43'
+ parse     : -1
+ + protons : '[CH3][CH2][CH]([CH3])c1nc2c([CH2][CH2][CH2][NH]C([NH2])=[NH])[nH]c([cH]n2c1=O)-c3[cH][nH]c4[cH][cH][cH][cH]c43'
+ corrected : '[CH3][CH2][CH]([CH3])c1nc2c([CH2][CH2][CH2][NH]C([NH2])=[NH])[nH]c([cH]n2c1=O)-c3[cH][nH]c4[cH][cH][cH][cH]c43'
+ - protons : 'CCC(C)c1nc2c(CCCNC(N)=N)[nH]c(cn2c1=O)-c3c[nH]c4ccccc43'
+
+ given     : 'OS(=O)(=O)Oc1ccc(Cc2nc3c(Cc4ccccc4)[nH]c(cn3c2=O)c5ccc(OS(O)(=O)=O)cc5)cc1'
+ parse     : -1
+ + protons : '[OH]S(=O)(=O)Oc1[cH][cH]c([CH2]c2nc3c([CH2]c4[cH][cH][cH][cH][cH]4)[nH]c([cH]n3c2=O)-c5[cH][cH]c(OS([OH])(=O)=O)[cH][cH]5)[cH][cH]1'
+ corrected : '[OH]S(=O)(=O)Oc1[cH][cH]c([CH2]c2nc3c([CH2]c4[cH][cH][cH][cH][cH]4)[nH]c([cH]n3c2=O)-c5[cH][cH]c(OS([OH])(=O)=O)[cH][cH]5)[cH][cH]1'
+ - protons : 'OS(=O)(=O)Oc1ccc(Cc2nc3c(Cc4ccccc4)[nH]c(cn3c2=O)-c5ccc(OS(O)(=O)=O)cc5)cc1'
+
+ given     : 'Oc1ccc(Cc2nc3c(Cc4ccccc4)[nH]c(cn3c2=O)c5ccc(O)cc5)cc1'
+ parse     : -1
+ + protons : '[OH]c1[cH][cH]c([CH2]c2nc3c([CH2]c4[cH][cH][cH][cH][cH]4)[nH]c([cH]n3c2=O)-c5[cH][cH]c([OH])[cH][cH]5)[cH][cH]1'
+ corrected : '[OH]c1[cH][cH]c([CH2]c2nc3c([CH2]c4[cH][cH][cH][cH][cH]4)[nH]c([cH]n3c2=O)-c5[cH][cH]c([OH])[cH][cH]5)[cH][cH]1'
+ - protons : 'Oc1ccc(Cc2nc3c(Cc4ccccc4)[nH]c(cn3c2=O)-c5ccc(O)cc5)cc1'
+
+
+===============  TEST END  ===================
+==============================================
+

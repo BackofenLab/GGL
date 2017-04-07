@@ -1,0 +1,389 @@
+% tutorial-rules.tex
+% Last changed Time-stamp: <2010-09-23 12:03:14 xtof>
+% $Id: tutorial-rules.tex,v 1.15 2012/05/08 17:22:37 mmann Exp $
+%
+% -*-latex-*-
+\NeedsTeXFormat{LaTeX2e}
+\documentclass[a4paper,12pt]{article}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\usepackage{url}
+\usepackage{color}
+\usepackage[version=3]{mhchem}
+
+
+% include the general settings for all tutorials
+\input{@top_srcdir@/misc/manual/def-include}
+
+\def\builddir{@top_srcdir@/misc/manual}
+
+\title{\GGL{} Tutorial: Molecular Groups\\
+	\includegraphics[width=.2\textwidth]{@top_srcdir@/misc/logo/GGL-logo}}
+
+\author{Christoph Flamm$^{1,}$\thanks{Send comments to
+\texttt{xtof@tbi.univie.ac.at} or \texttt{mmann@informatik.uni-freiburg.de}}
+		 \ and Martin Mann$^2$\\[2ex] 
+		 $^1$~Institute for Theoretical Chemistry, Vienna University\\[2ex]
+        \includegraphics[width=.3\textwidth]{\builddir/Figures/univielogo}\hspace{3em}\\[2ex]
+		 $^2$~Bioinformatics Group, University of Freiburg\\[2ex]
+        \includegraphics[height=.15\textwidth]{\builddir/Figures/unifrlogo}
+        }
+
+\date{\small{\url{http://www.tbi.univie.ac.at/software/GGL/}}\\[2ex]
+      Version~\today\\[3ex]}
+
+
+\newcommand{\molcompsvg}{\texttt{molcomp2svg.pl}}
+
+%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%% Title page
+\maketitle
+\begin{center}
+	Built for \GGL{} version @VERSION@
+\end{center}
+\thispagestyle{empty}
+\newpage
+
+%%%
+\tableofcontents
+\newpage
+\setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Molecular groups}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This chapter explains how to define molecular groups in term of the Graph
+Modeling Language (\GML{}) and how to use them. Therein, molecular groups are
+defined by an undirected graph where each node represents a single atom and
+edges correspond to bonds of a given valence. Within the \GGL{}, we assume node
+and edge labels to be conform with the SMILES notation. 
+
+\input{@top_srcdir@/misc/manual/gml-include.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Keys for rule specification}\label{ss:keys}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following table lists the relevant keys for molecular group specification in
+alphabetic order.
+% Keys underlayed with the color gray are only relevant when defining components
+% for molecule decomposition approaches (see section~\ref{ss:decomposition} for
+% more details).
+For lists the optional enclosed keys are given in brackets.
+
+\begin{center}
+\small
+	\definecolor{light-gray}{gray}{0.9}
+	\renewcommand{\arraystretch}{2}
+\begin{longtable}{|l|l|p{4.5cm}|p{5cm}|}\hline
+  \textbf{key} & \textbf{type} & \textbf{keys in list}
+  & \textbf{comment}
+  \endhead
+  \hline
+  compIDs       & list
+                & id
+                & the proxy node identifier that links the group to a
+                molecule (Note: only one proxy node id allowed)\\
+%   \hline
+%   \colorbox{light-gray}{constrainXXX} & list
+%                 & one of constrainNoEdge, constrainNode, constrainEdge, or
+%                 constrainAdj 
+%                 & constraints for the matching of the component (see rules
+%                 tutorial)\\
+  \hline
+  description   & string
+                & --
+                & the textual ID of the group\\
+  \hline
+  edge          & list
+                & source, target, label
+                & define a \textit{bond}.\\
+%   \hline
+%   \colorbox{light-gray}{energy} & double
+%                 & --
+%                 & the energy contribution of the component\\
+  \hline
+  id            & int
+                & --
+                & defines a numerical identifier for a \textit{vertex}.\\
+  \hline
+  label         & string
+                & --
+                & defines a textual label for a \textit{vertex} or
+                  an \textit{edge}.\\
+  \hline
+  node          & list
+                & id, label
+                & define an \textit{atom vertex}\\
+  \hline
+  molcomp       & list
+                & description, node, compIDs, (energy), (priority),
+                (constrainXXX) & defines a molecule component\\
+%   \hline
+%   \colorbox{light-gray}{priority} & int
+%                 & --
+%                 & the search priority of the component\\
+%   \hline
+%   \colorbox{light-gray}{ringFragment} & list
+%                 & id, type
+%                 & specifies the node sequence that has to be part of a ring of
+%                 a given type (special matching constraint). NOTE: the id order
+%                 defines the ring fragment!\\
+  \hline
+  source        & int
+                & --
+                & define the \textit{source-vertex} of an edge\\
+  \hline
+  target        & int
+                & --
+                & define the \textit{target-vertex} of an edge\\
+%   \hline
+%   \colorbox{light-gray}{type} & string
+%                 & "aromaticHydrocarbon",
+%                 "heteroaromatic", or "nonaromatic"
+%                 & the type of the ring to match\\
+  \hline
+  
+%  \caption{List of interpreted keys for rule specification.}
+
+\end{longtable}
+\end{center}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualization}
+\label{ss:molcomp2svg}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The \GML{} definition of molecular components can become quite large and hard to
+read. To ease their creation and to allow for a simple evaluation, the \GGL{}
+sports the visualization script \molcompsvg{} within its Perl module.
+
+Given a molecular component in \GML{} notation, the script produces a graphical
+depiction in Scalable Vector Graphics (SVG) format. Therein, compID nodes are
+highlighted in red. An example is given in Fig.~\ref{fig:NADH-groups}c).
+
+The \molcompsvg{} script uses the \texttt{OpenBabel} package to create the 2D
+depictions of the molecules and thus requires its presence.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Molecular groups within SMILES}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\def\NAD{NAD$^{+}$}
+\def\NADH{NADH}
+
+
+One field of application for the definition and use of molecular groups is the
+specification of molecules that differ only in a few atoms or bonds. In such
+cases, it can be convinient to specify only the dissimilar parts of the
+molecules and to use group placeholders for the equal parts. That way, the
+similarity becomes easy to see and the SMILES easier to read.
+
+
+\begin{figure}[htb]
+\begin{center}
+  \includegraphics[width=0.45\textwidth]{\builddir/Figures/NADH}
+  \includegraphics[width=0.45\textwidth]{\builddir/Figures/NAD}
+  \caption{The molecules \NADH{} (left) and \NAD{} (right).}
+  \label{fig:NADH}
+\end{center}
+\end{figure}
+
+
+As an example, we use the molecules \NADH{} and \NAD{} depicted in
+Fig.~\ref{fig:NADH} sporting 66 and 65 atoms, respectively. The difference
+basically comprises only an additional proton within \NADH{} and a charge change
+within the lower ring while the rest of the molecules are identically. Note, these two
+changes alter the ring from non-aromatic (\NADH) to aromatic (\NAD).
+
+Minimal SMILES encodings of the molecules (highlighting the differing ring in
+red) are
+
+\begin{center}
+\begin{minipage}{0.9\textwidth}
+\noindent\verb|NC(=O)|{\color{red}\verb|C1[CH2]C=CN(C=1|)}\verb|C2OC(COP(O)(=O)O..|\\
+\noindent\verb|    ..P(O)(=O)OCC3OC(C(O)C3O)n4cnc5c(N)ncnc54)C(O)C2O|
+\end{minipage}
+\end{center}
+
+\noindent for \NADH{} and 
+
+\begin{center}
+\begin{minipage}{0.9\textwidth}
+\noindent\verb|NC(=O)|{\color{red}\verb|c1ccc[n+](c1)|}\verb|C2OC(COP(O)(=O)O..|\\
+\noindent\verb|    ..P(O)(=O)OCC3OC(C(O)C3O)n4cnc5c(N)ncnc54)C(O)C2O|
+\end{minipage}
+\end{center}
+
+\noindent for \NAD{}.
+
+In contrast, when using group declarations for the identical parts, namely the
+CONH2 group and the ribo-adenosine, the SMILES shrinks to 
+
+\begin{center}
+\begin{minipage}{0.9\textwidth}
+\noindent\verb|[{CONH2}]|{\color{red}\verb|C1[CH2]C=CN(C=1)|}\verb|[{Ribo-ADP}]|
+\end{minipage}
+\end{center}
+
+\noindent for \NADH{} and 
+
+\begin{center}
+\begin{minipage}{0.9\textwidth}
+\noindent\verb|[{CONH2}]|{\color{red}\verb|c1ccc[n+](c1)|}\verb|[{Ribo-ADP}]|
+\end{minipage}
+\end{center}
+
+\noindent for \NAD{}, both depicted in Fig.~\ref{fig:NADH-groups}a) and~b).
+
+
+\begin{figure}[htb]
+\begin{center}
+  a)
+  \includegraphics[height=0.35\textwidth]{\builddir/Figures/NADH-groups-new}
+  b)
+  \includegraphics[height=0.35\textwidth]{\builddir/Figures/NAD-groups-new}
+  \newline
+  c)
+  \includegraphics[height=0.3\textwidth]{\builddir/Figures/CONH2-new}
+  \caption{The molecules \NADH{} (a) and \NAD{} (b) described using
+  group identifiers. Note, only for $C_3$ within \NADH{} explicit proton
+  information is given; all other carbons have one not depicted adjacent
+  proton. (c) Depiction of the \texttt{\{CONH2\}} group using the script
+  \molcompsvg{}. Note, the proxy node is highlighted in red.}
+  \label{fig:NADH-groups}
+\end{center}
+\end{figure}
+
+
+In the following, we give the GML encoding of the \verb|{CONH2}| group. An
+according depiction, using the \molcompsvg{} visualization script, is given in
+Fig.~\ref{fig:NADH-groups}c).
+
+\startGML
+\begin{verbatim}
+molcomp [
+  description "{CONH2}"
+  compIDs [ id 0 ]
+  node [ id 0 label "C" ]
+  node [ id 1 label "O" ]
+  node [ id 2 label "N" ]
+  node [ id 3 label "H" ]
+  node [ id 4 label "H" ]
+  edge [ source 0 target 1 label "=" ]
+  edge [ source 0 target 2 label "-" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 2 target 4 label "-" ]
+]
+\end{verbatim}
+\endGML
+
+
+Note, both the \verb|{CONH2}| as well as the \verb|{Ribo-ADP}| group are
+molecule components that are interfacing via a single node with the remaining
+molecule. This enables the representation within SMILES as a complex pseudo atom
+in bracket notation namely \verb|[{CONH2}]| or \verb|[{Ribo-ADP}]|, resp., as
+done within the shorted SMILES strings presented above. This node is specified
+using the \texttt{compIDs} entry within the GML definition. Therefore, a
+molecular group to be used within molecule representations is only allowed to
+sport \emph{exactly one \texttt{compID} entry} naming the proxy node of the
+component. During the SMILES parsing, the complex pseudo atom is replaced withthe proxy node of the according group and the remaining group atoms and bondsare added to the molecule.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Molecular groups within graph rewrite rules}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+The specification of (bio)chemical reactions often requires the representation
+of large (unchanged) parts of molecules in order to make the rule as specific as
+the chemical reaction. A classic example is the involvement of helper molecules
+like ATP, \NADH{}, etc. that are only slightly changed but have to be
+represented completely to avoid the application of the rule using similar molecules.
+
+To this end, the \GGL{} supports the specification of molecular groups as
+pseudo-atoms within chemical rule definitions. They allow for a much
+easier and compact rule definition and avoid potential typos and mistakes.
+
+As an example consider the lactat-dehyrogenase from the citrat-cycle given by
+\NAD{} + lactate $\rightarrow$ \NADH{} + pyruvate. \NADH{} is a large
+molecule comprising 66 atoms. Thus, a complete specification would require the
+definition of all \NADH{} atoms and bonds together with the according parts
+of lactate and pyruvate incorporating 76 atoms in total. Furthermore, this would be
+the case for all other \NADH-dependent reactions as well.
+
+\begin{figure}[htb]
+\begin{center}
+  \includegraphics[width=\textwidth]{\builddir/Figures/lactat-dehydrogenase}
+  \caption{Lactat-dehydrogenase : \NAD{} + lactate $\rightarrow$
+  \NADH{} + pyruvate. The picture exemplifies the use of group identifiers to compact
+  the rule specification. The colors indicate if specified as context (black),
+  left (red), or right (green). Note, such a representation reduces the rule
+  specification from 76 to only 23 atoms.}
+  \label{fig:lactat-dehydrogenase}
+\end{center}
+\end{figure}
+
+Using group identifiers, the definition of the lactat-dehydrogenase becomes much
+more compact as exemplified in Fig.~\ref{fig:lactat-dehydrogenase}. With only 23
+atoms, the whole reaction is described. Note, the rule specification uses two
+group descriptors. Each is replaced during the rule \GML{} parsing with
+according molecule components/subgraphs, i.e. \texttt{\{CONH2\}} is replaced
+with a \cee{CONH2} group (see Fig.~\ref{fig:NADH-groups}) and
+\texttt{\{Ribo-ADP\}} with a ribose and attached adenosine.
+
+\emph{Note:} group identifier are only allowed within context or for label
+changes within both left/right at once. The reason is: each group shows as
+interface \emph{exactly one proxy node} that will replace the specified pseudo
+atom labeled with the group ID. Thus, a rule can only change bonds with the
+proxy node! The rest of the group is statically added to the \emph{rule
+context}. It is possible to specify label changes of the proxy node atom but
+these are restricted to charge changes as exemplified below. An explicit change
+of the proxy node label (e.g. make it aromatic ``\texttt{C}'' $\rightarrow$
+``\texttt{c}'') is not possible!
+
+\startGML
+\begin{verbatim}
+rule [
+# example of charge change of a groups proxy node
+# the rest of the group is added to the rule's context
+	left [
+	  node [ id 0 label "{GROUP}+" ]
+	  ..
+	]
+..
+	right [
+	  node [ id 0 label "{GROUP}" ]
+	  ..
+	]
+]
+
+\end{verbatim}
+\endGML
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Molecular groups for molecule decompositions}
+% \label{ss:decomposition}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \todo{for what are they used within molecule decompositions?}
+
+
+
+%%%%%%%%%%%%%%
+\end{document}
+

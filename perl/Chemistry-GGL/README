@@ -1,0 +1,42 @@
+Chemistry-GGL version 0.01
+==========================
+
+This is a simple Perl xs interface to GGL. Please refer to the top level
+README for details on the GGL itself.
+
+It is NOT meant to be distributed separately from the GGL sources, since
+it depends on the sources being present during compile time.
+
+INSTALLATION
+
+Before you can compile and install this module, you will need to
+./configure && make the GGL itself in the directory you've unpacked it.
+You don't need to install it, because all the necessary object files are
+linked statically into the Perl module.
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  Chemistry::Mol
+  Chemistry::File::SMILES
+
+  (optional) Chemistry::ReactionGrammar::File::GML
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2010 by Heinz Ekker
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.10.0 or,
+at your option, any later version of Perl 5 you may have available.
+
+Since the GGL is statically linked into this module, it is also subject to
+the licence agreement of the GGL itself.

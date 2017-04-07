@@ -1,0 +1,1015 @@
+
+% -*-latex-*-
+\NeedsTeXFormat{LaTeX2e}
+\documentclass[a4paper,12pt]{article}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\usepackage{url}
+\usepackage[version=3]{mhchem}
+
+
+% include the general settings for all tutorials
+\input{@top_srcdir@/misc/manual/def-include}
+
+\def\builddir{@top_srcdir@/misc/manual}
+
+\title{\GGL{} Tutorial: Graph Rewrite Rules\\
+	\includegraphics[width=.2\textwidth]{@top_srcdir@/misc/logo/GGL-logo}}
+
+\author{Christoph Flamm$^{1,}$\thanks{Send comments to
+\texttt{xtof@tbi.univie.ac.at} or \texttt{mmann@informatik.uni-freiburg.de}}
+		 \ and Martin Mann$^2$\\[2ex] 
+		 $^1$~Institute for Theoretical Chemistry, Vienna University\\[2ex]
+        \includegraphics[width=.3\textwidth]{\builddir/Figures/univielogo}\hspace{3em}\\[2ex]
+		 $^2$~Bioinformatics Group, University of Freiburg\\[2ex]
+        \includegraphics[height=.15\textwidth]{\builddir/Figures/unifrlogo}
+        }
+
+\date{\small{\url{http://www.tbi.univie.ac.at/software/GGL/}}\\[2ex]
+      Version~\today\\[3ex]}
+
+
+%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%% Title page
+\maketitle
+\begin{center}
+	Built for \GGL{} version @VERSION@
+\end{center}
+\thispagestyle{empty}
+\newpage
+
+%%%
+\tableofcontents
+\newpage
+\setcounter{page}{1}
+
+%%%
+\section{Graph rewrite rules}
+
+This chapter explains how to describe a graph rewrite rule in term of the Graph
+Modeling Language (\GML{}). Please note, currently only undirected graphs are
+supported and assumed for both the input graphs and the rewrite patterns.
+Theoretically, the graph grammar library is prepared to be applied on directed
+graphs too, but so far this was not tested nor applied!
+
+\input{@top_srcdir@/misc/manual/gml-include.tex}
+
+%%%
+\subsection{Keys for rule specification}\label{ss:keys}
+
+The following table lists the relevant keys for rule specification in
+alphabetic order. Keys underlayed with the color gray are used to set
+constraints or copy-and-paste operations on vertices or edges (see
+section~\ref{ss:constraints} and~\ref{s:copyAndPaste} for more details). For
+lists the optional enclosed keys are given in brackets.
+
+\begin{center}
+\small
+	\definecolor{light-gray}{gray}{0.9}
+	\renewcommand{\arraystretch}{2}
+\begin{longtable}{|l|l|p{4.5cm}|p{5cm}|}\hline
+  \textbf{key} & \textbf{type} & \textbf{keys in list}
+  & \textbf{comment}
+  \endhead
+  \hline
+  \colorbox{light-gray}{constrainAdj} & list
+                & id, op, count, (edgeLabels and/or nodeLabels)
+                & define adjacency constraints for a matched \textit{vertex},
+                either nodeLabels or edgeLabels or both has to be specified\\
+  \hline
+  \colorbox{light-gray}{constrainEdge} & list
+                & source, target, (op), edgeLabels
+                & define constraints for the allowed/forbidden labels for a
+                matched \textit{edge}\\
+  \hline
+  \colorbox{light-gray}{constrainNoEdge} & list
+                & source, target
+                & define constraints that two matched vertices are \textit{not
+                connected} via an edge\\
+  \hline
+  \colorbox{light-gray}{constrainNode} & list
+                & id, (op), nodeLabels
+                & define constraints for the allowed/forbidden labels for a
+                matched \textit{vertex}\\
+  \hline
+  context       & list
+                & (node), (edge)
+                & define the \textit{context-subgraph} of a rule\\
+  \hline
+  \colorbox{light-gray}{count}
+                & int
+                & --
+                & numeric counter for constrained rule \textit{vertex}\\
+  \hline
+  \colorbox{light-gray}{copyAndPaste} & list
+                & source, id, (edgeLabels), (target)
+                & define a copy-and-paste operation for a left-side only node.
+                Out-edges of the source node with the given labels (or all if no
+                specified) are copied to the target 
+                \textit{vertex}. Optionally, the target node of the copied
+                edges can be specified.\\
+  \hline
+  edge          & list
+                & source, target, label
+                & define an \textit{edge}.\\
+  \hline
+  \colorbox{light-gray}{edgeLabels}
+                & list
+                & label
+                & define a list of edge labels incident to a constrained
+                  \textit{vertex},\\
+  \hline
+  id            & int
+                & --
+                & defines a numerical identifier for a \textit{vertex}.\\
+  \hline
+  label         & string
+                & --
+                & defines a textual label for a \textit{vertex} or
+                  an \textit{edge}.\\
+  \hline
+  left          & list
+                & (node), (edge), (constraintXXX)
+                & define the \textit{left-subgraph} of a rule. In addition
+                several instances of constrainXXX can be added to make the rule
+                matching more specific.\\
+  \hline
+  node          & list
+                & id, label
+                & define a \textit{vertex}\\
+  \hline
+  \colorbox{light-gray}{nodeLabels}
+                & list
+                & label
+                & define a list of \textit{vertex} labels adjacent to a
+                  constrained \textit{vertex}.\\
+  \hline
+  \colorbox{light-gray}{op}
+                & char
+                & --
+                & operator used in the logical expression for constraints
+                  (one of \{'$<$', '$=$', '$>$', '!'\}).\\
+  \hline
+  right         & list
+                & (node), (edge)
+                & define the \textit{right-subgraph} of a rule.\\
+  \hline
+  rule          & list
+                & ruleID, left, context, right, (wildcard), (copyAndPaste)
+                & define a rule.\\
+  \hline
+  ruleID        & string
+                & --
+                & define a textual name for a rule\\
+  \hline
+  source        & int
+                & --
+                & define the \textit{source-vertex} of an edge\\
+  \hline
+  target        & int
+                & --
+                & define the \textit{target-vertex} of an edge\\
+  \hline
+  wildcard      & string
+                & --
+                & an optional textual label that defines which used labels for a
+                \textit{vertex} or an \textit{edge} is to be matched on any
+                other label during the left side pattern matching.\\
+  \hline
+  
+%  \caption{List of interpreted keys for rule specification.}
+
+\end{longtable}
+\end{center}
+
+
+
+%%%
+\section{Chemical graph rewrite rules}
+
+In the following, the general structure of a graph rewrite rule is exemplified
+using the special case of instances defining chemical reactions. These can be
+applied to model chemical reactions based on a graph representation of
+molecules. Therein, molecules are defined by an undirected graph where each node
+represents a single atom and edges correspond to bonds of a given valence.
+Within the \GGL{}, we assume node and edge labels to be conform with the SMILES
+notation.
+
+Since we are modelling chemical reactions, no atoms (i.e. nodes) are allowed to
+vanish or appear during the reaction. Thus, no node will be exclusively left
+(for vanishing nodes) or right side (appearing nodes). Label changes are
+possible, i.e. a node appears with different label in the left and right side of
+the rule. A possible reason for a label change is an altered charge of an atom
+as a result of the reaction.
+
+%%%
+\subsection{General structure of a rewrite rule}
+A rewrite rule is specified with the key \textbf{rule}. Within the list
+value of the \textbf{rule} key 4 mandatory keys must be specified, one
+string valued key (\textbf{ruleID}) to name the rule and three list valued
+keys (\textbf{left, context, right}) defining the three subgraphs of a
+rewrite rule:
+\begin{itemize}
+\item[\textbf{ruleID}] each rule must have a textual name which must be
+  defined by this key.
+\item[\textbf{left}] within the list value of this key, all edges are
+  specified, which are broken during the chemical transformation
+  (i.e.\ bonds present in the educt but absent in the product molecule(s)).
+  Furthermore, nodes can be listed that change their label along the reaction,
+  thus they are listed with different label within the right list. Finally, the
+  matching can be further refined listing additional constraints.
+\item[\textbf{context}] within the list value of this key, all nodes and
+  edges are defined, which do not change during the chemical
+  transformation.
+\item[\textbf{right}] within the list value of this key, all edges are
+  specified, which are formed during the chemical transformation
+  (i.e.\ which are ``new'' in the product molecule(s)). Furthermore, nodes with
+  changing label (i.e. also listed in left list) are given.
+\end{itemize}
+
+\noindent The following example illustrates how a valid rewrite rule
+looks like. The atoms 1-4 go into the context since chemistry is mass
+conserving and \textbf{no} atom can vanish or can be produced out of the
+blue during a chemical transformation. Note also that the total valence
+(total degree of each node) is preserved during the chemical
+reaction. Total valence preservation is a crucial feature of chemical
+transformations. The \GML{}-parser in \GGL{} checks each rule to
+have this property and issues an error message if this is not the case!
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "Double bond bromination"
+ left [
+  edge [ source 1 target 2 label "=" ]
+  edge [ source 3 target 4 label "-" ]
+ ]
+ context [
+  node [ id 1 label "C" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "Br" ]
+  node [ id 4 label "Br" ]
+ ]
+ right [
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 1 target 3 label "-" ]
+  edge [ source 2 target 4 label "-" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+\noindent Try to make a sketch of the above reaction and compare your
+result with section~\ref{ss:bromination}. (Hint: arrange the \textbf{nodes}
+from \textbf{context} into a polygon and draw only the vertices of the
+polygon on the left and right side of a reaction arrow. Insert each
+\textbf{edge} from \textbf{context} (if any) into both graphs left and
+right of the reaction arrow. Finally insert \textbf{edges} from
+\textbf{left} into the graph left and those from \textbf{right} into the
+graph right of the reaction arrow).
+
+%%%
+\subsection{General steps in the derivation of writing rules}
+It is recommended to follow the protocol below when translating reaction
+mechanisms into writing rules.
+\begin{enumerate}
+\item Make a sketch of the reaction.
+\item Number the atoms in the reaction mechanism.
+\item Figure out which atoms/bonds are constant during the chemical
+  transformation. (These bonds/atoms go into the \textbf{context} of
+  the \textbf{rule}.
+\item Figure out which bonds are broken during the chemical transformation.
+  (These go into \textbf{left} of the \textbf{rule}).
+\item Figure out which bonds are formed during the chemical transformation.
+  (These go into the \textbf{right} of the \textbf{rule}).
+\item Check the action of the rule on examples and counter examples to make
+  sure that the rule does what you want.
+\end{enumerate}
+
+
+%%%
+\subsection{Wildcards for atom/bond label}\label{ss:wildcard}
+
+Generally, a graph rewrite rule has to be explicit, i.e. all node and edge
+labels defining the pattern to match have to be given. Sometimes, however, the
+specification of a dummy atom of unspecified type is more convenient to define a
+chemical rewrite rule to avoid and join a large number of explicit rules.
+
+To this end, the \GGL{} rule specification allows to define what label can be
+matched on any other label (applied for both nodes and edges). To this end, add
+the \textbf{wildcard} key-value to your rule specification. For instance, the
+following rule
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "wildcard rule"
+ wildcard "myWildcard"
+ left  [ node [ id 1 label "myWildcard" ] ]
+ right [ node [ id 1 label "X" ] ]
+]
+\end{verbatim}
+\endGML
+
+would match on any node and change its label to ``X''. Note, the label for the
+wildcard can be any string as long as it is specified with the wildcard key.
+
+Within the chemical reaction encoding, per default the wildcard label
+\textbf{"*"} is defined. It can be used for both atom and bond label
+specification and matches any other label. Note, this wildcard label is fixed
+and hardcoded and cannot be changed within the chemical framework.
+
+The use of wildcards within rules broadens their applicability but might result
+in too general patterns. To this end, additional constraints might be needed
+that restrict the generality of the wildcard usage. The currently supported
+constraints are discussed in the following.
+
+Note, wildcards are also allowed within some constraints and copy-and-paste
+operations as discussed in the following.
+
+%%%
+\subsection{Constraining atoms/bonds}\label{ss:constraints}
+
+To simplify rule formulation or to make rules more specific, it is sometimes
+necessary to further constrain atoms or bonds (of the to-be-matched rule's left
+side). In the following, the available constraints are exemplified.
+
+%%%
+\subsubsection{Constrain allowed atom labels}
+
+If an atom label is not explicitly specified using the wildcard character "*"
+but only a specific set of atom labels should be allowed, a node label
+constraint has to be set. This can be done use the \textbf{constrainNode}
+statement.
+
+For instance, the following constraint restricts the allowed labels for the atom
+with node id~1 to carbon (C) or nitrogen (N). Otherwise, the node could have
+been matched with any atom within a molecule.
+
+\startGML
+\begin{verbatim}
+ ...
+ context [ 
+   ...
+   node [ id 1 label "*" ]
+   ...
+ ]
+ left [
+   constrainNode [ id 1 op = nodeLabels [ label "C" label "N" ] ]
+ ]
+ ...
+\end{verbatim}
+\endGML
+
+We can achieve the inverse result when changing the operator to \verb|op !|
+which makes the given node labels the set of \emph{forbidden} labels. Thus, the
+contraint would enforce that the matched node shows \emph{none} of the given
+labels.
+
+%%%
+\subsubsection{Constrain allowed bond labels}
+
+As for atom labels, the wildcard character "*" can be used as an edge label to
+enable a general matching definition. One can define constraints in a similar
+way to restrict the allowed bond labels using the \textbf{constrainEdge}
+statement.
+
+For instance, the following constraint restricts the allowed labels for the
+bond between the atoms with id~1 and~2 to be a single bond (``--'') or
+a double bond (``='').
+
+\startGML
+\begin{verbatim}
+ ...
+ context [ 
+   ...
+   edge [ source 1 target 2 label "*" ]
+   ...
+ ]
+ left [
+   constrainEdge [ source 1 target 2 op = 
+     edgeLabels [ label "-" label "=" ] 
+   ]
+ ]
+ ...
+\end{verbatim}
+\endGML
+
+As for the node label constraint, we can achieve the inverse result when
+changing the operator to \verb|op !| which makes the given edge labels the set
+of \emph{forbidden} labels. Thus, the contraint would enforce that the matched
+edge shows \emph{none} of the given labels.
+
+Note, this constraint is only usefull if either \emph{no multiple parallel
+edges} are possible/present between the constrained source and target nodes or
+if all parallel edges between these two nodes are to be constrained.
+
+%%%
+\subsubsection{Forbid a certain bond}
+
+Since subgraph isomorphism focuses on the matching of present nodes and edges,
+some graph rewrite rules need to explicitely state a non-existance of a certain
+edge. This can be done using the \textbf{constrainNoEdge} statement as
+exemplified in the following for the nodes with id~1 and~2.
+
+\startGML
+\begin{verbatim}
+ ...
+ constrainNoEdge [ source 1 target 2 ]
+ ...
+\end{verbatim}
+\endGML
+
+
+%%%
+\subsubsection{Constrain adjacency (or degree)}
+
+Often it is of interest to constrain the adjacent nodes and edges for a given
+node. Using \textbf{constrainAdj} a sophisticated adjacency restriction can be
+set. It is based either on a given list of node or edge labels or a combination.
+For each constraint the number of nodes/edges matching the given labels is
+determined and evaluated according to the given operator and targeted value.
+
+For instance the following constrain enforces that atom with node id~1 has at
+least~3 adjacent single bonds (edges with label ``--'').
+
+\startGML
+\begin{verbatim}
+ ...
+ constrainAdj [ id 1 op > count 2 edgeLabels [ label "-" ] ]
+ ...
+\end{verbatim}
+\endGML
+
+In order to specify that any edge or node label can be matched either a wildcard
+label can be specified or the according list can be ommitted. Thus, if no node
+or edge labels are given, all nodes/edges are taken into consideration. If both
+node \emph{and} edge labels are specified, only edges are counted where the edge
+label \emph{and} the targeted node label are among the allowed labels.
+
+Therefore, a \emph{degree constraint} can be simply expressed using
+
+\startGML
+\begin{verbatim}
+ constrainAdj [ id 1 op = count 2 ]
+\end{verbatim}
+\endGML
+
+\emph{Note:} all according nodes and edges are taken into account, i.e. also the
+nodes/edges that are \emph{explicitely} stated within the rule.
+
+A good example to illustrate adjacency constraints is the Cannizzaro reaction.
+The reaction involves the base-induced disproportionation (i.e.\ the self
+oxydation-reduction reaction) of an aldehyde lacking a hydrogen atom in the
+$\alpha$-position of the carbonyl-group yielding a 50:50 product mixture of the
+corresponding alcohole (reduction product) and carboxylic acid (oxydation
+product).
+
+\begin{center}
+  \includegraphics[width=\textwidth]{\builddir/Figures/cannizzaro-rx}
+\end{center}
+
+\noindent
+Let us assume that the canizzarro reaction proceeds \textit{via} a cyclic
+six-membered \emph{``imaginary transition state'' (ITS)} (arranging 2 aldehydes
+and 1 water molecule)
+
+\begin{center}
+  \includegraphics[width=.25\textwidth]{\builddir/Figures/cannizzaro-ITS}
+\end{center}
+
+\noindent
+than the following bond changes happen
+
+\begin{itemize}
+\item broken bonds: 1--2 (\cee{C=O}), 3--4 (\cee{H-O}) and 5--6 (\cee{C-H}).
+\item formed bonds: 1--2 (\cee{C-O}), 2--3 (\cee{H-O}), 4--5 (\cee{O-C})
+  and 6--1 (\cee{H-C}).
+\item constant: atoms 1--9 and bonds 1--7 (\cee{C-H}), 4--8 (\cee{O-H}) and
+  5--9 (\cee{C=O}). 
+\end{itemize}
+
+\noindent
+resulting in the rewriting rule
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "cannizzaro reaction too general"
+ context [
+  node [ id 1 label "C" ]
+  node [ id 2 label "O" ]
+  node [ id 3 label "H" ]
+  node [ id 4 label "O" ]
+  node [ id 5 label "C" ]
+  node [ id 6 label "H" ]
+  node [ id 7 label "H" ]
+  node [ id 8 label "H" ]
+  node [ id 9 label "O" ]
+  edge [ source 1 target 7 label "-" ]
+  edge [ source 4 target 8 label "-" ]
+  edge [ source 5 target 9 label "=" ]
+ ]
+ left [
+  edge [ source 1 target 2 label "=" ]
+  edge [ source 3 target 4 label "-" ]
+  edge [ source 5 target 6 label "-" ]
+ ]
+ right [
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 4 target 5 label "-" ]
+  edge [ source 6 target 1 label "-" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+\noindent
+The above rule is very general and matches any aldehyde regardless what
+\cee{R} actually is. However, aldehydes possessing a hydrogen at the atom
+adjacent to the carbonyl group (e.g.\ \cee{R = CH3}) form the enol tautomer
+under basic conditions and cannizzaro reaction is \textbf{not} observed.
+To make the cannizzaro rule specific for aldehydes without a hydrogen in
+the $\alpha$ position of the carbonyl group, we first have to add two
+\cee{C} atoms (10, 11) and the respective bonds (1--10, 5--11) to the
+\textit{context subgraph} and disallow hydrogens on atoms 10 and 11 by
+using a \textbf{constrainAdj} statement.
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "cannizzaro restrictive"
+ context [
+  node [ id 1 label "C" ]
+  node [ id 2 label "O" ]
+  node [ id 3 label "H" ]
+  node [ id 4 label "O" ]
+  node [ id 5 label "C" ]
+  node [ id 6 label "H" ]
+  node [ id 7 label "H" ]
+  node [ id 8 label "H" ]
+  node [ id 9 label "O" ]
+  node [ id 10 label "C" ]
+  node [ id 11 label "C" ]
+  edge [ source 1 target 7 label "-" ]
+  edge [ source 4 target 8 label "-" ]
+  edge [ source 5 target 9 label "=" ]
+  edge [ source 1 target 10 label "-"]
+  edge [ source 5 target 11 label "-"]
+ ]
+ left [
+  edge [ source 1 target 2 label "=" ]
+  edge [ source 3 target 4 label "-" ]
+  edge [ source 5 target 6 label "-" ]
+  constrainAdj [ id 10 op = count 0 nodeLabels [ label "H" ] ]
+  constrainAdj [ id 11 op = count 0 nodeLabels [ label "H" ] ] 
+ ]
+ right [
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 4 target 5 label "-" ]
+  edge [ source 6 target 1 label "-" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Radicals}
+\label{ss:groups}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A radical is an atom that has unpaired valence electrons or an open electron
+shell, and therefore may be seen as having one or more "dangling" covalent
+bonds. The GGL chemistry framework ``sanity checks'' for
+rules and produced molecules do not allow such atoms. Nevertheless, one can
+still represent radicals using a simple trick following the observation that
+radicals are usually only intermediates of reactions and thus both created and
+destroyed by a chemical reaction part of the reaction set applied. Therefore,
+radicals are represented by atoms with according additional charge information
+\emph{plus} a radical specific class name. The latter ensures the distinction of
+radicals encoded in such a way from normal atoms with the same charge. These
+specific radical labels are than used in the ``destruction'' reaction to replace
+the radical with the according atom label.
+
+A simple example is the reaction $\text{Cl}_2 \rightarrow \text{Cl}\bullet\ +\ 
+\text{Cl}\bullet$ where chlorine gas is broken down by ultraviolet light to
+atomic chlorine radicals. This can be expressed using
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "chlorine gas to radical"
+ context [ ]
+ left [
+  node [ id 1 label "Cl" ]
+  node [ id 2 label "Cl" ]
+  edge [ source 1 target 2 label "-" ]
+ ]
+ right [
+  node [ id 1 label "Cl-:1" ]
+  node [ id 2 label "Cl-:1" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+where \verb|Cl-:1| represents the chlorine radicals.
+
+\emph{Note:} You have to ensure, that the class identifier used to encode for
+radicals (here 1) is not used for other class descriptions.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Group placeholders within rules}
+\label{ss:groups}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+The specification of (bio)chemical reactions often requires the representation
+of large (unchanged) parts of molecules in order to make the rule as specific as
+the chemical reaction. A classic example is the involvement of helper molecules
+like ATP, NADH, etc. that are only slightly changed but have to be represented
+completely to avoid the application of the rule using similar molecules.
+
+To this end, the \GGL{} supports the specification of molecular groups as
+pseudo-atoms within chemical rule definitions. They allow for a much
+easier and compact rule definition and avoid potential typos and mistakes.
+
+As an example consider the lactat-dehyrogenase from the citrat-cycle given by
+NAD$^{+}$ + lactate $\rightarrow$ NADH + pyruvate. NADH is a large
+molecule comprising 66 atoms. Thus, a complete specification would require the
+definition of all NADH atoms and bonds together with the according parts of
+lactate and pyruvate incorporating 76 atoms in total. Furthermore, this would be
+the case for all other NADH-dependent reactions as well.
+
+\begin{figure}[htb]
+\begin{center}
+  \includegraphics[width=\textwidth]{\builddir/Figures/lactat-dehydrogenase}
+  \caption{Lactat-dehydrogenase : NAD$^{+}$ + lactate $\rightarrow$
+  NADH + pyruvate. The picture exemplifies the use of group identifiers to compact
+  the rule specification. The colors indicate if specified as context (black),
+  left (red), or right (green). Note, such a representation reduces the rule
+  specification from 76 to only 23 atoms.}
+  \label{fig:lactat-dehydrogenase}
+\end{center}
+\end{figure}
+
+Using group identifiers, the definition of the lactat-dehydrogenase becomes much
+more compact as exemplified in Fig.~\ref{fig:lactat-dehydrogenase}. With only 23
+atoms, the whole reaction is described. Note, the rule specification uses two
+group descriptors. Each is replaced during the rule \GML{} parsing with according
+molecule components/subgraphs, i.e. \texttt{\{CONH2\}} is replaced with a
+\cee{CONH2} group and \texttt{\{Ribo-ADP\}} with a ribose and attached
+adenosine. 
+
+Each group shows as interface exactly one proxy node that will replace the
+pseudo atom labeled with the group ID. Thus, a rule can only change bonds
+with the proxy node, the rest of the group is statically added to the rule
+context. It is possible to specify label changes of the proxy node atom but
+these are restricted to charge changes as exemplified below. An explicit change
+of the proxy node label (e.g. make it aromatic ``\texttt{C}'' $\rightarrow$
+``\texttt{c}'') is not possible. Further information on how molecular groups
+have to be defined etc. are given in the according tutorial ``\GGL{} Tutorial:
+Molecular Groups''.
+
+
+\startGML
+\begin{verbatim}
+ ...
+ left [
+   node [ id 1 label "{GROUP}" ]
+   ...
+ ]
+ right [
+   node [ id 1 label "{GROUP}+" ]
+   ...
+ ]
+ ...
+\end{verbatim}
+\endGML
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualization of chemical rules}
+\label{ss:chemrule2svg}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\chemrulesvg}{\texttt{chemrule2svg.pl}}
+
+The \GML{} definition of chemical rules can become quite large and hard to read. To
+ease their creation and to allow for a simple evaluation, the \GGL{} sports the
+visualization script \chemrulesvg{} within its Perl module. 
+
+Given a chemical reaction in \GML{} notation, the script produces a graphical
+depiction in Scalable Vector Graphics (SVG) format. Therein, a color coding is
+used to highlight what parts are defined in the context (black), left (red), or
+right (green) part of the rule. An example is given in
+Fig.~\ref{fig:lactat-dehydrogenase}.
+The \chemrulesvg{} script uses the \texttt{OpenBabel} package to create the 2D
+depictions of the molecules and thus requires its presence.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Copy-and-Paste operations}
+\label{s:copyAndPaste}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Some graph operations require the deletion of one or several nodes but need to
+maintain and copy the former connectivity of the nodes to be removed. In such
+cases, a copy-and-paste operation can be used, specified by the list keyword
+\textbf{copyAndPaste}. Within the \GML{} specification the source node to be deleted
+(has to be a left-side only node) and a target node to inherit the connectivity
+of the source (has to be a non-left node) are specified. Optionally, a set of
+edge labels to constrain the edges to copy can be specified. If no edge label
+list is given or the wildcard is among the labels, all edges will be copied.
+The edges to copy can be further specified by giving the target node of the
+edges of interest.
+
+A small example is given in the following:
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "copy-and-paste"
+ left    [ node [ id 1 label "A" ] ]
+ context [ node [ id 2 label "B" ] ]
+ right   [ node [ id 3 label "C" ] ]
+ copyAndPaste [ source 1 id 2 ]
+ copyAndPaste [ source 1 id 3 edgeLabels [ label "-" ] ]
+ copyAndPaste [ source 1 id 3 edgeLabels [ label "-" ] target 2 ]
+]
+\end{verbatim}
+\endGML
+
+Within the example, node A is deleted. But beforehand, all out-edges of~A are
+copied to node~B. In addition, all out-edges of~A with the edge label ``--'' are
+copied to the newly created node~C. Note, using copy-and-paste operations it is
+possible to duplicate edges if needed. This is exemplified with the third
+copy-and-paste operation where all edges between node~A and~B with edge label
+``--'' are again copied to be edges between node~C and~B, thus if existing two
+such edges are created in combination with the second copy-and-paste operation.
+
+Note, copy-and-paste operations are based on the left side pattern matching,
+i.e. the edges copied are \emph{without} the edges to add from the right-side
+and \emph{including} the edges from the left-side of the rule specification.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Examples}
+\label{s:examples}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bromination of a double bond}
+\label{ss:bromination}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this reaction a \ce{Br2} molecule is added to a \ce{C=C} bond. The reaction
+is thought to go \textit{via} a 4-cyclic transition state (bracketed structure).
+
+\begin{center}
+  \includegraphics[width=\textwidth]{\builddir/Figures/bromination-rx}
+\end{center}
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "Double bond bromination"
+ left [
+  edge [ source 1 target 2 label "=" ]
+  edge [ source 3 target 4 label "-" ]
+ ]
+ context [
+  node [ id 1 label "C" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "Br" ]
+  node [ id 4 label "Br" ]
+ ]
+ right [
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 1 target 3 label "-" ]
+  edge [ source 2 target 4 label "-" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Diels-Alder reaction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The Diels-Alder reaction is a [4+2]-cycloaddition between a conjugated
+diene and an alkene, commonly termed the dienophile, to form a
+(substituted) cyclohexene system.
+
+\begin{center}
+  \includegraphics[width=\textwidth]{\builddir/Figures/diels-alder-rx}
+\end{center}
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "Diels-Alder reaction"
+ left [
+  edge [ source 1 target 2 label "=" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 3 target 4 label "=" ]
+  edge [ source 5 target 6 label "=" ]
+  constrainNoEdge [ source 1 target 5 ]
+  constrainNoEdge [ source 4 target 6 ]
+ ]
+ context [
+  node [ id 1 label "C" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "C" ]
+  node [ id 4 label "C" ]
+  node [ id 5 label "C" ]
+  node [ id 6 label "C" ]
+ ]
+ right [
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 2 target 3 label "=" ]
+  edge [ source 3 target 4 label "-" ]
+  edge [ source 4 target 5 label "-" ]
+  edge [ source 5 target 6 label "-" ]
+  edge [ source 6 target 1 label "-" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+%\subsection{Ester hydrolysis}
+%\label{ss:esterhyd}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Keto-enol isomerization}
+\label{ss:keto-enol}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The keto-enol isomerization refers to a chemical equilibrium between a keto
+form (a ketone or an aldehyde) and an enol. The enol and keto forms are
+said to be tautomers of each other. The interconversion of the two forms
+involves the movement of a proton and the shifting of bonding electrons.
+
+\begin{center}
+  \includegraphics[width=.8\textwidth]{\builddir/Figures/keto-enol-rx}
+\end{center}
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "Keto-enol isomerization forward"
+ left [
+  edge [ source 1 target 4 label "-" ]
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 2 target 3 label "=" ]
+  constrainAdj [ id 2 op = count 1 nodeLabels [ label "O" ] ]
+ ]
+ context [
+  node [ id 1 label "C" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "O" ]
+  node [ id 4 label "H" ]
+ ]
+ right [
+  edge [ source 1 target 2 label "=" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 3 target 4 label "-" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "Keto-enol isomerization backward"
+ left [
+  edge [ source 1 target 2 label "=" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 3 target 4 label "-" ]
+  constrainAdj [ id 2 op = count 1 nodeLabels [ label "O" ] ]
+ ]
+ context [
+  node [ id 1 label "C" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "O" ]
+  node [ id 4 label "H" ]
+ ]
+ right [
+  edge [ source 1 target 4 label "-" ]
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 2 target 3 label "=" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+(Note that atom 2 is constrained to has only one adjacent oxygen 
+atom. This is done to exclude carboxyl groups (\cee{CO2H}) from
+enolization.)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Aldose-Ketose transformation}
+\label{ss:aldose-ketose}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This reaction from carbohydrate chemistry, also known under the name
+\textbf{Lobry~de~Bruyn van~Ekenstein transformation}, is the base or acid
+catalyzed transformation of an aldose into the ketose isomer or
+\textit{vice versa}. The transformation is thought to go \textit{via} a
+tautomeric enediol (bracketed structure) as reaction intermediate.
+
+\begin{center}
+  \includegraphics[width=\textwidth]{\builddir/Figures/aldose-ketose-rx}
+\end{center}
+
+\noindent
+Since the reaction is reversible we have to put the forward and backward
+reaction into the rule file.
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "Aldose-ketose forward"
+ left [
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 1 target 5 label "-" ]
+  edge [ source 2 target 6 label "-" ]
+  edge [ source 3 target 4 label "=" ]
+  constrainAdj [ id 2 op = count 1 nodeLabels [ label "O" ] ]
+ ]
+ context [
+  node [ id 1 label "O" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "C" ]
+  node [ id 4 label "O" ]
+  node [ id 5 label "H" ]
+  node [ id 6 label "H" ]
+  node [ id 7 label "H" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 3 target 7 label "-" ]
+ ]
+ right [
+  edge [ source 1 target 2 label "=" ]
+  edge [ source 3 target 4 label "-" ]
+  edge [ source 3 target 5 label "-" ]
+  edge [ source 4 target 6 label "-" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "Aldose-ketose backward"
+ left [
+  edge [ source 1 target 2 label "=" ]
+  edge [ source 3 target 4 label "-" ]
+  edge [ source 3 target 5 label "-" ]
+  edge [ source 4 target 6 label "-" ]
+  constrainAdj [ id 2 op = count 1 nodeLabels [ label "O" ] ]
+ ]
+ context [
+  node [ id 1 label "O" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "C" ]
+  node [ id 4 label "O" ]
+  node [ id 5 label "H" ]
+  node [ id 6 label "H" ]
+  node [ id 7 label "H" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 3 target 7 label "-" ]
+ ]
+ right [
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 1 target 5 label "-" ]
+  edge [ source 2 target 6 label "-" ]
+  edge [ source 3 target 4 label "=" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+
+
+
+
+
+%%%%%%%%%%%%%%
+\end{document}
+

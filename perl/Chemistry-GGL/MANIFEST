@@ -1,0 +1,11 @@
+MANIFEST
+README
+Changes
+GGL.xs
+t/00-load.t
+t/10-apply_rules.t
+t/pod-coverage.t
+t/pod.t
+t/11-canonical.t
+Makefile.PL
+lib/Chemistry/GGL.pm

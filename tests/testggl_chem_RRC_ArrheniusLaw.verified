@@ -1,0 +1,18 @@
+
+==============  BEGIN TEST  ==================
+==============================================
+      ggl::chem::RRC_ArrheniusLaw             
+==============================================
+
+
+ used temperature in K = 298.15
+
+
+ next reaction  : ATP + H2O -> ADP + phosphate : Nc1ncnc2c1ncn2C3OC(COP([O-])(=O)OP([O-])(=O)OP([O-])([O-])=O)C(O)C3O.O>>Nc1ncnc2c1ncn2C3OC(COP([O-])(=O)OP([O-])([O-])=O)C(O)C3O.OP(O)(O)=O : nan
+ E(metabolites) = -730.537 kcal/mol
+ E(products)    = -727.824 kcal/mol
+ delta E        = 2.713 kcal/mol
+ rate(reaction) = 0.0102658
+
+===============  END TEST  ===================
+

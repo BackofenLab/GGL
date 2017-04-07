@@ -1,0 +1,749 @@
+
+
+ PROCESSING SMILES = '[H+]'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (H+)  -->  |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = '[H+]'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[H+]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = '[H+]'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[H+]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = '[H+]'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = '[H+]'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = '[H+]'
+
+
+ PROCESSING SMILES = 'HH'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (H)  -->  | 1 (-) |
+     1 (H)  -->  | 0 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'HH'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = 'HH'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'HH'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = 'HH'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'HH'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'HH'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'HH'
+
+
+ PROCESSING SMILES = '[HH]'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (H)  -->  | 1 (-) |
+     1 (H)  -->  | 0 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'HH'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = 'HH'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'HH'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = 'HH'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'HH'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'HH'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'HH'
+
+
+ PROCESSING SMILES = '[H][H]'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (H)  -->  | 1 (-) |
+     1 (H)  -->  | 0 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'HH'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = 'HH'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'HH'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = 'HH'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'HH'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'HH'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'HH'
+
+
+ PROCESSING SMILES = 'O'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (O)  -->  |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'O'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[OH2]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'O'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[OH2]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'O'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'O'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'O'
+
+
+ PROCESSING SMILES = '[OH-]'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (O-)  -->  | 1 (-) |
+     1 (H)  -->  | 0 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = '[O-]'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[OH-]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = '[O-]'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[OH-]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = '[O-]'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = '[O-]'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = '[O-]'
+
+
+ PROCESSING SMILES = '[O-]'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (O-)  -->  |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = '[O-]'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[OH-]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = '[O-]'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[OH-]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = '[O-]'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = '[O-]'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = '[O-]'
+
+
+ PROCESSING SMILES = '[O+]'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (O+)  -->  |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = '[O+]'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[OH3+]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = '[O+]'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[OH3+]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = '[O+]'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = '[O+]'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = '[O+]'
+
+
+ PROCESSING SMILES = '[OH3+]'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (O+)  -->  | 1 (-) | 2 (-) | 3 (-) |
+     1 (H)  -->  | 0 (-) |
+     2 (H)  -->  | 0 (-) |
+     3 (H)  -->  | 0 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = '[O+]'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[OH3+]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = '[O+]'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[OH3+]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = '[O+]'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = '[O+]'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = '[O+]'
+
+
+ PROCESSING SMILES = 'CC(C)C(=O)O'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (C)  -->  | 0 (-) | 2 (-) | 3 (-) |
+     2 (C)  -->  | 1 (-) |
+     3 (C)  -->  | 1 (-) | 4 (=) | 5 (-) |
+     4 (O)  -->  | 3 (=) |
+     5 (O)  -->  | 3 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'CC(C)C(O)=O'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3][CH]([CH3])C([OH])=O'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'CC(C)C(O)=O'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3][CH]([CH3])C([OH])=O'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'CC(C)C(O)=O'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'CC(C)C(O)=O'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'CC(C)C(O)=O'
+
+
+ PROCESSING SMILES = 'n1ccccc1'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (n)  -->  | 1 (:) | 5 (:) |
+     1 (c)  -->  | 0 (:) | 2 (:) |
+     2 (c)  -->  | 1 (:) | 3 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 0 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'c1ccncc1'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[cH]1[cH][cH]n[cH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'c1ccncc1'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[cH]1[cH][cH]n[cH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'c1ccncc1'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'c1ccncc1'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'c1ccncc1'
+
+
+ PROCESSING SMILES = '[nH]1cccc1'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (n)  -->  | 1 (:) | 4 (:) | 5 (-) |
+     1 (c)  -->  | 0 (:) | 2 (:) |
+     2 (c)  -->  | 1 (:) | 3 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 0 (:) |
+     5 (H)  -->  | 0 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'c1cc[nH]c1'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[cH]1[cH][cH][nH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'c1cc[nH]c1'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[cH]1[cH][cH][nH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'c1cc[nH]c1'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'c1cc[nH]c1'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'c1cc[nH]c1'
+
+
+ PROCESSING SMILES = 'Hn1cccc1'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (H)  -->  | 1 (-) |
+     1 (n)  -->  | 0 (-) | 2 (:) | 5 (:) |
+     2 (c)  -->  | 1 (:) | 3 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 1 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'c1cc[nH]c1'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[cH]1[cH][cH][nH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'c1cc[nH]c1'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[cH]1[cH][cH][nH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'c1cc[nH]c1'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'c1cc[nH]c1'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'c1cc[nH]c1'
+
+
+ PROCESSING SMILES = 'CC(C)(N)Cc1ccccc1'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (C)  -->  | 0 (-) | 2 (-) | 3 (-) | 4 (-) |
+     2 (C)  -->  | 1 (-) |
+     3 (N)  -->  | 1 (-) |
+     4 (C)  -->  | 1 (-) | 5 (-) |
+     5 (c)  -->  | 4 (-) | 6 (:) | 10 (:) |
+     6 (c)  -->  | 5 (:) | 7 (:) |
+     7 (c)  -->  | 6 (:) | 8 (:) |
+     8 (c)  -->  | 7 (:) | 9 (:) |
+     9 (c)  -->  | 8 (:) | 10 (:) |
+    10 (c)  -->  | 9 (:) | 5 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'CC(C)(N)Cc1ccccc1'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3]C([CH3])([NH2])[CH2]c1[cH][cH][cH][cH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'CC(C)(N)Cc1ccccc1'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3]C([CH3])([NH2])[CH2]c1[cH][cH][cH][cH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'CC(C)(N)Cc1ccccc1'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'CC(C)(N)Cc1ccccc1'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'CC(C)(N)Cc1ccccc1'
+
+
+ PROCESSING SMILES = 'C(OP([O-])(=O)[O-])C1(OC(O)CC1(O))'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) | 6 (-) |
+     1 (O)  -->  | 0 (-) | 2 (-) |
+     2 (P)  -->  | 1 (-) | 3 (-) | 4 (=) | 5 (-) |
+     3 (O-)  -->  | 2 (-) |
+     4 (O)  -->  | 2 (=) |
+     5 (O-)  -->  | 2 (-) |
+     6 (C)  -->  | 0 (-) | 7 (-) | 11 (-) |
+     7 (O)  -->  | 6 (-) | 8 (-) |
+     8 (C)  -->  | 7 (-) | 9 (-) | 10 (-) |
+     9 (O)  -->  | 8 (-) |
+    10 (C)  -->  | 8 (-) | 11 (-) |
+    11 (C)  -->  | 10 (-) | 6 (-) | 12 (-) |
+    12 (O)  -->  | 11 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'OC1CC(O)C(COP([O-])([O-])=O)O1'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[OH][CH]1[CH2][CH]([OH])[CH]([CH2]OP([O-])([O-])=O)O1'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'OC1CC(O)C(COP([O-])([O-])=O)O1'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[OH][CH]1[CH2][CH]([OH])[CH]([CH2]OP([O-])([O-])=O)O1'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'OC1CC(O)C(COP([O-])([O-])=O)O1'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'OC1CC(O)C(COP([O-])([O-])=O)O1'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'OC1CC(O)C(COP([O-])([O-])=O)O1'
+
+
+ PROCESSING SMILES = 'Cn1cnc2n(C)c(=O)n(C)c(=O)c12'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (n)  -->  | 0 (-) | 2 (:) | 13 (:) |
+     2 (c)  -->  | 1 (:) | 3 (:) |
+     3 (n)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) | 13 (:) |
+     5 (n)  -->  | 4 (:) | 6 (-) | 7 (:) |
+     6 (C)  -->  | 5 (-) |
+     7 (c)  -->  | 5 (:) | 8 (=) | 9 (:) |
+     8 (O)  -->  | 7 (=) |
+     9 (n)  -->  | 7 (:) | 10 (-) | 11 (:) |
+    10 (C)  -->  | 9 (-) |
+    11 (c)  -->  | 9 (:) | 12 (=) | 13 (:) |
+    12 (O)  -->  | 11 (=) |
+    13 (c)  -->  | 11 (:) | 1 (:) | 4 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3]n1[cH]nc2c1c(=O)n([CH3])c(=O)n2[CH3]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3]n1[cH]nc2c1c(=O)n([CH3])c(=O)n2[CH3]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+
+
+ PROCESSING SMILES = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (n)  -->  | 0 (-) | 2 (:) | 5 (:) |
+     2 (c)  -->  | 1 (:) | 3 (:) |
+     3 (n)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) | 12 (:) |
+     5 (c)  -->  | 4 (:) | 1 (:) | 6 (:) |
+     6 (c)  -->  | 5 (:) | 7 (=) | 8 (:) |
+     7 (O)  -->  | 6 (=) |
+     8 (n)  -->  | 6 (:) | 9 (-) | 10 (:) |
+     9 (C)  -->  | 8 (-) |
+    10 (c)  -->  | 8 (:) | 11 (=) | 12 (:) |
+    11 (O)  -->  | 10 (=) |
+    12 (n)  -->  | 10 (:) | 4 (:) | 13 (-) |
+    13 (C)  -->  | 12 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3]n1[cH]nc2c1c(=O)n([CH3])c(=O)n2[CH3]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3]n1[cH]nc2c1c(=O)n([CH3])c(=O)n2[CH3]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'Cn1cnc2c1c(=O)n(C)c(=O)n2C'
+
+
+ PROCESSING SMILES = 'CCN(CC)C(=O)'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (C)  -->  | 0 (-) | 2 (-) |
+     2 (N)  -->  | 1 (-) | 3 (-) | 5 (-) |
+     3 (C)  -->  | 2 (-) | 4 (-) |
+     4 (C)  -->  | 3 (-) |
+     5 (C)  -->  | 2 (-) | 6 (=) |
+     6 (O)  -->  | 5 (=) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'CCN(CC)C=O'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3][CH2]N([CH2][CH3])[CH]=O'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'CCN(CC)C=O'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3][CH2]N([CH2][CH3])[CH]=O'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'CCN(CC)C=O'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'CCN(CC)C=O'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'CCN(CC)C=O'
+
+
+ PROCESSING SMILES = 'CCN(C=O)CC'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (C)  -->  | 0 (-) | 2 (-) |
+     2 (N)  -->  | 1 (-) | 3 (-) | 5 (-) |
+     3 (C)  -->  | 2 (-) | 4 (=) |
+     4 (O)  -->  | 3 (=) |
+     5 (C)  -->  | 2 (-) | 6 (-) |
+     6 (C)  -->  | 5 (-) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'CCN(CC)C=O'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3][CH2]N([CH2][CH3])[CH]=O'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'CCN(CC)C=O'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3][CH2]N([CH2][CH3])[CH]=O'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'CCN(CC)C=O'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'CCN(CC)C=O'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'CCN(CC)C=O'
+
+
+ PROCESSING SMILES = 'COc1cccc(C#N)c1'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (O)  -->  | 0 (-) | 2 (-) |
+     2 (c)  -->  | 1 (-) | 3 (:) | 9 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 6 (:) |
+     6 (c)  -->  | 5 (:) | 7 (-) | 9 (:) |
+     7 (C)  -->  | 6 (-) | 8 (#) |
+     8 (N)  -->  | 7 (#) |
+     9 (c)  -->  | 6 (:) | 2 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'COc1cccc(c1)C#N'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3]Oc1[cH][cH][cH]c([cH]1)C#N'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'COc1cccc(c1)C#N'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3]Oc1[cH][cH][cH]c([cH]1)C#N'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'COc1cccc(c1)C#N'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'COc1cccc(c1)C#N'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'COc1cccc(c1)C#N'
+
+
+ PROCESSING SMILES = 'COc(c1)cccc1C#N'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (O)  -->  | 0 (-) | 2 (-) |
+     2 (c)  -->  | 1 (-) | 3 (:) | 4 (:) |
+     3 (c)  -->  | 2 (:) | 7 (:) |
+     4 (c)  -->  | 2 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 6 (:) |
+     6 (c)  -->  | 5 (:) | 7 (:) |
+     7 (c)  -->  | 6 (:) | 3 (:) | 8 (-) |
+     8 (C)  -->  | 7 (-) | 9 (#) |
+     9 (N)  -->  | 8 (#) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'COc1cccc(c1)C#N'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3]Oc1[cH][cH][cH]c([cH]1)C#N'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'COc1cccc(c1)C#N'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3]Oc1[cH][cH][cH]c([cH]1)C#N'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'COc1cccc(c1)C#N'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'COc1cccc(c1)C#N'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'COc1cccc(c1)C#N'
+
+
+ PROCESSING SMILES = 'COc1cccc(CN)c1'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (O)  -->  | 0 (-) | 2 (-) |
+     2 (c)  -->  | 1 (-) | 3 (:) | 9 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 6 (:) |
+     6 (c)  -->  | 5 (:) | 7 (-) | 9 (:) |
+     7 (C)  -->  | 6 (-) | 8 (-) |
+     8 (N)  -->  | 7 (-) |
+     9 (c)  -->  | 6 (:) | 2 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'COc1cccc(CN)c1'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3]Oc1[cH][cH][cH]c([CH2][NH2])[cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'COc1cccc(CN)c1'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3]Oc1[cH][cH][cH]c([CH2][NH2])[cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'COc1cccc(CN)c1'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'COc1cccc(CN)c1'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'COc1cccc(CN)c1'
+
+
+ PROCESSING SMILES = 'COc(cc1)ccc1C#N'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (O)  -->  | 0 (-) | 2 (-) |
+     2 (c)  -->  | 1 (-) | 3 (:) | 5 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 7 (:) |
+     5 (c)  -->  | 2 (:) | 6 (:) |
+     6 (c)  -->  | 5 (:) | 7 (:) |
+     7 (c)  -->  | 6 (:) | 4 (:) | 8 (-) |
+     8 (C)  -->  | 7 (-) | 9 (#) |
+     9 (N)  -->  | 8 (#) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'COc1ccc(cc1)C#N'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3]Oc1[cH][cH]c([cH][cH]1)C#N'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'COc1ccc(cc1)C#N'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3]Oc1[cH][cH]c([cH][cH]1)C#N'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'COc1ccc(cc1)C#N'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'COc1ccc(cc1)C#N'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'COc1ccc(cc1)C#N'
+
+
+ PROCESSING SMILES = 'COc1ccc(CN)cc1'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (O)  -->  | 0 (-) | 2 (-) |
+     2 (c)  -->  | 1 (-) | 3 (:) | 9 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 6 (-) | 8 (:) |
+     6 (C)  -->  | 5 (-) | 7 (-) |
+     7 (N)  -->  | 6 (-) |
+     8 (c)  -->  | 5 (:) | 9 (:) |
+     9 (c)  -->  | 8 (:) | 2 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'COc1ccc(CN)cc1'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH3]Oc1[cH][cH]c([CH2][NH2])[cH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'COc1ccc(CN)cc1'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH3]Oc1[cH][cH]c([CH2][NH2])[cH][cH]1'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'COc1ccc(CN)cc1'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'COc1ccc(CN)cc1'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'COc1ccc(CN)cc1'
+
+
+ PROCESSING SMILES = 'c1ccccc1-c2ccccc2'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (c)  -->  | 1 (:) | 5 (:) |
+     1 (c)  -->  | 0 (:) | 2 (:) |
+     2 (c)  -->  | 1 (:) | 3 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 0 (:) | 6 (-) |
+     6 (c)  -->  | 5 (-) | 7 (:) | 11 (:) |
+     7 (c)  -->  | 6 (:) | 8 (:) |
+     8 (c)  -->  | 7 (:) | 9 (:) |
+     9 (c)  -->  | 8 (:) | 10 (:) |
+    10 (c)  -->  | 9 (:) | 11 (:) |
+    11 (c)  -->  | 10 (:) | 6 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'c1ccc(cc1)-c2ccccc2'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'c1ccc(cc1)-c2ccccc2'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'c1ccc(cc1)-c2ccccc2'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'c1ccc(cc1)-c2ccccc2'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'c1ccc(cc1)-c2ccccc2'
+
+
+ PROCESSING SMILES = 'c1ccc(cc1)-c2ccccc2'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (c)  -->  | 1 (:) | 5 (:) |
+     1 (c)  -->  | 0 (:) | 2 (:) |
+     2 (c)  -->  | 1 (:) | 3 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) | 6 (-) |
+     4 (c)  -->  | 3 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 0 (:) |
+     6 (c)  -->  | 3 (-) | 7 (:) | 11 (:) |
+     7 (c)  -->  | 6 (:) | 8 (:) |
+     8 (c)  -->  | 7 (:) | 9 (:) |
+     9 (c)  -->  | 8 (:) | 10 (:) |
+    10 (c)  -->  | 9 (:) | 11 (:) |
+    11 (c)  -->  | 10 (:) | 6 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'c1ccc(cc1)-c2ccccc2'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'c1ccc(cc1)-c2ccccc2'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[cH]1[cH][cH]c([cH][cH]1)-c2[cH][cH][cH][cH][cH]2'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'c1ccc(cc1)-c2ccccc2'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'c1ccc(cc1)-c2ccccc2'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'c1ccc(cc1)-c2ccccc2'
+
+
+ PROCESSING SMILES = 'C^C'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (^) |
+     1 (C)  -->  | 0 (^) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'C^C'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[CH4]^[CH4]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'C^C'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[CH4]^[CH4]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'C^C'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'C^C'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'C^C'
+
+
+ PROCESSING SMILES = '[Fe+2](^O)^O'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (Fe+2)  -->  | 1 (^) | 2 (^) |
+     1 (O)  -->  | 0 (^) |
+     2 (O)  -->  | 0 (^) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = 'O^[Fe+2]^O'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[OH2]^[FeH5+2]^[OH2]'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = 'O^[Fe+2]^O'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[OH2]^[FeH5+2]^[OH2]'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = 'O^[Fe+2]^O'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = 'O^[Fe+2]^O'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = 'O^[Fe+2]^O'
+
+
+ PROCESSING SMILES = 'c1cc(O2)c([O-]^[Fe+2]^2)cc1'
+
+ --> call SMILESparser::parse(..) 
+ ==> SMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (c)  -->  | 1 (:) | 8 (:) |
+     1 (c)  -->  | 0 (:) | 2 (:) |
+     2 (c)  -->  | 1 (:) | 3 (-) | 4 (:) |
+     3 (O)  -->  | 2 (-) | 6 (^) |
+     4 (c)  -->  | 2 (:) | 5 (-) | 7 (:) |
+     5 (O-)  -->  | 4 (-) | 6 (^) |
+     6 (Fe+2)  -->  | 5 (^) | 3 (^) |
+     7 (c)  -->  | 4 (:) | 8 (:) |
+     8 (c)  -->  | 7 (:) | 0 (:) |
+
+ --> call newSMILES = SMILESwriter::getSMILES(..)  = '[Fe+2]1^Oc2ccccc2[O-]^1'
+ --> call MoleculeUtil::fillProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=false ) = '[FeH5+2]1^[OH]c2[cH][cH][cH][cH]c2[O-]^1'
+  > call newSMILES = SMILESwriter::getSMILES( filled, ignoreProtons=true )  = '[Fe+2]1^Oc2ccccc2[O-]^1'
+ --> call MoleculeUtil::compressHnodes( compMol ) 
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=false) = '[FeH5+2]1^[OH]c2[cH][cH][cH][cH]c2[O-]^1'
+  > call newSMILES = SMILESwriter::getSMILES( compMol, ignoreProtons=true ) = '[Fe+2]1^Oc2ccccc2[O-]^1'
+ --> call MoleculeUtil::removeProtons(..) 
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=false ) = '[Fe+2]1^Oc2ccccc2[O-]^1'
+  > call newSMILES = SMILESwriter::getSMILES( remMol, ignoreProtons=true )  = '[Fe+2]1^Oc2ccccc2[O-]^1'
+
+
+ PERMUTATING SMILES = '[H][C]12CCC3=Cc4oncc4C[C]3(C)[C]1([H])CC[C]1(C)[C]2([H])CC[C]1(O)C#C'
+   permutation number 0 : CC12Cc3cnoc3C=C1CCC4C2CCC5(C)C4CCC5(O)C#C

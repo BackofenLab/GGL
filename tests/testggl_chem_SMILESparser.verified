@@ -1,0 +1,127 @@
+
+==============  BEGIN TEST  ==================
+==============================================
+         ggl::chem::SMILESparser  
+==============================================
+
+
+ parse single SMILES string 0 :
+
+ SMILES = 'COc1cccc(c1)C#N'
+
+ ==> singleSMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (O)  -->  | 0 (-) | 2 (-) |
+     2 (c)  -->  | 1 (-) | 3 (:) | 7 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 6 (:) |
+     6 (c)  -->  | 5 (:) | 7 (:) | 8 (-) |
+     7 (c)  -->  | 6 (:) | 2 (:) |
+     8 (C)  -->  | 6 (-) | 9 (#) |
+     9 (N)  -->  | 8 (#) |
+
+
+ parse single SMILES string 1 :
+
+ SMILES = 'COc(cc1)ccc1C#N'
+
+ ==> singleSMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (O)  -->  | 0 (-) | 2 (-) |
+     2 (c)  -->  | 1 (-) | 3 (:) | 5 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 7 (:) |
+     5 (c)  -->  | 2 (:) | 6 (:) |
+     6 (c)  -->  | 5 (:) | 7 (:) |
+     7 (c)  -->  | 6 (:) | 4 (:) | 8 (-) |
+     8 (C)  -->  | 7 (-) | 9 (#) |
+     9 (N)  -->  | 8 (#) |
+
+
+ parse single SMILES string 2 :
+
+ SMILES = 'c1ccccc1c2ccccc2'
+
+ ==> singleSMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (c)  -->  | 1 (:) | 5 (:) |
+     1 (c)  -->  | 0 (:) | 2 (:) |
+     2 (c)  -->  | 1 (:) | 3 (:) |
+     3 (c)  -->  | 2 (:) | 4 (:) |
+     4 (c)  -->  | 3 (:) | 5 (:) |
+     5 (c)  -->  | 4 (:) | 0 (:) | 6 (-) |
+     6 (c)  -->  | 5 (-) | 7 (:) | 11 (:) |
+     7 (c)  -->  | 6 (:) | 8 (:) |
+     8 (c)  -->  | 7 (:) | 9 (:) |
+     9 (c)  -->  | 8 (:) | 10 (:) |
+    10 (c)  -->  | 9 (:) | 11 (:) |
+    11 (c)  -->  | 10 (:) | 6 (:) |
+
+
+==============================================
+
+
+ parse multi SMILES string 0 :
+
+ SMILES = 'CC.O.[CH4]'
+
+ ==> multiSMILES Parser succeeded
+ ==> resulting graph :
+
+     0 (C)  -->  | 1 (-) |
+     1 (C)  -->  | 0 (-) |
+     2 (O)  -->  |
+     3 (C)  -->  | 4 (-) | 5 (-) | 6 (-) | 7 (-) |
+     4 (H)  -->  | 3 (-) |
+     5 (H)  -->  | 3 (-) |
+     6 (H)  -->  | 3 (-) |
+     7 (H)  -->  | 3 (-) |
+
+
+==============================================
+
+
+ parse reaction SMILES string 0 :
+
+ SMILES = '[C:13][C-2:2].[O:3]>>[O:3]=[C:2][C:13]'
+
+ ==> reactionSMILES Parser succeeded
+ ==> create rule :
+
+rule [
+ ruleID "parsed rule"
+ context [
+  node [ id 0 label "C" ]
+  node [ id 2 label "O" ]
+  edge [ source 0 target 1 label "-" ]
+ ]
+ left [
+  node [ id 1 label "C-2" ]
+ ]
+ right [
+  node [ id 1 label "C" ]
+  edge [ source 2 target 1 label "=" ]
+ ]
+]
+
+ Rule ID  : 'parsed rule'
+
+ LeftSide :
+nodes = 0, 1, 2, 
+
+ Context :
+nodes = 0, 2, 
+
+ RightSide :
+nodes = 0, 1, 2, 
+
+
+===============  TEST END  ===================
+==============================================
+

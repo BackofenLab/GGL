@@ -1,0 +1,133 @@
+
+/**
+ * \mainpage GGL - Graph Grammar Library
+ *
+ * <center> GGL - @VERSION@ </center>
+ *
+ * This document provides reference information about the 
+ * <A HREF="http://www.bioinf.uni-freiburg.de/">Graph Grammar Library</A>.
+ * 
+ * \section SecGoals The goal
+ * 
+ * This C++ programming library provides a platform for the formulation and
+ * application of context sensitive graph grammars on arbitrary labeled graphs.
+ * 
+ * It is split into several sub-libraries to achieve a high level of modularity.
+ * 
+ * \section SecLibs Libraries
+ * 
+ * \subsection SubSecGGL GGL - Graph Grammar Library
+ * 
+ * The GGL collects the necessary interfaces and core functionalities to enable
+ * the formulation of graph grammar rules and their application.
+ * Therefore, the algorithms use the sgm::Graph_Interface to
+ * enable the independence of the concrete graph implementation used. 
+ * The rule definition is currently based on BGL graphs which allows for a 
+ * high level of flexibility (see \ref SecDependencies)
+ * All classes and functions are templated to maintain the flexibility of the
+ * boost graphs.
+ * 
+ * The GGL is extended by the GGL-CHEM library (see \ref SubSecGGLCHEM) for
+ * the application of graph grammars to chemical molecules and reactions.
+ * 
+ * The application of graph grammar rules is based on the detection of 
+ * subgraph isomorphisms. This is done using the SGM library.
+ * 
+ * \subsection SubSecSGM SGM - Subgraph Matching Library
+ * 
+ * The SGM library provides a generic interface for graph or subgraph isomorphism 
+ * algorithms. A graph handled by the SGM has to implement the 
+ * sgm::Graph_Interface. A templated wrapper class for BGL graphs is provided.
+ * Furthermore, graphs that serve as patterns have to provide the extended
+ * sgm::Pattern_Interface interface.
+ * 
+ * A first implementation of a subgraph matcher is done based on the VF2 library.
+ * The VF2 algorithm is the state-of-the-art algorithm for this objective.
+ * We integrated the VF2 library source into the package to reduce the 
+ * dependencies of the package. See the vflib2* folder in the source directory.
+ * 
+ * \subsection SubSecGGLCHEM GGL-CHEM - GGL Chemistry
+ * 
+ * This library extends the GGL with classes to represent chemical molecules as
+ * BGL graphs. The molecules are read and written in the standard Daylight's 
+ * SMILES format. The graph grammar rules specify valid chemical reactions that
+ * modify molecules.
+ * 
+ * \subsection SubSecTools GGL Tools	
+ * 
+ * Based on the GGL we have set up several tools for a direct application of the
+ * library.
+ * 
+ * - toyChem : iterative simulation of chemical reactions using GGL-CHEM
+ * 
+ * 
+ *
+ * 
+ * \section SecDependencies Dependencies
+ * 
+ * The GGL depends on the following libraries:
+ * 
+ * - the <A HREF="http://www.boost.org/doc/libs/release/libs/graph/"> BGL - Boost Graph Library </A> (version >= 1.36.0)
+ *
+ * Optionally one can extend the function volume of GGL-CHEM using
+ *
+ * - the <A HREF="http://openbabel.org"> OpenBabel - The Open Source Chemistry Toolbox</A> (optional and version >= 2.2.0)
+ *
+ * 
+ * \section SecApp Appendix
+ * 
+ * Additionally, the documentation also features the following parts:
+ *  - \ref PageInstallation
+ *  - \ref PageTests
+ *
+ * The following lists and indices are available
+ *  - <a class="el" href="annotated.html">List of all classes including brief documentation</a>
+ *  - <a class="el" href="namespaces.html">List of all namespaces including brief documentation</a>
+ *  - <a class="el" href="files.html">List of all files</a>
+ *  - <a class="el" href="hierarchy.html">Class hierarchy</a>
+ *  - <a class="el" href="classes.html">Alphabetical class index</a>
+ *  - <a class="el" href="namespacemembers.html">Namespace members</a>
+ *  - <a class="el" href="functions.html">Class members</a>
+ *  - <a class="el" href="globals.html">File members</a>
+ */
+
+
+
+/**
+ * \page PageInstallation Installation
+ * 
+ * Follow this steps to create a local version of the GGL:
+ * 
+ * - download and unzip the 
+ *   <A HREF="http://www.bioinf.uni-freiburg.de/"> GGL source package </A> 
+ *   distribution
+ * 
+ * - run "./configure --help" to get an overview of further possible parameters
+ * - run "./configure" with your desired parameters to generate the Makefiles
+ * - "make" to generate the library
+ * 
+ * - "make test" to test if everything works fine (if not please report)
+ * 
+ * - "make install" to install the headers and library to the given directory
+ * 
+ * - "make doc" to generate the html documentation (if selected during the
+ *   configure call)
+ * - "make doxygen-doc" to generate the whole documentation
+ *
+ * See the file INSTALL in the library root path for further informations.
+ * 
+ */
+ 
+/**
+ * \page PageTests Test cases and usage examples
+ * 
+ * To check if the GGL does function as expected a set of tests was implemented
+ * for each non-abstracted class. 
+ * 
+ * The source code can be used as an example for the usage of the GGL-classes.
+ * 
+ * All files can be found in a subfolder named "tests" in the GGL root
+ * directory. They are named in the format "testCLASSNAME.cc".
+ * 
+ */
+

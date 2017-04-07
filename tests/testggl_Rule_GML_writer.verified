@@ -1,0 +1,205 @@
+
+======= RULE GML TO PARSE =======
+  3(D) -1- 1(B)               3(E) -1- 1(B) 
+   |      /                    |        |   
+   2    3           ==>        4        3   
+   |  /                        |        |   
+  2(C) -0- 0(A)               2(C)     4(D) 
+
+=================================
+rule [
+		ruleID "Rule1gml"        context [  
+                node [ id 1 label "B" ]  
+                node [ id 2 label "C" ]  
+                edge [ source 1 target 3 label "-1-" ]  
+        ]  
+        left [  
+                node [ id 0 label "A" ]  
+                node [ id 3 label "D" ]  
+                edge [ source 0 target 2 label "-0-" ]  
+                edge [ source 1 target 2 label "-3-" ]  
+                edge [ source 2 target 3 label "-2-" ]  
+        ]  
+        right [  
+                node [ id 3 label "E" ]
+                node [ id 4 label "D" ]
+                edge [ source 2 target 3 label "-4-" ]  
+                edge [ source 1 target 4 label "-3-" ]  
+        ]  
+]
+=================================
+
+========= WRITE RULE ===========
+rule [
+ ruleID "Rule1gml"
+ context [
+  node [ id 1 label "B" ]
+  node [ id 2 label "C" ]
+  edge [ source 1 target 3 label "-1-" ]
+ ]
+ left [
+  node [ id 0 label "A" ]
+  node [ id 3 label "D" ]
+  edge [ source 0 target 2 label "-0-" ]
+  edge [ source 1 target 2 label "-3-" ]
+  edge [ source 2 target 3 label "-2-" ]
+ ]
+ right [
+  node [ id 3 label "E" ]
+  node [ id 4 label "D" ]
+  edge [ source 1 target 4 label "-3-" ]
+  edge [ source 2 target 3 label "-4-" ]
+ ]
+]
+
+=================================
+
+======= RULE GML TO PARSE =======
+  0(C)   1(C) * 2(C)               0(C) - 1(C) - 2(C) 
+                                                      
+   ||                     ==>       |             |   
+                                                      
+  5(*) - 4(C) = 3(C)               5(*) = 4(C) - 3(C) 
+
+=================================
+rule [
+ ruleID "Rule2gml" context [
+   node [ id 0 label "C" ]
+   node [ id 1 label "C" ]
+   node [ id 2 label "C" ]
+   node [ id 3 label "C" ]
+   node [ id 4 label "C" ]
+   node [ id 5 label "*" ]
+ ]
+ left [
+   edge [ source 1 target 2 label "*" ]
+   edge [ source 3 target 4 label "=" ]
+   edge [ source 4 target 5 label "-" ]
+   edge [ source 5 target 0 label "=" ]
+ ]
+ right [
+   edge [ source 0 target 1 label "-" ]
+   edge [ source 1 target 2 label "-" ]
+   edge [ source 2 target 3 label "-" ]
+   edge [ source 3 target 4 label "-" ]
+   edge [ source 4 target 5 label "=" ]
+   edge [ source 5 target 0 label "-" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 5
+   nodeLabels [ label "H" label "X" ]
+   edgeLabels [ label "-" ]
+ ]
+ constrainAdj [
+   id 3
+   op <
+   count 2
+   edgeLabels [ label "=" ]
+ ]
+ constrainAdj [
+   id 2
+   op >
+   count 0
+ ]
+ constrainNode [
+   id 5
+   nodeLabels [ label "H" label "X" ]
+ ]
+ constrainNode [
+   id 5
+   op =
+   nodeLabels [ label "H" label "X" ]
+ ]
+ constrainNode [
+   id 5
+   op !
+   nodeLabels [ label "Z" ]
+ ]
+ constrainEdge [
+   source 1
+   target 2
+   edgeLabels [ label "=" label "#" ]
+ ]
+ constrainEdge [
+   source 1
+   target 2
+   op =
+   edgeLabels [ label "=" label "#" ]
+ ]
+ constrainEdge [
+   source 1
+   target 2
+   op !
+   edgeLabels [ label "-" ]
+ ]
+ constrainNoEdge [
+   source 0
+   target 2
+ ]
+]
+=================================
+
+========= WRITE RULE ===========
+rule [
+ ruleID "Rule2gml"
+ context [
+  node [ id 0 label "C" ]
+  node [ id 1 label "C" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "C" ]
+  node [ id 4 label "C" ]
+  node [ id 5 label "*" ]
+ ]
+ left [
+  edge [ source 1 target 2 label "*" ]
+  edge [ source 3 target 4 label "=" ]
+  edge [ source 4 target 5 label "-" ]
+  edge [ source 5 target 0 label "=" ]
+ ]
+ right [
+  edge [ source 0 target 1 label "-" ]
+  edge [ source 1 target 2 label "-" ]
+  edge [ source 2 target 3 label "-" ]
+  edge [ source 3 target 4 label "-" ]
+  edge [ source 4 target 5 label "=" ]
+  edge [ source 5 target 0 label "-" ]
+ ]
+]
+
+=================================
+
+======= RULE GML TO PARSE =======
+  1(A) --- 2(B)   -->  2(B)+edges(A)
+
+=================================
+rule [
+        ruleID "Rule3gml"        context [  
+                node [ id 2 label "B" ]  
+        ]  
+        left [  
+                node [ id 1 label "A" ]  
+                edge [ source 1 target 2 label "---" ]  
+        ]  
+        wildcard "A"
+        copyAndPaste [ source 1 id 2 ]
+        copyAndPaste [ source 1 id 2 target 2 ]
+        copyAndPaste [ source 1 id 2 edgeLabels [ label "+++" ] ]
+        copyAndPaste [ source 1 id 2 target 2 edgeLabels [ label "+++" ] ]
+]
+=================================
+
+========= WRITE RULE ===========
+rule [
+ ruleID "Rule3gml"
+ context [
+  node [ id 1 label "B" ]
+ ]
+ left [
+  node [ id 0 label "A" ]
+  edge [ source 0 target 1 label "---" ]
+ ]
+]
+
+=================================

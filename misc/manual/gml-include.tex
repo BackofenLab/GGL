@@ -1,0 +1,63 @@
+
+%%%
+\subsection{Introduction to the specification language \GML{}}
+
+Within the \GGL{}, graphs and graph rewrite rules are specified in a
+language called \GML{} (Graph Modeling Language). Essentially,
+\GML{} is composed of hierarchical \textbf{key--value} pairs. Keys are
+usually strings (some identifiers) and values specify the value of the
+corresponding key. Values are either single values (numbers, strings, etc) or
+lists of key--value pairs. Lists \textbf{must always} be enclosed in opening '['
+and closing ']' brackets in \GML{}. Nesting of lists to arbitrary depth is
+allowed in \GML{}. The general structure of a \GML{} specification
+looks as follows: \startGML
+\begin{verbatim}
+key1 [
+ key2 value2
+ key3 [
+  key4 value4
+  key5 value5
+ ]
+ key6 value6
+] 
+\end{verbatim}
+\endGML
+
+\noindent In the above code snippet keys 1 and 3 have both a list as value
+(hence the brackets). Keys 2, 4--6 are key--value pairs where the
+corresponding values are single values such as numbers or strings.
+
+%%%
+\subsection{BNF of \GML{}}
+% BNF grammar of GML (http://www.infosun.fim.uni-passau.de/Graphlet/GML/)
+
+Following is the grammar specification of \GML{} in \emph{Boyes Normal
+Form (BNF)}.
+
+\startGML
+\begin{verbatim}
+gml       ::= keyvalues
+keyvalues ::= keyvalue (keyvalue)*
+keyvalue  ::= key value
+key       ::= ['a'-'z''A'-'Z']['a'-'z''A'-'Z''0'-'9']
+value     ::= real | integer | string | list | operator
+real      ::= sign? digit  '.' digit+ mantissa?
+integer   ::= sign? digit+
+operator  ::= '<' | '=' | '>' | '!'
+string    ::= '"' instring '"'
+list      ::= '[' keyvalues ']'
+sign      ::= '+' | '-'
+digit     ::= ['0'-'9']
+mantissa  ::= ('E' | 'e') sign? digit+
+instring  ::= ASCII-{'&', '"'} | '&' ['a'-'z''A'-'Z']  ';'
+\end{verbatim}
+\endGML
+
+\noindent The \GML{}-parser in \GGL{} can parse any well formed
+\GML{} file that conforms to the above \texttt{BNF} grammar
+specification. However the parser interprets only a subset of ``known''
+key--value pairs (see according section) all other well-formed
+key--value pairs are \textbf{silently ignored} (Note: a source of errors
+is \underline{misspelling of known keys} since the parsing is
+\underline{case-sensitive}).
+

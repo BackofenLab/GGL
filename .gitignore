@@ -1,0 +1,51 @@
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# eclipse config files
+.project
+.settings
+.cproject
+.autotools
+
+
+# temporary autotools files
+config.*
+*Makefile
+*Makefile.in
+autom4te.cache
+configure
+configure.in
+missing
+install-sh
+depcomp
+aclocal.m4
+compile
+*/.deps
+*/.deps/*

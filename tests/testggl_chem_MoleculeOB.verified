@@ -1,0 +1,29 @@
+
+check 'OCC1OC(O)C(O)C(O)C1O' from Molecule:
+ weight():      true
+ weight(true):  true
+ weight(false): true
+check '[H]C(=O)[H]' from Molecule:
+ weight():      true
+ weight(true):  true
+ weight(false): true
+check '[OH][CH3][CH2](O)[CH2](O)[CH2](O)[CH2](O)[CH2]O' from Molecule:
+ weight():      true
+ weight(true):  true
+ weight(false): true
+
+check 'OCC1OC(O)C(O)C(O)C1O' from Molecule:
+ energy(): true
+check '[H]C(=O)[H]' from Molecule:
+ energy(): true
+check '[OH][CH3][CH2](O)[CH2](O)[CH2](O)[CH2](O)[CH2]O' from Molecule:
+ energy(): true
+
+	convert from : 'OCC1OC(O)C(O)C(O)C1O'
+	          to : 'OCC1OC(O)C(O)C(O)C1O'
+
+	convert from : 'C=O'
+	          to : 'C=O'
+
+	convert from : 'OC[CH2](O)[CH2](O)[CH2](O)[CH2](O)[CH3]O'
+	          to : 'OC[CH2](O)[CH2](O)[CH2](O)[CH2](O)[CH3]O'

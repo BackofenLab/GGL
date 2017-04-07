@@ -1,0 +1,302 @@
+% tutorial-rules.tex Last changed Time-stamp: <2010-09-23 12:03:14 xtof> $Id:
+% tutorial-rules.tex,v 1.15 2012/05/08 17:22:37 mmann Exp $  -*-latex-*-
+\NeedsTeXFormat{LaTeX2e}
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{color}
+\usepackage{courier}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{longtable}
+\usepackage[calc]{picture}
+	\setlength{\unitlength}{1em}
+\usepackage[table]{xcolor}
+\usepackage{url}
+\usepackage[version=3]{mhchem}
+
+
+% include the general settings for all tutorials
+\input{@top_srcdir@/misc/manual/def-include}
+
+\def\builddir{@top_srcdir@/misc/manual}
+
+\title{\GGL{}  Frequently Asked Questions\\
+\includegraphics[width=.2\textwidth]{@top_srcdir@/misc/logo/GGL-logo}}
+
+\author{Christoph Flamm$^{1,}$\thanks{Send comments to
+\texttt{xtof@tbi.univie.ac.at} or \texttt{mmann@informatik.uni-freiburg.de}}
+		 \ and Martin Mann$^2$\\[2ex] 
+		 $^1$~Institute for Theoretical Chemistry, Vienna University\\[2ex]
+        \includegraphics[width=.3\textwidth]{\builddir/Figures/univielogo}\hspace{3em}\\[2ex]
+		 $^2$~Bioinformatics Group, University of Freiburg\\[2ex]
+        \includegraphics[height=.15\textwidth]{\builddir/Figures/unifrlogo}
+        }
+
+\date{\small{\url{http://www.tbi.univie.ac.at/software/GGL/}}\\[2ex]
+      Version~\today\\[3ex]}
+
+
+
+
+
+
+\lstset{ 
+basicstyle=\footnotesize\ttfamily, % Standardschrift 
+numbers=left, % Ort der Zeilennummern 
+numberstyle=\tiny, % Stil der Zeilennummern
+% stepnumber=2, % Abstand zwischen den Zeilennummern
+numbersep=5pt, % Abstand der Nummern zum Text 
+tabsize=2, % Groesse von Tabs
+extendedchars=true, % 
+breaklines=true, % Zeilen werden Umgebrochen
+keywordstyle=\color{orange}\bfseries, 
+frame=b,
+% keywordstyle=[1]\textbf, % Stil der Keywords 
+% keywordstyle=[2]\textbf, 
+% keywordstyle=[3]\textbf, 
+% keywordstyle=[4]\textbf, \sqrt{\sqrt{}} 
+stringstyle=\color{white}\ttfamily, % Farbe der String 
+showspaces=false, %Leerzeichen anzeigen ? 
+showtabs=false, % Tabs anzeigen ? 
+xleftmargin=17pt,
+framexleftmargin=17pt, 
+framexrightmargin=5pt, 
+framexbottommargin=4pt,
+commentstyle=\color{8},
+% backgroundcolor=\color{grey},
+showstringspaces=false, % Leerzeichen in Strings anzeigen ?
+morekeywords={__global__} % CUDA specific keywords 
+}
+\lstloadlanguages{C,C++}
+\usepackage{caption} \DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{8}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white,
+singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+
+% %%%%%%%%%%%%%%%
+\begin{document}
+
+% %% Title page
+\maketitle
+\begin{center}
+	Built for \GGL{}  version @VERSION@
+\end{center}
+\thispagestyle{empty}
+\newpage
+
+%%%
+\tableofcontents
+\newpage
+\setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{General Questions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Questions by Hans Peschke to be distributed when answered}
+
+\begin{itemize}
+  \item 
+Welche Nomenklatur von Graph Grammars benutzen Sie? (d.h. ein Verweis in die Literatur zur Theorie der Graph Grammars, sowie deren Implementierung von wesentlichen Algorithmen, waere sehr hilfreich, um sich in Verbindung mit ihrer Library tiefer in das Thema einzulesen)
+\item 
+Wie erzeugt man Graphen?
+\item 
+Ob und wie kann man Graphen durch die Anwendung von Produktionsregeln erzeugen automatisch erzeugen lassen?
+\item 
+Welche Schritte sind notwendig, um Graphen nach gewissen Regeln zu veraendern?
+\item 
+Ideen fuer Beispiele:
+\begin{itemize}
+  \item 
+Start mit einem Knoten und rekursive Ersetzung der Knoten durch kleine Graphen
+  \item 
+Binaerbaum
+  \item 
+Erzeugung eines k-dim. cubes
+  \item 
+vollstaendiger Graph
+\end{itemize}
+
+\end{itemize}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Grammars and Graph Rewrite Systems}
+
+\subsection{What are Graph Grammars?}
+\subsection{What are Graph Rewrite Systems?}
+\subsection{How does a Double Push Out (DPO) Approach work?}
+\subsection{What rewrite approach is used within the \GGL?}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Definition}
+
+\subsection{What is \GML?}
+\subsection{How to specify a graph in \GML?}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Grammar Rule Definition}
+
+\subsection{What is a graph grammar rule?}
+\subsection{How to specify a graph grammar rule in \GML?}
+
+Consider the following graph grammar rule that adds a new node ``D'' and a
+connecting edge to ``B'' with label ``BD'', relabels a node ``A'' to ``C'' and
+relabels the connecting edge too ``B'' from ``AB'' to ``CB''.
+
+\begin{picture}(14,7)
+\put(1,1){\circle{2}}
+\put(.7,.7){B}
+\put(1,5){\circle{2}}
+\put(.7,4.7){A}
+\put(1,2){\line(0, 1){2}}
+\put(1.5,2.7){AB}
+
+\put(4,1){\vector(1, 0){2}}
+\put(4,5){\vector(1, 0){2}}
+
+\put(9,1){\circle{2}}
+\put(8.7,.7){B}
+\put(9,5){\circle{2}}
+\put(8.7,4.7){C}
+\put(9,2){\line(0, 1){2}}
+\put(9.5,2.7){CB}
+\put(13.5,1){\circle{2}}
+\put(13.2,.7){D}
+\put(10,1){\line(1, 0){2.5}}
+\put(10.5,1.2){BD}
+\end{picture}	
+
+An according \GML{} encoding would look like this:
+
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "Relabel node 1 and edge 1-2 and add node 3"
+ left [
+  node [ id 1 label "A" ]
+  edge [ source 1 target 2 label "AB" ]
+ ]
+ context [
+  node [ id 2 label "B" ]
+ ]
+ right [
+  node [ id 1 label "C" ]
+  node [ id 3 label "D" ]
+  edge [ source 1 target 2 label "CB" ]
+  edge [ source 2 target 3 label "BD" ]
+ ]
+]
+\end{verbatim}
+\endGML
+
+\emph{Note:} A standard DPO approach would remove node ``A'' and add a new node
+``C'' (including subsequent rewiring) instead of doing a direct node relabeling.
+Within the \GGL{} framework, we enable the direct relabeling of nodes that make
+the following ``rewiring'' of the loose ends (cause by the removal of ``A'')
+with the newly introduced node ``C'' obsolete. But this \emph{relabeling isexclusive to nodes}! The ``relabeling'' of edges is done via the removal of edge ``AB'' andthe adding of a new ``CB'' edge.\subsection{Are wildcards allowed?}
+\subsection{Can I further constrain the matching?}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\GGL{} C++ Questions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\lstset{language=C++} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{General}
+
+\subsection{How to compile the GGL library?}
+\subsection{How to use and link the GGL library?}
+
+\begin{verbatim}
+######################################################
+# the GGL installation directory (after 'make install')
+GGL_install_dir=....
+
+# ggl specific compilation flags
+GGL_CXXFLAGS = -I$(GGL_install_dir)/include
+
+# ggl linker flags (note: the order is important for g++)
+# if you need the whole package
+GGL_LDFLAGS = -L$(GGL_install_dir)/lib -lgglchem -lnspdk -lsgd -lggl -lsgm_vf2 -lsgm -lvf2
+
+# if you need the ggl package only
+GGL_LDFLAGS = -L$(GGL_install_dir)/lib -lggl -lsgm_vf2 -lsgm -lvf2
+######################################################
+\end{verbatim}
+
+\subsection{Where to find examples?}
+ within tests
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graphs}
+
+\subsection{What graph object is used?}
+	\lstinline{#include <ggl/Graph.hh>} :
+	\lstinline{ggl::Graph == boost::adjacency_list}
+\subsection{What types of graphs are possible?}
+	only labeled undirected graphs
+\subsection{How to access graph properties?}
+	either via boost functions or via 
+	\lstinline{ggl::Graph_boost} i.e. \lstinline{sgm::Graph_Interface}
+	(link)
+\subsection{How to parse a graph from \GML{} definition?}
+	example of \lstinline{ggl::Graph_GMLparser}
+\begin{lstlisting}
+	\caption{example of a graph creation from \GML{}  string}
+	ggl/Graph.hh : ggl::Graph == boost::adjacency_list
+\end{lstlisting}
+\subsection{How to write a graph in \GML{} format?}
+	example of \lstinline{ggl::Graph_GML_writer}
+\subsection{How to write a graph in \GXL{} format?}
+	example of \lstinline{ggl::Graph_GML_writer}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{(Sub)graph Matching}
+
+\subsection{What is the \lstinline{sgm::Graph_Interface} and what is it used
+for?}
+\subsection{How to search for a subgraph within a target graph?}
+	example of \lstinline{sgm::SubGraphMatching} using \lstinline{sgm::SGM_VF2}
+\subsection{How to find graph isomorphisms / do graph matching?}
+	example of \lstinline{sgm::GraphMatching} using \lstinline{sgm::GM_VF2}
+\subsection{What matching algorithms are used and available?}
+	discuss possible integration of any algorithm and link to VF2 algorithm as
+	current standard approach
+\subsection{What is the VF2 algorithm?}
+	reference and discuss VF2 algorithm
+\subsection{How are matches handled?}
+	discuss \lstinline{sgm::Match_Reporter} interface and show different examples
+	for counting, output writing etc.
+\subsection{Is there a possibility for automorphism/symmetry exclusion?}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Grammar Rules}
+
+\subsection{How to read/load a graph grammar rule from \GML{} format?}
+	example \lstinline{ggl::Rule_GMLparser}
+\subsection{How to apply a graph grammar rule?}
+	discuss usage of matching framework (link)
+	example \lstinline{ggl::MR_ApplyRule} with \lstinline{ggl::GS_STL} storage
+\subsection{How to handle/apply multi-component graph grammar rules?}
+	discuss recursive component-wise rule application as done within toyChemUtil
+
+
+%%%%%%%%%%%%%%
+\end{document}
+

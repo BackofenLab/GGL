@@ -1,0 +1,209 @@
+==============  BEGIN TEST  ==================
+==============================================
+               bin/aromModelNSPDK
+==============================================
+
+ --> checking help
+
+ => usage:	aromModelNSPDK -mode=... [...optional parameters]
+
+ => complete parameterlist:
+
+   -mode=..  Running mode : 'train' : train a model using the given parameters;
+         'xval' : does an 'xval'-cross validation using the given model training
+         parameters and prints target-prediction value pairs to 'out'; 'cluster'
+         : clusters the training data based on feature identity for a model
+         using the given parameters; 'test' : tests the prediction of ring wise
+         and for whole molecules (model needed); 'apply' : applies the given
+         model to each molecule and prints the corrected SMILES (model needed)
+         type=str 
+  [-smiles=..] SMILES input file name or 'STDIN' when to read from standard input
+         type=str   default="STDIN"
+  [-out=..] Output file name or 'STDOUT' when to write to standard output
+         type=str   default="STDOUT"
+  [-log=..] Log file name or 'STDERR'/'STDOUT' when to write to standard error /
+         output
+         type=str   default="STDERR"
+  [-prediction=..] Prediction file name or 'STDERR'/'STDOUT' when to write to standard
+         error / output
+         type=str 
+  [-model=..] models input file name, or 'STDIN' when to read from standard input, or
+         a single letter code for one of the default models : (O)penBabel or
+         (M)arvin general mode.
+         type=str   default="STDIN"
+  [-modelID=..] the models ID to set
+         type=str   default="NSPDK-SGD-aromaticity-model"
+  [-maxRingSize=..] the maximal ring size to be considered for aromatic ring
+         training/testing
+         type=int   default="13"
+  [-ringCentered] NSPDK: if given, the NSPDK features have to touch the ring of interest
+         in at least one node
+         type=bool
+  [-nspdkMaxRingDistance=..] NSPDK: IF(ringCentered) : the distance from ring nodes to be considered
+         for feature generation
+         type=int 
+  [-nspdkMaxDistance=..] NSPDK: the maximal distance between nodes to be considered for feature
+         generation
+         type=int   default="4"
+  [-nspdkMaxRadius=..] NSPDK: the maximal radius around nodes to be considered for feature
+         generation
+         type=int   default="2"
+  [-nspdkFeatureBitSize=..] NSPDK: the number of bits used to encode the NSPDK features
+         type=int   default="22"
+  [-lambda=..] [mode=train] the lambda factor used by the SGD framework
+         type=dbl   default="1e-4"
+  [-epochs=..] [mode=train] the number of training epochs performed by the SGD
+         framework
+         type=int   default="5"
+  [-outClustLists=..] [mode=cluster] number of random cluster sample lists to be reported
+         type=int   default="1"
+  [-xval=..] [mode=xval] sets the X for X-cross validation, ie. the number of groups
+         to randomly split the input into
+         type=int   default="10"
+  [-outNodeWeight] [mode=apply] output is given in GML format where for each ring the
+         normalized feature weights for view point nodes are provided
+         type=bool
+  [-help] Displays help on all parameters
+         type=bool
+  [-version] Version information
+         type=bool
+
+
+ => informations:
+
+
+Reads a list of SMILES and trains/tests/applies an aromaticity model using NSPDK
+and the SGD framework.
+
+
+
+
+ => usage:	aromModelNSPDK -mode=... [...optional parameters]
+
+
+
+ --> precall   = cat toyChem/purine.smi | grep -E ^# -v | 
+ --> parameter = -mode=apply -model=O
+ --> postcall  =  
+ --> full call = cat toyChem/purine.smi | grep -E ^# -v |  ../src/bin/aromModelNSPDK -mode=apply -model=O   2>&1
+
+c1ncc2[nH]cnc2n1
+c1ncc2[nH]cnc2n1
+c1ncc2[nH]cnc2n1
+c1ncc2[nH]cnc2n1
+Nc1ncnc2nc[nH]c12
+Nc1ncnc2nc[nH]c12
+Nc1ncnc2nc[nH]c12
+Nc1ncnc2nc[nH]c12
+Nc1ncnc2nc[nH]c12
+Nc1nc2[nH]cnc2c(=O)[nH]1
+Nc1nc2[nH]cnc2c(=O)[nH]1
+Nc1nc2[nH]cnc2c(=O)[nH]1
+Nc1nc2[nH]cnc2c(=O)[nH]1
+Nc1ncnc2c1ncn2C3OC(CO)C(O)C3O
+Nc1ncnc2c1ncn2C3OC(CO)C(O)C3O
+Nc1ncnc2c1ncn2C3OC(CO)C(O)C3O
+Nc1nc2c(ncn2C3OC(CO)C(O)C3O)c(=O)[nH]1
+Nc1nc2c(ncn2C3OC(CO)C(O)C3O)c(=O)[nH]1
+Nc1nc2c(ncn2C3OC(CO)C(O)C3O)c(=O)[nH]1
+Nc1nc2c(ncn2C3OC(CO)C(O)C3O)c(=O)[nH]1
+
+ --> precall   =  echo 'c1nc2c(=O)[nH]c(nc2n1[CH]3[CH]([CH]([CH](O3)CO)O)O)N' | 
+ --> parameter =  -model=M -mode=apply -outNodeWeight
+ --> postcall  =  | sed 's/]/]\n/g' 
+ --> full call =  echo 'c1nc2c(=O)[nH]c(nc2n1[CH]3[CH]([CH]([CH](O3)CO)O)O)N' |  ../src/bin/aromModelNSPDK  -model=M -mode=apply -outNodeWeight  | sed 's/]/]\n/g'  2>&1
+
+graph[node[id 0 label "c"]
+node[id 1 label "n"]
+node[id 2 label "c"]
+node[id 3 label "c"]
+node[id 4 label "O"]
+node[id 5 label "n"]
+node[id 6 label "c"]
+node[id 7 label "n"]
+node[id 8 label "c"]
+node[id 9 label "n"]
+node[id 10 label "C"]
+node[id 11 label "C"]
+node[id 12 label "C"]
+node[id 13 label "C"]
+node[id 14 label "O"]
+node[id 15 label "C"]
+node[id 16 label "O"]
+node[id 17 label "O"]
+node[id 18 label "O"]
+node[id 19 label "N"]
+node[id 20 label "H"]
+node[id 21 label "H"]
+node[id 22 label "H"]
+node[id 23 label "H"]
+node[id 24 label "H"]
+node[id 25 label "H"]
+node[id 26 label "H"]
+node[id 27 label "H"]
+node[id 28 label "H"]
+node[id 29 label "H"]
+node[id 30 label "H"]
+node[id 31 label "H"]
+node[id 32 label "H"]
+edge[source 1 target 0 label ":"]
+edge[source 2 target 1 label ":"]
+edge[source 3 target 2 label ":"]
+edge[source 4 target 3 label "="]
+edge[source 5 target 3 label ":"]
+edge[source 6 target 5 label ":"]
+edge[source 7 target 6 label ":"]
+edge[source 8 target 7 label ":"]
+edge[source 8 target 2 label ":"]
+edge[source 9 target 8 label ":"]
+edge[source 9 target 0 label ":"]
+edge[source 10 target 9 label "-"]
+edge[source 11 target 10 label "-"]
+edge[source 12 target 11 label "-"]
+edge[source 13 target 12 label "-"]
+edge[source 14 target 13 label "-"]
+edge[source 14 target 10 label "-"]
+edge[source 15 target 13 label "-"]
+edge[source 16 target 15 label "-"]
+edge[source 17 target 12 label "-"]
+edge[source 18 target 11 label "-"]
+edge[source 19 target 6 label "-"]
+edge[source 5 target 20 label "-"]
+edge[source 10 target 21 label "-"]
+edge[source 11 target 22 label "-"]
+edge[source 12 target 23 label "-"]
+edge[source 13 target 24 label "-"]
+edge[source 0 target 25 label "-"]
+edge[source 15 target 26 label "-"]
+edge[source 15 target 27 label "-"]
+edge[source 16 target 28 label "-"]
+edge[source 17 target 29 label "-"]
+edge[source 18 target 30 label "-"]
+edge[source 19 target 31 label "-"]
+edge[source 19 target 32 label "-"]
+ring [label "aromatic:1.61158" ringNodes [ id 2 id 1 id 0 id 9 id 8 ]
+nodeWeight [ id 2 label "0.999873" ]
+nodeWeight [ id 1 label "0.999991" ]
+nodeWeight [ id 0 label "0.999985" ]
+nodeWeight [ id 9 label "0.979322" ]
+nodeWeight [ id 8 label "0.999855" ]
+]
+ring [label "non-aromatic:2.36298" ringNodes [ id 14 id 10 id 11 id 12 id 13 ]
+nodeWeight [ id 14 label "-0.998922" ]
+nodeWeight [ id 10 label "-0.952518" ]
+nodeWeight [ id 11 label "-0.999998" ]
+nodeWeight [ id 12 label "-1" ]
+nodeWeight [ id 13 label "-0.999995" ]
+]
+ring [label "aromatic:1.56963" ringNodes [ id 2 id 3 id 5 id 6 id 7 id 8 ]
+nodeWeight [ id 2 label "0.998547" ]
+nodeWeight [ id 3 label "0.997012" ]
+nodeWeight [ id 5 label "0.999702" ]
+nodeWeight [ id 6 label "0.939492" ]
+nodeWeight [ id 7 label "0.999998" ]
+nodeWeight [ id 8 label "0.999999" ]
+]
+]
+
+
+===============  END TEST  ===================

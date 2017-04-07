@@ -1,0 +1,70 @@
+rule [
+   ruleID "Lactat-Dehydrogenase"
+	left [
+# NAD+ with aromatic ring 
+	  node [ id 0 label "n+" ]
+	  node [ id 1 label "c" ]
+	  node [ id 2 label "c" ]
+	  node [ id 3 label "c" ]
+	  node [ id 4 label "c" ]
+	  node [ id 5 label "c" ]
+	  edge [ source 1 target 0 label ":" ]
+	  edge [ source 2 target 1 label ":" ]
+	  edge [ source 3 target 2 label ":" ]
+	  edge [ source 4 target 3 label ":" ]
+	  edge [ source 5 target 4 label ":" ]
+	  edge [ source 5 target 0 label ":" ]
+# lactat specifics 
+	  edge [ source 24 target 23 label "-" ]
+	  edge [ source 24 target 27 label "-" ]
+	  node [ id 30 label "H" ] edge [ source 23 target 30 label "-" ]
+	]
+	context [
+# NAD rest 
+	  node [ id 8 label "{CONH2}" ] edge [ source 4 target 8 label "-" ]
+	  node [ id  7 label "H" ] edge [ source 1 target  7 label "-" ]
+	  node [ id 10 label "H" ] edge [ source 2 target 10 label "-" ]
+	  node [ id 11 label "H" ] edge [ source 3 target 11 label "-" ]
+	  node [ id 12 label "H" ] edge [ source 5 target 12 label "-" ]
+	  node [ id 13 label "{Ribo-ADP}" ] edge [ source 0 target 13 label "-" ]
+# lactat/pyruvat common 
+	  node [ id 20 label "C" ]
+	  node [ id 21 label "O" ]
+	  node [ id 22 label "O-" ]
+	  node [ id 23 label "C" ]
+	  node [ id 24 label "O" ]
+	  node [ id 25 label "C" ]
+	  node [ id 26 label "H" ]
+	  node [ id 27 label "H" ] 
+	  node [ id 28 label "H" ]
+	  node [ id 29 label "H" ]
+	  edge [ source 21 target 20 label "=" ]
+	  edge [ source 22 target 20 label "-" ]
+	  edge [ source 23 target 20 label "-" ]
+	  edge [ source 25 target 23 label "-" ]
+	  edge [ source 25 target 28 label "-" ]
+	  edge [ source 25 target 29 label "-" ]
+	  edge [ source 25 target 26 label "-" ]
+	]
+	right [
+# NADH with non-aromatic ring 
+	  node [ id 0 label "N" ]
+	  node [ id 1 label "C" ]
+	  node [ id 2 label "C" ]
+	  node [ id 3 label "C" ]
+	  node [ id 4 label "C" ]
+	  node [ id 5 label "C" ]
+	  edge [ source 1 target 0 label "-" ]
+	  edge [ source 2 target 1 label "=" ]
+	  edge [ source 3 target 2 label "-" ]
+	  edge [ source 4 target 3 label "-" ]
+	  edge [ source 5 target 4 label "=" ]
+	  edge [ source 5 target 0 label "-" ]
+# new NADH proton bond 
+	  edge [ source 3 target 27 label "-" ]
+# pyruvate specifics 
+	  edge [ source 24 target 23 label "=" ]
+# freed proton 
+	  node [ id 30 label "H+" ]
+	]
+]

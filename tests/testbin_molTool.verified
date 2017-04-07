@@ -1,0 +1,159 @@
+==============  BEGIN TEST  ==================
+==============================================
+               bin/molTool
+==============================================
+
+ --> checking help
+
+ => usage:	molTool [...optional parameters]
+
+ => complete parameterlist:
+
+  [-in=..] Input file name or 'STDIN' when to read from standard input
+         type=str   default="STDIN"
+  [-inMode=..] Input format : (S)miles or (G)ML
+         type=char  default="S"
+  [-groups=..] Predefined molecule groups abbreviated in rules and molecules in GML
+         format : 'STDIN' when to read from standard input, or a ':'-separated
+         list of file names.
+         type=str 
+  [-out=..] Output file name or 'STDOUT' when to write to standard output
+         type=str   default="STDOUT"
+  [-outMode=..] Output format : (S)miles, (G)ML, GML one (L)ine, or gS(p)an
+         type=char  default="S"
+  [-scaffoldAnnotation] Add scaffold annotation (ring = 1, linker = 2, side chain = 3) to atom
+         labels as class information.
+         type=bool
+  [-noInputCorrection] Dont correct the input molecules (aromaticity perception, proton
+         filling, ...)
+         type=bool
+  [-noProtonFilling] Dont add protons to the molecule before correcting it
+         type=bool
+  [-noProtonRemoval] Dont remove protons before producing the output
+         type=bool
+  [-noGroupInsertion] Dont replace molecule groups with their identifiers (from 'groups'
+         parameter) before producing the output
+         type=bool
+  [-noInputCheck] Dont check the input molecules for consistency (atom/bond label, ...)
+         type=bool
+  [-aromaticity=..] The aromaticity perception model to be used : (M)arvin general model,
+         (O)penBabel model, or (N)o aromaticity perception.
+         type=char  default="M"
+  [-help] Displays help on all parameters
+         type=bool
+  [-version] Version information
+         type=bool
+
+
+ => informations:
+
+
+Enables the conversion of molecule graph into different formats link SMILES,
+GML, or gSpan.
+ Note, a UNIQUE list of molecules is returned in case several input molecules
+encode the same compound.
+ Furthermore, it does sanity checks and molecule corrections (as aromaticity
+perception, proton filling, etc.) for each input molecule.
+ On top, a scaffold annotation can be added to the molecules.
+
+
+
+ => usage:	molTool [...optional parameters]
+
+
+
+ --> precall   = cat toyChem/purine.smi | grep -E ^# -v | 
+ --> parameter = -aromaticity=O
+ --> postcall  =  | env LC_ALL=C sort -d -s
+ --> full call = cat toyChem/purine.smi | grep -E ^# -v |  ../src/bin/molTool -aromaticity=O  | env LC_ALL=C sort -d -s 2>&1
+
+Nc1nc2c(ncn2C3OC(CO)C(O)C3O)c(=O)[nH]1
+Nc1nc2[nH]cnc2c(=O)[nH]1
+Nc1ncnc2c1ncn2C3OC(CO)C(O)C3O
+Nc1ncnc2nc[nH]c12
+c1ncc2[nH]cnc2n1
+
+ --> precall   = cat toyChem/purine.smi | grep -E ^# -v | 
+ --> parameter = -aromaticity=M
+ --> postcall  =  | env LC_ALL=C sort -d -s
+ --> full call = cat toyChem/purine.smi | grep -E ^# -v |  ../src/bin/molTool -aromaticity=M  | env LC_ALL=C sort -d -s 2>&1
+
+Nc1nc2c(ncn2C3OC(CO)C(O)C3O)c(=O)[nH]1
+Nc1nc2[nH]cnc2c(=O)[nH]1
+Nc1ncnc2c1ncn2C3OC(CO)C(O)C3O
+Nc1ncnc2nc[nH]c12
+c1ncc2[nH]cnc2n1
+
+ --> precall   = head -n 2 toyChem/purine.smi | tail -n 1 | 
+ --> parameter = -outMode=G
+ --> postcall  = 
+ --> full call = head -n 2 toyChem/purine.smi | tail -n 1 |  ../src/bin/molTool -outMode=G  2>&1
+
+graph [
+  node [ id 0 label "c" ]
+  node [ id 1 label "c" ]
+  node [ id 2 label "c" ]
+  node [ id 3 label "n" ]
+  node [ id 4 label "c" ]
+  node [ id 5 label "nH" ]
+  node [ id 6 label "n" ]
+  node [ id 7 label "c" ]
+  node [ id 8 label "n" ]
+  edge [ source 1 target 0 label ":" ]
+  edge [ source 2 target 1 label ":" ]
+  edge [ source 3 target 2 label ":" ]
+  edge [ source 4 target 3 label ":" ]
+  edge [ source 5 target 4 label ":" ]
+  edge [ source 5 target 1 label ":" ]
+  edge [ source 6 target 2 label ":" ]
+  edge [ source 7 target 6 label ":" ]
+  edge [ source 8 target 7 label ":" ]
+  edge [ source 8 target 0 label ":" ]
+]
+
+
+ --> precall   = head -n 3 toyChem/purine.smi | tail -n 1 | 
+ --> parameter = -outMode=G
+ --> postcall  = 
+ --> full call = head -n 3 toyChem/purine.smi | tail -n 1 |  ../src/bin/molTool -outMode=G  2>&1
+
+graph [
+  node [ id 0 label "nH" ]
+  node [ id 1 label "c" ]
+  node [ id 2 label "n" ]
+  node [ id 3 label "c" ]
+  node [ id 4 label "n" ]
+  node [ id 5 label "c" ]
+  node [ id 6 label "n" ]
+  node [ id 7 label "c" ]
+  node [ id 8 label "c" ]
+  edge [ source 1 target 0 label ":" ]
+  edge [ source 2 target 1 label ":" ]
+  edge [ source 3 target 2 label ":" ]
+  edge [ source 4 target 3 label ":" ]
+  edge [ source 5 target 4 label ":" ]
+  edge [ source 6 target 5 label ":" ]
+  edge [ source 7 target 6 label ":" ]
+  edge [ source 8 target 7 label ":" ]
+  edge [ source 8 target 0 label ":" ]
+  edge [ source 8 target 3 label ":" ]
+]
+
+
+ --> precall   = head -n 10 toyChem/purine.smi | grep -E ^# -v | ../src/bin/molTool -outMode=G | 
+ --> parameter = -inMode=G -outMode=S
+ --> postcall  =  | env LC_ALL=C sort -d -s
+ --> full call = head -n 10 toyChem/purine.smi | grep -E ^# -v | ../src/bin/molTool -outMode=G |  ../src/bin/molTool -inMode=G -outMode=S  | env LC_ALL=C sort -d -s 2>&1
+
+Nc1ncnc2nc[nH]c12
+c1ncc2[nH]cnc2n1
+
+ --> precall   = 
+ --> parameter = -in=toyChem/NADH.smi -groups=toyChem/groups.gml -noGroupInsertion
+ --> postcall  =  | env LC_ALL=C sort -d -s
+ --> full call =  ../src/bin/molTool -in=toyChem/NADH.smi -groups=toyChem/groups.gml -noGroupInsertion  | env LC_ALL=C sort -d -s 2>&1
+
+NC(=O)C1CC=CN(C=1)C2OC(COP(O)(=O)OP(O)(=O)OCC3OC(C(O)C3O)n4cnc5c(N)ncnc54)C(O)C2O
+NC(=O)c1ccc[n+](c1)C2OC(COP(O)(=O)OP(O)(=O)OCC3OC(C(O)C3O)n4cnc5c(N)ncnc54)C(O)C2O
+
+===============  END TEST  ===================

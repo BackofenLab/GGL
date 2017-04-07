@@ -1,0 +1,355 @@
+
+======= RULE GML TO PARSE =======
+  3(D) -1- 1(B)               3(E) -1- 1(B) 
+   |      /                    |        |   
+   2    3           ==>        4        3   
+   |  /                        |        |   
+  2(C) -0- 0(A)               2(C)     4(D) 
+
+=================================
+rule [
+		ruleID "Rule1gml"        context [  
+                node [ id 1 label "B" ]  
+                node [ id 2 label "C" ]  
+                edge [ source 1 target 3 label "-1-" ]  
+        ]  
+        left [  
+                node [ id 0 label "A" ]  
+                node [ id 3 label "D" ]  
+                edge [ source 0 target 2 label "-0-" ]  
+                edge [ source 1 target 2 label "-3-" ]  
+                edge [ source 2 target 3 label "-2-" ]  
+        ]  
+        right [  
+                node [ id 3 label "E" ]
+                node [ id 4 label "D" ]
+                edge [ source 2 target 3 label "-4-" ]  
+                edge [ source 1 target 4 label "-3-" ]  
+        ]  
+]
+=================================
+
+========= PARSED RULE ===========
+
+ Rule ID  : 'Rule1gml'
+
+ LeftSide :
+nodes = 0, 1, 2, 3, 
+
+ Context :
+nodes = 1, 2, 
+
+ RightSide :
+nodes = 1, 2, 3, 4, 
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (A)  -->  | 2 (-0-) |
+     1 (B)  -->  | 2 (-3-) | 3 (-1-) |
+     2 (C)  -->  | 0 (-0-) | 1 (-3-) | 3 (-2-) |
+     3 (D)  -->  | 1 (-1-) | 2 (-2-) |
+
+ symmetry breaking rules = 
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (B)  -->  | 2 (-1-) | 3 (-3-) |
+     1 (C)  -->  | 2 (-4-) |
+     2 (E)  -->  | 0 (-1-) | 1 (-4-) |
+     3 (D)  -->  | 0 (-3-) |
+
+ number of constraints = 0
+
+ number of nodes with copy-and-paste operations = 0
+
+
+ wildcard pattern = NULL
+
+=================================
+
+======= RULE GML TO PARSE =======
+  0(C)   1(C) * 2(C)               0(C) - 1(C) - 2(C) 
+                                                      
+   ||                     ==>       |             |   
+                                                      
+  5(*) - 4(C) = 3(C)               5(*) = 4(C) - 3(C) 
+
+=================================
+rule [
+ ruleID "Rule2gml" context [
+   node [ id 0 label "C" ]
+   node [ id 1 label "C" ]
+   node [ id 2 label "C" ]
+   node [ id 3 label "C" ]
+   node [ id 4 label "C" ]
+   node [ id 5 label "*" ]
+ ]
+ left [
+   edge [ source 1 target 2 label "*" ]
+   edge [ source 3 target 4 label "=" ]
+   edge [ source 4 target 5 label "-" ]
+   edge [ source 5 target 0 label "=" ]
+ ]
+ right [
+   edge [ source 0 target 1 label "-" ]
+   edge [ source 1 target 2 label "-" ]
+   edge [ source 2 target 3 label "-" ]
+   edge [ source 3 target 4 label "-" ]
+   edge [ source 4 target 5 label "=" ]
+   edge [ source 5 target 0 label "-" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 5
+   nodeLabels [ label "H" label "X" ]
+   edgeLabels [ label "-" ]
+ ]
+ constrainAdj [
+   id 3
+   op <
+   count 2
+   edgeLabels [ label "=" ]
+ ]
+ constrainAdj [
+   id 2
+   op >
+   count 0
+ ]
+ constrainNode [
+   id 5
+   nodeLabels [ label "H" label "X" ]
+ ]
+ constrainNode [
+   id 5
+   op =
+   nodeLabels [ label "H" label "X" ]
+ ]
+ constrainNode [
+   id 5
+   op !
+   nodeLabels [ label "Z" ]
+ ]
+ constrainEdge [
+   source 1
+   target 2
+   edgeLabels [ label "=" label "#" ]
+ ]
+ constrainEdge [
+   source 1
+   target 2
+   op =
+   edgeLabels [ label "=" label "#" ]
+ ]
+ constrainEdge [
+   source 1
+   target 2
+   op !
+   edgeLabels [ label "-" ]
+ ]
+ constrainNoEdge [
+   source 0
+   target 2
+ ]
+]
+=================================
+
+========= PARSED RULE ===========
+
+ Rule ID  : 'Rule2gml'
+
+ LeftSide :
+nodes = 0, 1, 2, 3, 4, 5, 
+
+ Context :
+nodes = 0, 1, 2, 3, 4, 5, 
+
+ RightSide :
+nodes = 0, 1, 2, 3, 4, 5, 
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (C)  -->  | 5 (=) |
+     1 (C)  -->  | 2 (*) |
+     2 (C)  -->  | 1 (*) |
+     3 (C)  -->  | 4 (=) |
+     4 (C)  -->  | 3 (=) | 5 (-) |
+     5 (*)  -->  | 4 (-) | 0 (=) |
+
+ symmetry breaking rules = 
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (C)  -->  | 1 (-) | 5 (-) |
+     1 (C)  -->  | 0 (-) | 2 (-) |
+     2 (C)  -->  | 1 (-) | 3 (-) |
+     3 (C)  -->  | 2 (-) | 4 (-) |
+     4 (C)  -->  | 3 (-) | 5 (=) |
+     5 (*)  -->  | 4 (=) | 0 (-) |
+
+ number of constraints = 10
+ + MC_NodeAdjacency 
+   id 0
+   op =
+   count 5
+   nodeLabels =  'H' 'X'
+   edgeLabels =  '-'
+ + MC_NodeAdjacency 
+   id 3
+   op <
+   count 2
+   nodeLabels = 
+   edgeLabels =  '='
+ + MC_NodeAdjacency 
+   id 2
+   op >
+   count 0
+   nodeLabels = 
+   edgeLabels = 
+ + MC_NodeLabel 
+   id 5
+   op =
+   nodeLabels =  'H' 'X'
+ + MC_NodeLabel 
+   id 5
+   op =
+   nodeLabels =  'H' 'X'
+ + MC_NodeLabel 
+   id 5
+   op !
+   nodeLabels =  'Z'
+ + MC_EdgeLabel 
+   from 1
+   to   2
+   op =
+   edgeLabels =  '#' '='
+ + MC_EdgeLabel 
+   from 1
+   to   2
+   op =
+   edgeLabels =  '#' '='
+ + MC_EdgeLabel 
+   from 1
+   to   2
+   op !
+   edgeLabels =  '-'
+ + MC_NoEdge 
+   from 0
+   to   2
+
+ number of nodes with copy-and-paste operations = 0
+
+
+ wildcard pattern = NULL
+
+=================================
+
+======= RULE GML TO PARSE =======
+  1(A) --- 2(B)   -->  2(B)+edges(A)
+
+=================================
+rule [
+        ruleID "Rule3gml"        context [  
+                node [ id 2 label "B" ]  
+        ]  
+        left [  
+                node [ id 1 label "A" ]  
+                edge [ source 1 target 2 label "---" ]  
+        ]  
+        wildcard "A"
+        copyAndPaste [ source 1 id 2 ]
+        copyAndPaste [ source 1 id 2 target 2 ]
+        copyAndPaste [ source 1 id 2 edgeLabels [ label "+++" ] ]
+        copyAndPaste [ source 1 id 2 target 2 edgeLabels [ label "+++" ] ]
+]
+=================================
+
+========= PARSED RULE ===========
+
+ Rule ID  : 'Rule3gml'
+
+ LeftSide :
+nodes = 0, 1, 
+
+ Context :
+nodes = 1, 
+
+ RightSide :
+nodes = 1, 
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (A)  -->  | 1 (---) |
+     1 (B)  -->  | 0 (---) |
+
+ symmetry breaking rules = 
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (B)  -->  |
+
+ number of constraints = 0
+
+ number of nodes with copy-and-paste operations = 1
+
+ copy-and-paste : source(0) pasteID(1) target(1) edgeLabels ()
+ copy-and-paste : source(0) pasteID(1) target(1) edgeLabels ( '+++')
+ copy-and-paste : source(0) pasteID(1) target() edgeLabels ()
+ copy-and-paste : source(0) pasteID(1) target() edgeLabels ( '+++')
+
+ wildcard pattern = 'A'
+
+=================================
+
+======= RULE GML TO PARSE =======
+  3(A)    1(B)     ==>       3(C) -1- 1(D) 
+
+=================================
+rule [
+        ruleID "Rule4gml"        left [  
+                node [ id 3 label "A" ]  
+                node [ id 1 label "B" ]  
+        ]  
+        context [  
+        ]  
+        right [  
+                node [ id 3 label "C" ]
+                node [ id 1 label "D" ]
+                edge [ source 1 target 3 label "-1-" ]  
+        ]  
+]
+=================================
+
+========= PARSED RULE ===========
+
+ Rule ID  : 'Rule4gml'
+
+ LeftSide :
+nodes = 0, 1, 
+
+ Context :
+nodes = 
+
+ RightSide :
+nodes = 0, 1, 
+
+ == LEFT_SIDE_PATTERN ==
+
+     0 (B)  -->  |
+     1 (A)  -->  |
+
+ symmetry breaking rules = 
+
+ == RIGHT_SIDE_PATTERN ==
+
+     0 (D)  -->  | 1 (-1-) |
+     1 (C)  -->  | 0 (-1-) |
+
+ number of constraints = 0
+
+ number of nodes with copy-and-paste operations = 0
+
+
+ wildcard pattern = NULL
+
+=================================

@@ -1,0 +1,60 @@
+
+# birth rule
+rule [
+ ruleID "birth : me = 0 and 3 neighbors = 1"
+ left [
+   node [ id 0 label "0" ]
+ ]
+ right [
+   node [ id 0 label "1" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 3
+   nodeLabels [
+     label "1"
+   ]
+ ]
+]
+
+# high population death rule
+rule [
+ ruleID "death-1 : me = 1 and >3 neighbors = 1"
+ left [
+   node [ id 0 label "1" ]
+ ]
+ right [
+   node [ id 0 label "0" ]
+ ]
+ constrainAdj [
+   id 0
+   op >
+   count 3
+   nodeLabels [
+     label "1"
+   ]
+ ]
+]
+
+# low population death rule
+rule [
+ ruleID "death-2 : me = 1 and <2 neighbors = 1"
+ left [
+   node [ id 0 label "1" ]
+ ]
+ right [
+   node [ id 0 label "0" ]
+ ]
+ constrainAdj [
+   id 0
+   op <
+   count 2
+   nodeLabels [
+     label "1"
+   ]
+ ]
+]
+
+
+

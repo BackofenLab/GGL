@@ -1,0 +1,3254 @@
+
+
+170407 moving source to github:BackofenLab/GGL
+
+version 4.1.2 Martin Mann
+
+150430 Martin Mann
+	* ggl/Rule_GML_grammar.icc :
+	  + list parsing : now allows for empty lists
+	* testggl_Rule_GML_grammar.cc :
+	  + test example for empty context
+
+version 4.1.1 Martin Mann
+
+150424 Martin Mann
+	* misc/m4/m4_ax_boost_base.m4 : updated to version 26
+	* ggl/chem/MoleculeUtil.cc :
+	* ggl/chem/SMILESwriter.cc :
+	* bin/toyChemUtil.cc :
+	  * boost namespace usage extended to avoid compilation issues
+	* misc/manual/Makefile.am :
+	  + missing figures added
+	  - faq.tex disabled
+
+version 4.1.0 Martin Mann
+
+140728 Martin Mann
+	* tests/test_ggl_chem_AP_NSPDK :
+	* tests/test_bin_aromModelNSPDK :
+	  * verified files updated
+
+140725 Martin Mann
+	! BOOST_NOINLINE not correctly defined for boost versions 1.53.00 in debug
+	  --> make CPPFLAGS="-DBOOST_NOINLINE='__attribute__ ((noinline))' -fpermissive"
+	      fixes the problem
+	* ggl/MR_ApplyRule
+	* ggl/chem/ChemRule
+	* ggl/chem/MoleculeUtil
+	* ggl/chem/ReactionTransitionState
+	  - obsolete typedefs removed
+	* test/ggl_chem_MoleculeUtil.cc
+	  * extended valence check values integrated
+	* configure.ac
+	  * AM_INIT_AUTOMAKE([subdir-objects]) : to enable subdirectory sources
+
+140412 Martin Mann
+	* ggl/Rule_GMLparser :
+	  + parseCompactRule() : parses a compacted rule encoding without parsing
+	    rule constraints, rule label, etc. just nodes and edges
+	+ test/testggl_Rule_GMLparser : tests
+	  + parseRule()
+	  + parseCompactRule()
+	* bin/toyChemUtil :
+	  + parseCompactRules() : parses rules from compacted GML
+	  * parseRules() : new parameter "compactGML" to use parseCompactRules()
+	* bin/reactionTool :
+	  + inMode=C : read compacted GML as input
+
+140328 Martin Mann
+	* ggl/chem/AromaticityPerception :
+	  * correctMolecule() :  now virtual to make it "overwritable" for 
+	    subclasses, e.g. to really disable aromaticity perception
+	* ggl/chem/AP_disabled :
+	  + correctMolecule() : does nothing and thus disables aromaticity 
+	    perception
+	* ggl/chem/SMILESparser :
+	  * pruneAromaticNonRingBonds() : BUGFIX : increase of ring enumeration 
+	    from 15 to 20 to catch also weird molecules of current interest...
+	    e.g. SMILES "Bc1c2ccc(cc3ccc(cc4ccc(cc5ccc1[nH]5)n4)[nH]3)n2"
+
+140306 Martin Mann
+	* bin/aromModelNSPDK :
+	  * mode "cluster" :
+	    + prints now for each representative (*) a ring annotated SMILES (*) the
+	      cluster size (*) the number of molecules for this cluster
+	    * BUGFIX: feature vector less operator now based on sparse data and 
+	      comparing whole data set if needed 
+
+140210 Martin Mann
+	* ggl/chem/MoleculeUtil :
+	  * AtomLabelData :
+	    + isToBeChecked : new flag (0/1) that encodes whether a valence check is
+	      to be done for this type of atom or not
+	    * constructor adapted
+	  * checkAtomValence() : only applied for atoms with atomData->isToBeChecked
+	    == 1
+	  * getAtomData() : inilization now sets the isToBeChecked flag. currently
+	    only 1 for atom 1-11, 15-17, 33-35
+
+140205 Martin Mann
+	* ggl/chem/MoleculeUtil :
+	  * AtomLabelData :
+	    + vector of alternative valences (including the standard valence)
+	  * checkAtomValence() :
+	    * now tests against all alternative valences for each atom
+
+140131 Martin Mann
+	* ggl/chem/MoleculeUtil :
+	  * AtomLabelData :
+	    * constructor parameter order changed
+	    + static shellSizeSize member : holds the list of electron shell size
+	      sums that is to be used to get a more precise proton filling system
+
+140130 Martin Mann
+	* bin/aromModelNSPDK :
+	  + new parameter 'xval' that guides the cross validation
+	  + mode "xval" : does an 'xval'-cross validation on the given data and
+	    prints all target-prediction value pairs to 'out' stream and statistics 
+	    to 'log' stream
+
+140124 Martin Mann
+	* bin/aromModelNSPDK :
+	  * mode "cluster" : 
+	    * picks only one random element per cluster
+	    + reports number of molecules per cluster 
+
+140122 Martin Mann
+	* bin/aromModelNSPDK :
+	  + new mode "cluster" : sorts all features and reports only up to two 
+	    random representative SMILES for each unique feature (and a cluster size 
+	    histogram)
+	    NOTE: one molecule might be selected for different ring features, such 
+	    that the final list of selected SMILES might be smaller than the number
+	    of clusters
+
+140109 Martin Mann :
+	+ bin/gmlRings : ring enumeration for arbitrary graphs in GML format 
+	  providing the functionality of molRings
+	+ chem/AP_disabled : dummy aromaticiy perception implementation, which 
+	  does no aromaticity perception but just preserves the current aromaticity
+	  assignment
+	* bin/molTool :
+	  * no aromaticity perception is now done via AP_disabled
+	* bin/toyChem :
+	  + disabling of aromaticity perception now via "-aromaticity=N", which 
+	    triggers the use of AP_disabled
+
+131210 Martin Mann :
+	* bin/molRings :
+	  * parameter "graph" now optional (since default = STDIN)
+
+131025 Martin Mann :
+	* ggl/chem/AP_NSPDK_Model_Marvin_general_2013
+	  * test results were wrong (CnP from OpenBabel results)
+	* ggl/chem/AP_NSPDK_Model :
+	  + nspdk_maxRingDistance : If ringCentered == true, this parameter defines 
+	    up to what distance of ring nodes nodes are viewPoints, ie. a value = 0 
+	    restricts the viewpoints to the ring only.
+	* ggl/chem/AP_NSPDK :
+	  + RingWeightVec : data structure to encode (index,nodeWeight) for node
+	    weight computation
+	  + getViewPoints() : central function to generate the view point set
+	    * if (model.nspdk_maxRingDistance > 0) : all nodes up to the given 
+	      distance from the ring nodes are view points
+	* bin/aromModelNSPDK :
+	  * adaption to AP_NSPDK::RingWeightVec
+	  * adaption to AP_NSPDK_Model::nspdk_maxRingDistance
+
+131023 Martin Mann :
+	* ggl/chem/AP_NSPDK_Model :
+	  - pruneProtons : obsolete member, only full proton models are used
+	  + ringCentered : new parameter, stats whether or not features have to be
+	    ring connected or not
+	* bin/aromModelNSPDK :
+	  - pruneProtons : obsolete parameter, only full proton models are used
+	  + ringCentered : new parameter, stats whether or not features have to be
+	    ring connected or not
+	  * printWeightedGML() : BUGFIX : weights were given for wrong (shifted) IDs
+	* ggl/chem/AP_NSPDK :
+	  * getFeatures() : viewpoints according to model.ringCentered
+	  * getFeaturesOfRing() : viewpoints according to model.ringCentered
+	  * getWeightsOfRing() : viewpoints according to model.ringCentered
+	  * getWeightsOfRing() : viewpoints according to model.ringCentered
+	* ggl/chem/AromaticityPerception :
+	  * relabelMolecule() 
+	    * data structure changed for nodes2relabel
+	    * resorting instead of data structure shrinking
+	  * AdjacencyComp :
+	    * operator() : restructuring for better overview and maybe bugfixing ;)
+	* bin/reactionTool :
+	  * SMIRK output : will now ALWAYS feature class labels to make it really 
+	    represent the reaction
+
+131022 Martin Mann :
+	* ggl/chem/MoleculeUtil :
+	  + isGroupLabel() : checks whether or not a given atom label represents a
+	    group
+	  * insertGroups() :
+	    * uses now isGroupLabel() for group node check
+	  * removeProtons() :
+	    * ignores group nodes
+	  + getGroupLabel() : extracts the group label from a complex node label
+	* bin/toyChemUtil :
+	  - GROUP_Container : replaced by ggl::chem::GroupMap
+	* bin/* :
+	  * GROUP_Container -> ggl::chem::GroupMap
+	* bin/molTool :
+	* bin/reactionTool :
+	  + if groups are present, they are inserted in the output too
+	  + "noGroupInsertion" parameter : disables the group insertion for output
+	* ggl/chem/ChemRule :
+	  * insertGroups()
+	    + returns true if all group labels are replaced and false otherwise
+	    * unknown group labels result in return value false instead of throwing
+	      an exception
+	* ggl/chem/SMILESwriter :
+	  * canonize() :
+	    + group labels are now extracted via MoleculeUtil::getGroupLabel()
+
+131018 Martin Mann :
+	* ggl/Graph_GML_writer :
+	  * write() : new paramter "additionalGML" to provide additional GML to be
+	    part of the generated graph GML encoding
+	* bin/aromModelNSPDK :
+	  * printWeightedGML()
+	    + new parameter "multilineGML" guides GML output
+	    * ring weights are now encoded in specific "ring" GML list encodings
+	      and only one weighted output graph is generated per molecule
+	* ggl/chem/AromaticityPerception :
+	  * RingDescriptor :
+	    + member predCertainty : a value >= 0 indicating the certainty of the
+	      predState given that the larger the more certain
+	* ggl/chem/AP_NSPDK :
+	  * getNodeWeights() : 
+	    + set the predCertainty of a ring to the absolute prediction value
+	    * BUGFIX : pruneNonSingleDoubleBondRings() was not called
+	  * getFeature() :
+	    * BUGFIX : pruneNonSingleDoubleBondRings() was not called
+	  + isAromaticRing(double) : aromaticity decision for a given pred. value
+	  + getPredictionValue(ring) : prediction value generation for a given ring
+	* sgd/svmmodel :
+	  + predict(double) : does a classification for a given prediction value
+	* ggl/chem/AromaticityPerception :
+	  * correctAromaticity() and all subclasses :
+	    * TWEAK : now first fused rings are removed before single-bond-only and
+	      triple-bond-containing rings are removed; should reduce candidate set
+	* ggl/chem/SMILES_grammar :
+	  * SMILES encoding documentation corrected
+	* ggl/chem/SMILESparser :
+	  * parseReactionSMILES() 
+	    + protons without class ID adjacent to atoms with class ID (eg from
+	      complex atom labels within SMIRKS) are automatically assigned with a
+	      generated class ID instead raising an exception 
+
+130924 Martin Mann :
+	* ggl/chem/ChemRule :
+	  * TransitionState.getSMILES() : 
+	    * does now catch exceptions of SMILES generation and always returns a 
+	      SMILES. In case of an exception a dummy label "???" is returned.
+	    * now rules mit wildcards are supported via SMILESwriter
+	* ggl/chem/SMILESwriter :
+	  * optional support for wildcard atom labels introduced
+	  * getSMILES() : 
+	  * canonize() :
+	    + new parameter "allowWildcard" and according forwarding to NodeData()
+	  * NodeData() :
+	    + new parameter "allowWildcard" that defines whether or not an exception
+	      is raised if a wildcard is given as atom label.
+
+130823 Martin Mann :
+	* ggl/chem/AromaticityPerception :
+	  * RingDescriptor : 
+	    + default constructor added
+	    * now public sub class
+	  * relabelMolecule() : now inplace molecule change
+	  * correctAromaticity() : now inplace molecule change
+	* ggl/chem/AP_NSPDK :
+	  * getNodeWeights() : return value changed
+	* perl/Chemistry-GGL/GGL.xs :
+	* ggl/chem/GS_MolCheck :
+	* tests
+	  * adaption to AromaticityPerception interface changes
+
+130821 Martin Mann :
+	+ data/aromModel : holds all source data needed to train the aromaticity
+	  SVM models using bin/aromModelNSPDK
+	  + AP_NSPDK_Model_Marvin_general_2013.zip : model "Marvin:general:2013"
+	  + AP_NSPDK_Model_OpenBabel_2013.zip : model "OpenBabel:2013"
+	- ggl/chem/AP_NSPDK_Model_PubChem* : incompatible to new NSPDK kernel
+	- ggl/chem/AP_NSPDK_Model_ChEBI* : incompatible to new NSPDK kernel
+	+ ggl/chem/AP_NSPDK_OpenBabel_2013* : new model based on OpenBabel output
+	+ ggl/chem/AP_NSPDK_Marvin_general_2013* : new model based on Marvin output
+	  using the 'general' aromaticity prediction mode
+	* ggl/chem/AP_NSPDK_Model :
+	  - old models removed (PubChem*,ChEBI*)
+	  + new models added "OpenBabel:2013" and "Marvin:general:2013"
+	* perl/Chemistry-GGL/GGL.xs :
+	  * new default aromaticity model is "Marvin:general:2013"
+	* bin/molTool :
+	* bin/toyChem :
+	  - aromaticity_noH model removed (obsolete)
+	  * available aromaticity models changed to "OpenBabel:2013" and 
+	    "Marvin:general:2013"
+	  * default aromaticity model is now "Marvin:general:2013"
+	* ggl/chem/SMILES_grammar :
+	  * memorize_atom : undo bugfix of 130920, since not working for all SMILES,
+	    e.g. "COc(cc1)ccc1C#N" -> has to be done "brute force" by an extra run
+	    of ring perception and aromatic edge handling within SMILESparser
+	* sgm/RP_Hanser96 :
+	  + findRingBonds() : enumerates all bonds participating in rings
+	* ggl/chem/SMILESparser :
+	  + pruneAromaticNonRingBonds() : checks for aromatic bonds that are not 
+	    part of an aromatic ring (artifacts from SMILES parsing using the 
+	    grammar) and replaces them with a single bond label '-'
+	  * parse* : apply pruneAromaticNonRingBonds() on all parsed molecules
+	    = BUGFIX for non-specified single bonds between two aromatic rings
+	* ggl/chem/MR_Reaction :
+	  * default aromaticity model is now "Marvin:general:2013"
+	+ test/bin_aromModelNSPDK 
+	  + test for apply mode
+	* sgm/NSPDK_port :
+	  + getNodeFeatures() : generates the feature vector for each node
+	* ggl/Graph_GML_writer :
+	* ggl/Rule_GML_writer :
+	  * BUGFIX : missing blank in front of "target" keyword
+	* ggl/chem/AP_NSPDK :
+	  + getNodeWeights() : generates the feature vector for each node for each
+	    ring
+	  + getWeightsOfRing() : generates the feature vector for a specific ring
+	* bin/aromModelNSPDK :
+	  + option to load one of the default models "OpenBabel:2013" or 
+	    "Marvin:general:2013" for test or apply mode
+	  + parameter "outNodeWeight" enables the GML output for each prediction
+	    graph in GML where each node label is featuring the according 
+	    normalized NSPDK weight
+	  
+130820 Martin Mann :
+	* sgd/* : adaptions to new NSPDK version
+	* nspdk/* : adaptions to new NSPDK version
+	!!! NOTE: THIS INVALIDATES THE AROMATICITY MODELS !!! TO BE UPDATED SOON !!!
+	* ggl/chem/SMILES_grammar :
+	  * memorize_atom : BUGFIX : aromatic bond label only inserted if at least
+	    one ring closure is open. fixes issues with "c1ccccc1-c2ccccc2"
+
+130819 Martin Mann :
+	+ misc/manual/tutorial-viz : new tutorial for the visualization scripts
+	  written by Norah Schnorr
+
+130814 Martin Mann :
+	* ggl/Rule_GML_writer :
+	  + writeCompact() : writes a simple graph encoding of the rule where
+	    changes are encoded within an single label
+	   * Therin, each node/label occurs only once. To indicate label changes or
+	   * edge insertions/deletions, a label is in one of the following 4 forms:
+	   *
+	   * - "C" : the according node/edge has this label left and right = context
+	   * - "L|" : the according edge is removed and the left side label L is given
+	   * - "|R" : the according edge is inserted and the right side label R is given
+	   * - "L|R" : the node label changes from left label L to right label R or
+	   *           the edge changes from valence L to valence R when applied
+	* bin/reactionTool :
+	  + outMode=C : compacted GML that generates a single graph encoding of a
+	    reaction 
+
+130718 Martin Mann :
+	* bin/aromModelNSPDK :
+	  * BUGFIX : application mode was not returning the aromaticity corrected 
+	    molecule
+
+130718 Martin Mann :
+	* bin/aromModelNSPDK :
+	  + new mode 'apply' to apply a given model for aromaticity perception onto
+	    a given list of molecules in SMILES format
+	* bin/molMatch :
+	  + outMode 'L' : one line GML output
+
+130710 Martin Mann :
+	+ ggl/chem/ClassIDGraph : graph wrapper that appends the node ID as class
+	  information to the atom label.
+	* bin/reactionTool :
+	  + enabling of atom mapping information within SMIRKS output
+
+130709 Martin Mann :
+	* bin/reactionTool :
+	  + outMode=S : write ChemRule to SMIRKS reaction SMILES output
+
+130704 Martin Mann :
+	* configure :
+	  - "--with-boost-include" obsolete since boost m4 macro usage
+	    (thanks to Jakob Lykke Andersen)
+
+130703 Martin Mann :
+	* misc/manual/tutorial-rules.tex.in :
+	  * typo fixed (thanks to Robert Haas)
+	* testggl_chem_SMILES_grammar :
+	  + new test for the ring closure BUGFIX
+
+130702 Martin Mann :
+	* ggl/chem/SMILES_grammar :
+	  * BUGFIX : ring_closure definition was missing a possible bond in front of
+	    a complex ring closure. (thanks to Daniela Pütz)
+
+130701 Martin Mann :
+	* bin/toyChemUtil :
+	  * correctInputMolecules() : 
+	    - noH aromaticity parameter removed
+	    - protonRemoval parameter removed
+	    + support for NULL aromaticity model added (no aromaticity perception in
+	      that case)
+	    * old stuff removed and cleaned
+	* bin/molTool :
+	* bin/toyChem :
+	  * correctInputMolecules() call adaptions
+	  + support for no aromaticity perception (-aromaticity=N)
+	* bin/molTool :
+	  + outMode 'L' : one line GML output
+	* bin/molMatch :
+	  * extended parsing error reporting
+
+130629 Martin Mann :
+	* ggl/chem/MoleculeUtil :
+	  * getBondData() : 
+	    + new bond type "^" with valence 0 for coordinative bonds
+	* bin/Makefile
+	* tests/Makefile
+	  - catalan and hanser binary disabled until we enforce BGL version >= 1.50
+
+130619 Martin Mann :
+	* ggl/chem/SMILESwriter :
+	  + if unknown bond or atom labels are found an according exception is 
+	    thrown (previously only ensured by asserts)
+	  + wildcard not supported for SMILES generation (dummy AtomLabelData is
+	    available -> special check needed)
+	  - assert for "HH" case removed and replaced with changed conditional
+	* bin/toyChemUtil :
+	  + additional exception handling for SMILESwriter exceptions to skip graphs
+	    that are not convertable into SMILES
+
+130618 Martin Mann :
+	* bin/toyChemUtil :
+	  * parseMolGML() : 
+	    + support for GML encoding covering multiple molecule, ie. connected
+	      components; now each is added individually to the molecule storage
+
+130614 Martin Mann :
+	+ bin/molMatch : computes a mapping of a molecule representation given in
+	  SMILES format onto a representation of the same molecule in GML format.
+	  It outputs the mapping as a reindexed version of the SMILES in GML format.
+	  Furthermore, it ignores all aromaticity information for the mapping to
+	  enable the mapping of Kelkule forms onto representations with aromatitic
+	  labels.
+	+ bin/molRings : enumerates all rings that are candidates for aromaticity
+	  perception 
+
+130529 Martin Mann :
+	* ggl/chem/MoleculeUtil :
+	  * isConsistent() : 
+	    - valence check disabled, since does not cover all cases (e.g. 'S') 
+
+130527 Martin Mann :
+	* ggl/chem/ChemRule/TransitionState :
+	  + allows now the presence of class information within the atom labels.
+	    the valence change information is now added with a leading "000" as a 
+	    separator to already present class information. This enables the 
+	    distinction of the class information from the valence change.
+
+130516 Martin Mann :
+	* ggl/chem/MoleculeUtil :
+	  * checkAtomValence() : checks now for a more constrained variant
+	     0 <= [(bondValenceSum+aromAdd) - (valence+charge)] <= aromAdd
+	+ misc/m4/ : directory for all autoconf m4 extensions
+	+ misc/m4/m4_ax_prog_doxygen.m4 : former content of acinclude.m4 for doxygen 
+	  configuration
+	+ misc/m4/m4_ax_boost_base.m4 : boost check extension for autoconf
+	- acinclude.am : replaced by specific m4 inclusions
+	* configure.ac :
+	  + explicit inclusions of doxygen and boost check extensions
+	  + boost lib version check for >= 1.50.0 since it contains the bugfix of
+	    clear_vertex() for self-loops (needed e.g. for hanser and catalan)
+	  - selfwritten boost path support and check is now obsolete
+	* ggl/MR_ApplyRule :
+	  * loop-edge removal for obsolete nodes is different (should be obsolete 
+	    for boost >= 1.50.0) 
+	     
+130515 Martin Mann :
+	* bin/toyChemUtil :
+	  * parseSMILES() :
+	  * parseMolGML() : disabled input sanity check from SMILES and GML 
+	    Molecule parsing, is and has to be done externally (thanks to xtof)
+	* ggl/chem/MoleculeUtil :
+	  * checkAtomValence() : checks now for 
+	     0 <= [(bondValenceSum+aromAdd) - (valence+charge)] <= 1
+	    to cover also cases where only single bonds contribute to the aromatic
+	    ring system 
+
+130514 Christoph Flamm :
+	* perl/lib :
+	  * adaptions to changed interfaces in version 4.*
+	* perl/tests :
+	  * adaptions to lib changes
+
+130419 Martin Mann :
+	* ggl/chem/SMILESwriter :
+	  * build_dfs() : check for non-to-print edge labels now explicitely checks
+	    for bond_valence == 1
+	* ggl/chem/AromaticityPerception :
+	  - pruneTripleBondRings() : replaced by pruneNonSingleDoubleBondRings()
+	  + pruneNonSingleDoubleBondRings() : formerly pruneTripleBondRings
+	    prunes all rings not composed from single and double bonds
+	* ggl/chem/AP_NSPDK :
+	  * initializeGraph() : check for aromatic ring candidates now explicitely
+	    checks for single double bond valence
+	* ggl/chem/MoleculeUtil :
+	  - C_BondRing : renamed to C_BondLoop
+	  + C_BondLoop : formerly C_BondRing
+	  - checkBondRing() : renamed to checkBondLoop()
+	  + checkBondLoop() : formerly checkBondRing()
+	  + checkAtomValence() : checks whether or not all atoms show sane electron
+	    distributions
+	  + C_AtomValence : error code for non-consistent electron distributions
+	  * isConsistent() :
+	    + checkAtomValence added
+	    * dependency of checks now guided via boolean flags
+	  * decodeConsistencyStatus() :
+	    * description for C_AtomValence added
+	* test/ggl_chem_MoleculeUtil .
+	  + isConsistent() tests for molecules before and after proton filling
+	* ggl/chem/ChemRule :
+	  - C_BondRing : renamed to C_BondLoop
+	  + C_BondLoop : formerly C_BondRing
+	  - checkBondRing() : renamed to checkBondLoop()
+	  + checkBondLoop() : formerly checkBondRing()
+
+130418 Martin Mann :
+	- ggl::NodeVec
+	- ggl::OutEdgeMap;
+	- ggl::NodeMap;
+	+ ggl::Rule::NodeVec : formerly ggl::NodeVec
+	+ ggl::Rule::OutEdgeMap : formerly ggl::OutEdgeMap
+	+ ggl::Rule::NodeMap : formerly ggl::NodeMap
+	* ggl/chem/MoleculeUtil :
+	  * obsolete and wrong namespace statements removed
+	* ggl/Graph.hh :
+	  + ggl::NodeIndexVec 
+	  + ggl::NodeIndexSet 
+	* ggl/chem/Molecule.hh :
+	  + ggl::chem::NodeIndexVec 
+	  + ggl::chem::NodeIndexSet 
+
+130416 Martin Mann :
+	+ bin/reactionTool : chemical rule conversion and checking tool
+	+ testggl_chem_SMILESparser
+	  + test parseMultiSMILES
+	  + test parseReactionSMILES
+	* ggl/chem/SMILESparser :
+	  * parseReactionSMILES() :
+	    + classID pruning now optional
+
+130415 Martin Mann :
+	* ggl/chem/SMILES_grammar :
+	  + leading and tailing whitespaces are ignored for parsing
+	* ggl/chem/SMILESparser :
+	  + parseMultiSMILES( ) : parsing of a SMILES that encodes multiple
+	    molecules separated by '.' and returns a vector of the parsed molecules
+	  + parseReactionSMILES( ) : parsing of a reaction SMILES producing
+	    a graph grammar rule based on the atom mapping provided by the class IDs
+	    of educt and product atoms
+
+130413 Martin Mann :
+	+ ggl/Rule_GML_writer : create a GML encoding for a rule
+	  NOTE: currently incomplete : no constraints and C&P operations encoded
+
+version 4.0.1 Martin Mann
+
+130408 Martin Mann :
+	* tests/Makefile :
+	  * BUGFIX : wrong variable to add verified sources of binary tests to dist
+	* misc/tutorial/Makefile :
+	  * BUGFIX : logo of University of Freiburg missing 
+
+130405 Martin Mann :
+	+ misc/literature/Bemis-1996.pdf : scaffold annotation of molecular graphs
+	+ sgm/GraphScaffold : implementation of Bemis-1996 for scaffold annotation
+	+ testsgm_GraphScaffold : simple test for the scaffold assignment
+	+ ggl/Graph_gSpan_writer : writing ggl::Graph object in gSpan format
+	- bin/molCheck : renamed to molTool since it does more than checking
+	+ bin/molTool : formerly molCheck
+	  + gSpan output mode added
+	  + graph scaffold annotation added as class information within atom label
+	- testbin_molCheck : renamed to molTool 
+	+ testbin_molTool : formerly molCheck test 
+
+130403 Martin Mann :
+	* bin/toyChemUtil :
+	  * printSMILES() : proton compression was not enabled for toyChem output
+	* tests/toyChem :
+	  + formose-process : example from GGL paper added
+	* ggl/Graph_GML_grammar :
+	* ggl/Rule_GML_grammar :
+	  * keyvalue_closure member definition corrected (no typename needed)
+	* ggl/chem/MoleculeUtil :
+	* ggl/chem/AromatiticyPerception :
+	* ggl/chem/MoleculeDecomposition :
+	* ggl/chem/MoleculeComponent_GMLparser :
+	  * <stdexcept> header missing
+	* ggl/chem/SMILESwriter :
+	* ggl/chem/MR_Reaction :
+	* ggl/chem/AromatiticyPerception :
+	* ggl/chem/GS_chem :
+	  * "typename" not needed
+
+130321 Martin Mann :
+	* ggl/chem/MoleculeOB :
+	  * BUGFIX : labels with atomic number 0 cause now a runtime error
+	    (thanks to Bernhard Thiel)
+	* ggl/chem/SMILESwriter :
+	  * BUGFIX : all single char atom labels were treated as non-complex labels
+	    (thanks to Bernhard Thiel)
+
+130315 Martin Mann :
+	* ggl/chem/AromaticityPerception :
+	  * BUGFIX : memory leak since clearData() was called in constructor instead
+	    of within destructor (thanks to Bernhard Thiel)
+
+130312 Martin Mann :
+	* misc/manual :
+	  + Freiburg University logo and naming added
+	  + section about radical encoding within rules tutorial
+	  * copy-and-paste section within rules tutorial moved out of chem part
+
+130311 Martin Mann :
+	* ggl/chem/MoleculeOB :
+	  + convert( OBMol ) : conversion from OpenBabel molecule to Molecule via
+	    CML, ie. currently quite inefficient
+	  + convert( Molecule ) : conversion from Molecule to OpenBabel molecule, 
+	    currently only atom type and charge are considered for atom labels
+	* tests/testggl_chem_MoleculeOB :
+	  + test for convert methods
+	* ggl/chem/MoleculeUtil :
+	  + compressGroups(..) : replaces group subgraphs with according group 
+	    identifiers
+	* ggl/chem/SMILESwriter :
+	  + getSMILES( .. groups ..) : support for group labels within generated 
+	    SMILES
+	  * NodeData :
+	    + isAromatic : store aromaticity flag of atom data
+	  * all node aromaticity checks are done via nodeData (avoids recomputation)
+	+ tests/testggl_chem_MoleculeGroups :
+	  + test for group handling in SMILESparser and SMILESwriter 
+
+version 4.0.0 Martin Mann
+
+130125 Martin Mann :
+	* ggl/chem/MoleculeUtil :
+	  + copy() : copies a Graph_Interface object into a molecule graph. Note,
+	    no sanity checks for node/edge labels, degrees, etc. are done!
+	* tests/testbin_molcheck :
+	  + sorting order ensured using LC_ALL setup before calling sort
+
+130117 Martin Mann :
+	* ggl/chem/SMILESwriter :
+	  * BUGFIX : canonize() : missing invariant update for tie break case
+	    (thanks to and fixed by Jakob Lykke Andersen)
+	* test/ggl_chem_SMILESwriter :
+	  + generates node rotation permutations for some molecules to check for
+	    uniqueness of generated SMILES
+
+121116 Martin Mann :
+	* ggl/Rule :
+	  * C_Consistent : BUGFIX : now value of 1 instead of 0... this made the 
+	    whole error reporting faulty (thanks to Berhard Thiel)
+	  * isConsistent() : obsolete statement pruned
+	* ggl/chem/ChemRule :
+	  * isConsistent() : obsolete statement pruned
+	  * checkElectronChange() : BUGFIX : special handling of proton atoms amiss
+	* sgm/Pattern/MatchConstraint :
+	* sgm/MC_Node :
+	* sgm/MC_Edge :
+	  + isConstraining(nodeID) : checks whether or not a given node is covered
+	    by the current constraint or not
+
+121107 Martin Mann :
+	* tests/Makefile.am : 
+	  + dataChemRule.icc was missing and thus not part of generated 
+	    distributions (thanks to Kadir F. Uyanik)
+
+121024 Martin Mann :
+	* ggl/chem/ChemRule :
+	  * insertGroup() : 
+	    + ensures now that groups are only given and replaced in context or 
+	    label change nodes. otherwise an exception is raised
+	    + BUGFIX : handling of right label of label change nodes was missing
+	* misc/manual/tutorial-groups : 
+	  + example of label changing proxy node added
+	* ggl/chem/SMILES_grammar :
+	  + parsing of class name in SMILES enabled
+	* perl/chemrule2svg.pl
+	  + support of class name added
+	  * usage info corrected
+	  * height setup corrected
+	* perl/molcomp2svg.pl
+	  + support of class name added
+
+121023 Martin Mann :
+	* sgm/Pattern :
+	  * MatchConstraint::remap() : new parameter to hint at unmatched nodes. 
+	    if this constraint covers unmatched nodes, no remapped version is 
+	    returned.
+	* sgm/SubGraphPattern :
+	  * remapConstraints() : prunes now constraints that were not remapped since
+	    not covered by this subgraph
+	* ggl/Rule :
+	  * getUsedWildcard() : now virtual to be overwritten
+	  * setUsedWildcard() : now virtual to be overwritten
+	* ggl/Rule_GML_grammar :
+	  * wildcard "not-set" setup and check uses now the same string as the rest
+	* ggl/MC_* :
+	  * remap() : adapted to MatchConstraint interface change
+	* ggl/chem/ChemRule :
+	  + getUsedWildcard() : returns chemical wildcard label of MoleculeUtil
+	  + setUsedWildcard() : overwrites wildcard setting without any consequence
+	* ggl/chem/LeftSidePattern :
+	  - getUsedWildcard() : obsolete since done via ChemRule function
+	* ggl/chem/MC_MoleculeDecomposition :
+	  * MC_MC_RingNode::remap() : adapted to MatchConstraint interface change
+	* ggl/chem/MC_MC_Node* :
+	  * remap() : adapted to MatchConstraint interface change
+	* bin/toyChemUtil :
+	  * singleRuleApplicationRec() : BUGFIX : was not copying the match 
+	    constraints and wildcards to the subpatterns to match for 
+	    multi-component left side patterns (thanks to Bernhard Thiel)
+
+121022 Martin Mann :
+	* ggl/chem/AromaticityPerception :
+	  * pruneRings : ring overlap computation now via pure iteration and without
+	    temporary data structure creation
+	  * relabelRings : BUGFIX : was using old iterator (C&P bug)
+
+121018 Martin Mann :
+	* ggl/chem/SMILESwriter : 
+	  * handling of non-aromatic single bonds connecting aromatic atoms added
+	  * BUGFIX : ignoreProton handling of single atoms with adjacent protons
+	  * NodeData :
+	    + new constructor based on atom label
+	* ggl/chem/SMILES_grammar :
+	  * BUGFIX : was not parsing aromatic complex atom labels
+	* ggl/chem/MoleculeUtil :
+	  * removeProtons() : is now only pruning protons that cannot be inferred
+	    from atom valence, charge, and adjacent bond information. Remaining
+	    non-inferrable protons are preserved within complex atom labels.
+	* bin/molCheck :
+	  - "removeProtons" parameter : now standard behaviour to produce small
+	    SMILES
+	  + "noProtonRemoval" parameter : optional preserving of adjacent protons
+	    for the output
+
+121017 Martin Mann :
+	* ggl/chem/AromaticityPerception :
+	  + pruneTripleBondRings() : removes all rings that contain triple bonds or
+	    higher. This is applied before fused rings are pruned. This way, only 
+	    rings that can be aromatic are predicted in the end.
+	  + AdjacencyData : formerly EdgeData
+	  + AdjacencyComp : formerly EdgeDataComp
+	    * comparison ensures now that single bond inclusions are always smaller
+	      than any other inclusion and thus handled first
+
+121013 Martin Mann :
+	* ggl/chem/AromaticityPerception :
+	  + implements RingReporter
+	  + RingDescriptor : formerly part of AP_NSPDK
+	    + AromaticityState information to store the prediction per ring
+	  * rename AromaticEdge -> Edge
+	  * rename AtomaticEdgeSet -> EdgeSet
+	  + allRings : formerly part of AP_NSPDK : holds all rings to predict
+	  + pruneFusedRings() : formerly part of AP_NSPDK : removes larger rings 
+	    from allRings that can be decomposed into two known smaller ones
+	  + findAllRings() : abstract function that fills allRings member
+	* ggl/chem/AP_NSPDK :
+	  - allRings : now part of AromaticityPerception
+	  - pruneFusedRings() : now part of AromaticityPerception
+	  - does not implement RingReporter : now part of AromaticityPerception
+	  + findAllRings() : finds all rings up to the maximal size the used model 
+	    can predict
+	  - RR_RelabelRings : replaced by relabelRings()
+	  + relabelRings() : relabels all rings within NSPDK class based on allRings
+	  + isAromaticRing() : individual check for aromaticity for a single ring
+
+120925 Martin Mann :
+	* configure.ac :
+	  + support for build with 2011 ISO C++ standard via "--enable-c++11"
+
+120905 Martin Mann :
+	* configure.ac :
+	  * non-debug compilation options changed : "-fno-strict-aliasing" added
+	    REASON: boost library seems to be incompatible with some aliasing 
+	    implementations within gcc-4.7 and above. Thus, this optimization is
+	    disabled to avoid unexpected segfaults.
+
+120904 Martin Mann :
+	* configure.ac :
+	  - explicit definition of "__cplusplus" removed since internally set by
+	    C++ compiler and thus causing compilation warnings
+	* nspdk/*FlagTraits :
+	  + virtual destructor added to make ANSI-conform
+	* bin/soduko :
+	  * comparison between signed and unsigned integer expressions fixed
+
+120706 Martin Mann :
+	* ggl/chem/SMILES_grammar :
+	  * BUGFIX : atom2_parser : first character was not set correctly since the
+	    parser is copied. Thus it is now set via an external char and accessed
+	    via char pointer.
+	* tests/testggl_chem_SMILES_grammar : SMILES list extended
+	* sgm/SubGraph : some member functions are now inlined
+
+120702 Martin Mann :
+	+ misc/logo/GGL-logo* : new logo added
+	* misc/manual : new logo incorporated
+	* misc/doxygen : new logo incorporated
+	* misc/literature :
+	  + Weininger-1989-2 : unique SMILES generation in ggl::chem::SMILESwriter
+
+120629 Martin Mann :
+	* ggl/chem/MoleculeUtil :
+	  * getAtomLabel(..) : if the label is unknown and cannot be split: no
+	    label is returned (so far only checked via an assert)
+	* ggl/chem/SMILES_grammar :
+	  + simpleSymbol_parser : dedicated parser for single character atom labels, 
+	    checks whether or not the label is known in MoleculeUtil::getAtomData()
+	  + atom1_parser : dedicated parser for single character atom labels that 
+	    checks whether or not the label is known in MoleculeUtil::getAtomData()
+	  + atom2_parser : dedicated parser for two character atom labels that 
+	    checks whether or not the label is known in MoleculeUtil::getAtomData()
+	  + bond_parser : dedicated parser for single character bond labels that 
+	    checks whether or not the label is known in MoleculeUtil::getBondData()
+	  * definition : the grammar definition uses now the new parsers instead of
+	    the list of explicit character or string parser. This should be more
+	    performant and ensures the compatibility of parsable molecules with the
+	    ggl::chem package. The latter is most important.
+	* sgm/Graph_Interface : inline function definitions now within .icc-file
+	* ggl/chem/SMILESwriter :
+	  * canonize(..) : performance tuning
+	    * vertex iteration based on nodeData, ie. only non-proton nodes
+	    * overwrite of rank vectors instead of clear and recreate
+	    * last obsolete while loop pruned
+
+120628 Martin Mann :
+	* ggl/chem/SMILESwriter :
+	  * produces now ALWAYS complex atom labels, ie. no explicit proton 
+	    information is produced
+	  + if protons are to be ignored within the SMILES string, only protons
+	    that can be inferred from atom and bond valence are removed. all other
+	    mandatory proton information is kept.
+	    ! NOTE ! This is the new default behaviour !
+	* tests : updated accordingly
+
+120627 Martin Mann :
+	* ggl/chem/SMILESwriter : 
+	  * build_dfs(..) and canonize(..) interface includes graph property maps
+	  * canonize(..) : 
+	    * computes ranks only for non-hydrogens
+	    * initial invariant computation follows now Weiniger-1998-2
+	  * code documentation extended
+	  * getSMILES(..) :
+	    + new parameter "ignoreProtons" : triggers that protons are ignored 
+	      for SMILES generation. Should mimic the behavior of first removing all
+	      protons before calling the function, but faster since the molecule
+	      graph is not changed here. Nevertheless, different SMILES will result
+	      from the two alternatives!
+	* ggl/chem/MoleculeUtil :
+	  * removeProtons(..) : directly changes input molecule without copying
+	  * fillProtons(..) : directly changes input molecule without copying
+	  * compressHnodes(..) : directly changes input molecule without copying
+	* tests :
+	  * use of XXXparser instead of XXX_grammar
+	  + ggl_chem_MR_Reaction test added to Makefile (was missing so far)
+	* ggl/chem/Reaction :
+	  * operator < : order of order checks changed to hierarchical less on 
+	    (id, #metabolites, #products, metabolites, transState, products, rates)
+
+120625 Martin Mann :
+	* sgm/Graph_Interface : performance tuning
+	  * (Out_)Edge_iterator : 
+	    * access operators are now const members
+	  - NO_FURTHER_EDGE : obsolete
+	  * EdgeDescriptor :
+	    - label : obsolete : access now virtual to enable direct reference
+	    * operator != : now pure virtual : enforces overwrite within subclasses
+	* Graph_Interface subclasses :
+	  * explicit implementation of getEdgeLabel()
+	  * explicit implementation of operator != (Graph_Interface) that forwards
+	    to subclass specific operator (so far these functions were not used!)  
+
+120619 Martin Mann :
+	* ggl/chem/AromaticityPerception :
+	  * relabelMolecule(..) : special handling of remaining valence count when
+	    relabeling aromatic nodes back to non-aromatice: in somce cases only
+	    two double bonds are contributed, thus no aromaticity add required
+	  * EdgeDataComp::() : ordering of edge data changed : first all sure
+	    single bonds are pushed to the front; enables more complete non-aromatic 
+	    labeling
+
+120617 Martin Mann :
+	* ggl/chem/GS_MolCheck :
+	  * ignoreExceptions : decides whether or not exceptions thrown during the
+	    molecule correction are silently ignored or forwarded to be catched
+	    within the calling functions
+	* ggl/chem/AromaticityPerception :
+	  * relabelMolecule(..) : BUGFIX : checks for exception raising were wrong
+	  * relabelMolecule(..) : BUGFIX : remaining valence was without atom charge
+
+120616 Martin Mann :
+	* ggl/chem/AP_NSPDK :
+	  * reportRing(..) : rings with bond label valences > 2 are ignored 
+
+120615 Martin Mann :
+	* ggl/chem/AromaticityPerception :
+	  * node relabeling restricted to atoms with different aromatic/non-aromatic
+	    atom label
+	* ggl/chem/SMILES_grammar :
+	  * BUGFIX : list of valid atom labels incomplete
+	  * double charge (-- or ++) are now replaced with -2 and +2, resp. 
+
+120608 Martin Mann :
+	* sgm/VF2_MatchingHandler : memory and efficiency tuning
+	  - label2string(..) : obsolete when using a map for the EdgeLabel2idx
+	    mapping 
+
+120606 Martin Mann :
+	+ *_GMLparser : wrapper for *_GML_grammar to push the boost
+	  parser includes etc. to the lib to reduce compilation times.
+	  The same for SMILESparser/SMILES_grammar.
+	* use of *_GMLparser instead of *_GML_grammar
+	* thrown exception information extended and documented
+	* sgm/VF2_MatchingHandler : memory and efficiency tuning
+	  * edge label handling now centralized too, ie. only one EdgeLabel instance
+	    for equal edges (should reduce memory usage and needed (de)allocations)
+	  + label2string(..) : produces a string representation of an EdgeLabel, 
+	    needed to identify equal edges
+
+120605 Martin Mann :
+	* perl/molcomp2svg.pl : produces a 2D SVG depiction of a molecule component
+	  from GML format highlighting the specified compIDs
+	* misc/manual/turorial-groups.tex : tutorial for the definition and use
+	  of molecular groups finished
+	* sgm/VF2_MatchingHandler : memory and efficiency tuning
+	  * Label : now a simple integer; thus labels are indices instead of newly
+	    allocated strings
+	  * LabelComparator::compatible() : now virtual
+	  + labelComparator::compatibleLabel() : explicit label comparison based on
+	    integer encoding
+	  + NodeData::NodeData() : empty default construction added
+	  * NodeDataVec : now a storage of NodeData objects instead of pointers;
+	    thus, entries are overwritten without reallocation in case several 
+	    pattern graphs are given
+
+120601 Martin Mann :
+	* bin/molCheck :
+	  + parameter "pruneProtons" : if present, protons are removed from the 
+	    molecule before the output is produced
+	  * BUGFIX : semantic implementation of "noProtonFilling" corrected
+	* misc/manual/turorial-rules.tex :
+	  + group support described
+	  * GML examples corrected
+	  * GML description and definitions now within included, separate files
+	+ misc/manual/gml-include.tex : contains the general GML descriptions
+	+ misc/manual/def-include.tex : contains the general definitions common
+	  to all tutorials
+	+ misc/manual/turorial-groups.tex : tutorial for the definition and use
+	  of molecular groups (not finished yet)
+
+120531 Martin Mann :
+	* tests/testbin_molCheck :
+	  * adaptions to changes in toyChem/purine.smi
+	  + check of group support
+	* bin/toyChemUtil :
+	  * correctInputMolecules(..) : uses now the same pipeline via GS_MolCheck
+	    as done for all molecules produced by rule applications; makes the whole
+	    input conform to produced molecules
+
+120530 Martin Mann :
+	* bin/toyChem :
+	  - XTOF hack removed, not needed anymore
+	  * GML example replaced with molecule
+	  * rule example : constraints added
+	* ggl/Rule
+	  + MatchConstraintVec : typdef for a vector of matching constraints
+	  + getMatchConstraints() : access to the constraints of the left side 
+	    pattern (needed for external Rule copy operations)
+	* bin/molCheck :
+	  + new parameter "groups" to specify molecule components to be used 
+	    abbreviated within the rule and molecule specifications
+	* ggl/chem/MoleculeUtil :
+	  * parseSMILES(..) : group support added
+	  * parseRules(..)  : group support added
+	* ggl/chem/ChemRule :
+	  + insertGroups(..) replaces all nodes with group IDs with the according
+	    molelecule group subgraph and sets their rule level to context
+	  
+120529 Martin Mann :
+	* perl/chemrule2svg.pl : 
+	  + group label support
+	  * left/right ID handling changed to support atom node relabelings
+	+ ggl/chem/GroupMap : map of string IDs to molecule group subgraphs hosted
+	  in ggl/chem/MolecultUtil.hh; to be used by all group supporting chem 
+	  parsers
+	* ggl/chem/MoleculeUtil :
+	  + insertGroups(..) replaces all nodes with group IDs with the according
+	    molelecule group subgraph
+	* ggl/chem/SMILES_grammar :
+	  * atom aromaticity now explitely stored; is more efficient
+	  + group label support : group IDs can be given within complex atom labels
+	    and are replaced with the according subgraphs
+
+120527 Martin Mann : 
+	* ggl/chem/AP_NSPDK :
+	  * call to findRings(..) uses now maximal ring size the used model is
+	    trained for
+	* bin/toyChemUtil :
+	  * correctInputMolecules : new parameter "pruneProtonsFirst" defines
+	    whether or not the initially present protons should be kept or not
+	    
+120526 Martin Mann : 
+	* sgm/RingPerception : 
+	  * findRings : can be now constrained to rings of a given maxRingSize
+	* sgm/RP_Hanser96 : 
+	  * findRings : can be now constrained to rings of a given maxRingSize
+	* bin/MoleculeUtil :
+	  + parseGroups : parsing of MoleculeComponents in GML format to define
+	    subgroups that can be used within rule or molecule specifications
+	* bin/toyChem :
+	  + new parameter "groups" to specify molecule components to be used 
+	    abbreviated within the rule and molecule specifications
+	+ perl/gml2dot.pl : converts a graph from GML to DOT format. The latter can
+	  be visualized using the tools from the graphviz package.
+
+120525 Martin Mann :
+	* ggl/chem/MoleculeUtil :
+	  * fillProtons : BUGFIX : handling of single protons [H+]
+	* perl/Makefile :
+	  * scripts are now installed to the final bin directory
+	* misc/doxygen/doxygen.config :
+	  * BUGFIX : include path of of header/footer via $(SRCDIR)
+	    (Thanks to Jakob Lykke Andersen)
+
+120524 Martin Mann :
+	* perl/printReactionNetwork.pl :
+	  * use of standard temporary directory handling
+	  * produces now SVG output to STDOUT
+	  - no explicit output file produced (avoids overwrite problem)
+	+ perl/chemrule2svg.pl : generates a graphical depiction of a chemical GML
+	  rule encoding in SVG format
+
+120510 Martin Mann :
+	* moved longer member function bodies from .icc into .cc files, ie. the 
+	  libraries, to avoid too long code inclusions
+
+120508 Martin Mann :
+	* Makefiles : "-I$(top_builddir)/src/" include path needed for autogenerated
+	  files like "sgm/HashMap.hh" (Thanks to Jakob Lykke Andersen)
+	* nspdk/Makefile : "-I$(top_srcdir)/src/@LOCAL_SGD_FOLDER@" include path
+	  missing (Thanks to Jakob Lykke Andersen)
+	* configure :
+	  + AC_CONFIG_LINKS : links for the manual source files to enable custom
+	    build path setup
+	- misc/manual/version.tex : obsolete, version now directly written to file
+	* misc/manual/tutorial-rules.tex : 
+	  * version now directly set via configure
+	  * figure path now fully relative via variable for custom build path setup 
+
+120503 Martin Mann :
+	* bin/Makefile : library dependency for aromModel2impl was missing
+	  (Thanks to Jakob Lykke Andersen)
+	* ggl/chem/MoleculeUtil :
+	  * isConsistent(..) : check for protons within complex labels depends on 
+	    correctness of the label, ie. has to be called only on success of the
+	    latter (Thanks to Jakob Lykke Andersen)
+	* tests/bin_molCheck : rewritten such that output is independent of 
+	  internal container order to be platform independent
+	* bin/toyChemUtil::parseMolGML : per default now NO output of the parsed
+	  graphs
+
+120502 Martin Mann :
+	* configure & Makefiles : sub-library includes and library imports are now
+	  done via relative pathes within the Makefiles and not via absolute pathes
+	  set within configure. This enables the use of arbitrary build pathes.
+	  (Thanks to Jakob Lykke Andersen)
+
+120427 Martin Mann : 
+	* perl module now part of the package distribution via EXTRA_DIST
+	+ perl/printReactionNetwork : script that takes the "toyChem -outMode=N"
+	  output and generates a PNG layout of the reaction network. The script
+	  assumes the availability of fdp program from the graphviz package along
+	  with the openbabel tools to generate the molecule graphs. 
+
+120424 Martin Mann :
+	- removal of Graph and Rule template parameters and according types, 
+	  defines, and typedefs, since not used so far and obsolete
+	  * ggl/chem/ChemRule
+	  * ggl/chem/LeftSidePattern
+	  * ggl/chem/RightSidePattern
+	  * ggl/chem/Aromaticity_Perception
+	  * ggl/chem/AP_NSPDK
+	  * ggl/chem/EnergyCalculation
+	  * ggl/chem/EC_MoleculeDecomposition
+	  * ggl/chem/GS_chem
+	  * ggl/chem/GS_MolCheck
+	  * ggl/chem/GS_SMILES_OB
+	  * ggl/chem/GS_SMILES
+	  * ggl/chem/MoleculeComponent_GML_grammar
+	  * ggl/chem/MoleculeDecomposition
+	  * ggl/chem/MoleculeOB
+	  * ggl/chem/MoleculeUtil
+	  * ggl/chem/MR_Reactions
+	  * ggl/chem/ReactionTransitionState
+	  * ggl/chem/SMILES_grammar
+	  * ggl/chem/SMILESwriter
+	  * ggl/chem/SMILESwriterOB
+	  * bin/toyChemUtil
+	  * bin/toyChem
+	  * bin/aromModelNSPDK
+	  * bin/catalan
+	  * bin/gameOfLife
+	  * bin/sudoku
+	  * bin/hanser
+
+120423 Martin Mann :
+	- removal of Graph and Rule template parameters and according types, 
+	  defines, and typedefs, since not used so far and obsolete
+	  * ggl/DFS_ApplyRule
+	  * ggl/Graph :
+	    + integration of the according property definitions
+	  * ggl/Graph_GML_grammar
+	  * ggl/Graph_GML_writer
+	  * ggl/Graph_GXL_writer
+	  * ggl/Graph_Storage
+	  * ggl/GS_STL_*
+	  * ggl/GS_Stream
+	  * ggl/MR_ApplyRule
+	  * ggl/Rule :
+	    + integration of CoreGraph and according property definitions
+	    + integration of RuleContext
+	  * ggl/Rule_GML_grammar
+	  * ggl/LeftSidePattern
+	  * ggl/RightSidePattern
+	- ggl/RuleCoreGraph : obsolete and integrated into the ggl::Rule definition
+	- ggl/RuleProperties : obsolete and integrated into the ggl::Rule definition
+	- ggl/RuleContext : now part of ggl::Rule definition
+	+ ggl/Graph_boost : template initialized sgm::Graph_boost<ggl::Graph> type
+	* tests/dataTargetGraph_* : adaptions to ggl::Graph changes
+	* tests/dataRule_* : adaptions to ggl::Rule changes
+
+120412 Martin Mann :
+	* bin/toyChem :
+	  + Arrhenius law-based reaction rate calculation based on Jankowski et al.
+	  + new parameter 'rateArrT' to set the temperature for the Arrhenius
+	    law-based reaction rate calculation
+	  + reaction network output in DOT format
+	* ggl/chem/RRC_ArrheniusLaw :
+	  - T_in_K parameter replaced by generalized temperature parameter kT
+	  + kT : generalized temperature already scaled, where the latter depends 
+	    on the given energy calculator provided
+
+120409 Martin Mann : 
+	* sgm/* :
+	* ggl/* :
+	* ggl/chem/* :
+	  * brief doxygen documentation added
+	* misc/doxygen/* :
+	  * doxygen documentation generation fixed for new doxygen version
+
+120323 Martin Mann :
+	- bin/gml2smiles : obsolete : functions available via bin/molCheck
+	+ tests/bin_molCheck : tests molCheck binary
+	* ggl/chem/AromaticityPerception :
+	  * relabelMolecule : relabeling is now a bit more simplified and some
+	    checks are reenabled as runtime_errors to ensure a correct abortion
+
+120322 Martin Mann :
+	+ bin/molCheck : enables to chemical check and convertion of molecules
+	* ggl/chem/AromaticityPerception :
+	  * correctAromaticity :
+	  * relabelMolecule :
+	    + new parameter "checkValence" to setup whether or not the valence
+	      checks should be done
+	    + most assertions are now real runtime_errors
+	    + documentation of the exceptions thrown
+	* ggl/chem/GS_MolCheck :
+	  * catches the aromaticity rewrite exception and ignores the according
+	    molecules without further reporting 
+	- bin/model2impl : renamed to aromModel2impl 
+	+ bin/aromModel2impl : renamed from model2impl 
+	* ggl/chem/AP_NSPDK_Model : 
+	  * model loading now sets SVector.size variable
+	* ggl/chem/AP_NSPDK_Model_* : 
+	  * BUGFIX : model data size was wrong causing nonpredictable crashes 
+	    (thanks to Heinz Ekker)
+
+120315 Martin Mann :
+	* bin/toyChem :
+	  * default aromaticity model is now PubChem
+
+120306 Martin Mann :
+	* data/kegg :
+	  - individual ec.* files and directories
+	  + kegg.r58.1.v20111221.tar.gz : compressed archive of the kegg EC gml
+	    graph grammar rule encodings
+	* ggl/Rule :
+	  + isConsistent : checks the consistency of the graph grammar rule 
+	    definition and reports according error codes
+	  + decodeConsistencyStatus : decodes consistency codes to error messages
+	  + Rule_ConCodes : new class that holds all consistency codes needed
+	  * inherits from Rule_ConCodes
+	  + C_... : consistency codes
+	  + checkEdgeContext(..) : validates the correct usage of the edge context
+	  * constructor : ruleID is now a mandatory parameter
+	* ggl/chem/ChemRule :
+	  + addImplicitNoEdgeConstraints() : adds NoEdge constraints for all right
+	    side only edges to be inserted to avoid parallel edges within molecules
+	  * ChemRule_Constants inherits from ggl::Rule_ConCodes and uses and extends
+	    ist constant definitions
+	  * isConsistent : is now a virtual member using the superclass function
+	  * decodeConsistencyStatus : is now a non-static, virtual member using
+	    the superclass function
+	* bin/toyChem : 
+	  * use of rule.decodeConsistencyStatus(..) changed
+	* tests/ggl_Rule :
+	  + isConsistent() test added
+	* bin/toyChem :
+	  + prints now also the constraints and CnP information for each rule in 
+	    verbose output mode
+
+120304 Martin Mann :
+	- ggl/PropEdgeRightLabel : obsolete since edge label changes are to be
+	  encoded via deletion and insertion of an edge 
+	  (thanks to Jakob Lykke Andersen) 
+	  * ggl/RuleCoreGraph : adaption to smaller edge properties
+	  * ggl/Rule : adaption to smaller edge properties
+	  * ggl/ChemRule : adaption to smaller edge properties
+	  * ggl/RuleGraph : adaption to smaller edge properties
+	  * ggl/Rule_GML_grammar : adaption to smaller edge properties
+
+120222 Martin Mann :
+	* ggl/chem/SMILES_grammar : 
+	  * removes the enclosing brackets from complex atom labels to produce 
+	    MoleculeUtil conform atom labels
+	* ggl/chem/SMILESwriter : 
+	  * adds the enclosing brackets to atom labels if needed to produce
+	    SMILES conform labels
+
+120221 Martin Mann :
+	* ggl/chem/MoleculeUtil :
+	  - isWithBracketsInSMILES() : now part of the SMILESwriter
+	  * ... : a complex atom label is now NOT enclosed by brackets anymore
+	* tests/testggl_chem_MoleculeUtil : updated accordingly
+	* ggl/chem/SMILESwriter :
+	  + isWithBracketsInSMILES() : checks whether or not an atom idenfier has to
+	    be enclosed in brackets within SMILES notation or not
+	* ggl/chem/MoleculeDecomposition_*.icc : complex atom labels are now NOT 
+	  enclosed by brackets anymore
+
+120202 Martin Mann :
+	* ggl/chem/MoleculeUtil :
+	  + isWithBracketsInSMILES() : checks whether or not an atom idenfier has to
+	    be enclosed in brackets within SMILES notation or not
+
+temporary version tag "v_temp_120126" for further development : Martin Mann
+
+120125 Martin Mann : 
+	* ggl/chem/MoleculeUtil :
+	  * isValidAtomLabel : BUGFIX of the minor efficiency changes
+
+120118 Martin Mann :
+	* data/kegg : Heinz Ekker : rule replacement : rules were generated without 
+	  hydrogen information, now all valence changes are ok
+	* ggl/chem/ChemRule :
+	  * isConsistent : BUGFIX : order of checks changed since some checks have
+	    some requirements and thus depend on other checks 
+	    (thanks to Heinz Ekker)
+	* ggl/chem/MoleculeUtil :
+	  * isValidAtomLabel : minor efficiency changes and documentation extensions
+
+120117 Martin Mann :
+	* ggl/chem/AP_NSPDK :
+	  * BUGFIX : copy constructor was not copying the ring descriptors correctly
+	    (thanks to Heinz Ekker)
+
+111220 Martin Mann :
+	* ggl/chem/ChemRule :
+	  * checkElectronChange : for aromatic atoms, the an unbalanced electron 
+	    change of 1 is tolerated due to the flexibility of the involved 
+	    electrons within the aromatic ring
+	* tests/diels-alder/
+	  * rule : 
+	    + no edge constraints added to make the rule more specific
+	    * constraints part of the 'left' context, since they are part of the 
+	      pattern
+
+111214 Martin Mann :
+	+ ggl/Graph_GXL_writer : writes a graph in GXL format to stream
+
+111213 Martin Mann :
+	* sgm/PA_OrderCheck :
+	  * getGraphAutomorphism : is now only generating order checks for patterns
+	    WITHOUT CONSTRAINTS, since constraints might be incompatible with the
+	    order checks which will result in missing matches
+
+111129 Martin Mann :
+	* configure :
+	  * OpenBabel interface :
+	    * minimal required version is now 2.3.1
+	    * static linking is prohibited if the OpenBabel port is enabled
+	    + run path support (-R) within the linker flags to make the binaries
+	      independent of the LD_LIBRARY_PATH setup of the user
+	* ggl/chem/MoleculeUtil :
+	  + convertCML* : converts a molecule into Chemical Markup Language (CML)
+	    string representation
+	* ggl/chem/SMILESwriterOB :
+	  + OBconversion object now a static member
+	  * getSMILES : does now a conversion from CML to canonical SMILES
+	* ggl/chem/MoleculeOB :
+	  * uses now the CML representation of a molecule for initialization
+	  - construction from SMILES not supported anymore
+	- ggl/chem/smilesformat.hh : obsolete since now original OpenBabel formats
+	  are used (via dynamic linking) 
+
+111128 Martin Mann :
+	+ ggl/chem/EnergyCalculationConstants :
+	  + Gas_constant_R
+	  + Avogardo_constant_NA
+	  + Bolthmann_constant_kB
+	* ggl/chem/EnergyCalculationConstants :
+	  * now template class to enable inheritance of templated getEnergy function
+	* ggl/chem/RRC_ArrheniusLaw :
+	  * rate calculation based on EnergyCalculation instance added
+	+ misc/literature/Alberty-2011.pdf : concerning pH adaption of energies
+	* MoleculeDecomposition :
+	  * needs now a specified graph and subgraph matcher for construction
+	+ EC_MoleculeDecomposition : EnergyCalculation instance based on the 
+	  MoleculeDecomposition implementation of the Jankowski et al. approach
+
+111123 Martin Mann :
+	+ ggl/chem/EnergyCalculation : abstract interface for energy estimation 
+	  algorithms
+	* ggl/chem/MoleculeDecomposition : 
+	  * now sub class of ggl::chem::EnergyCalculation
+	+ ggl/chem/RRC_ArrheniusLaw : implemenation of a reaction rate calculator
+	  based on the Arrhenius law, i.e. the rate is computed based on the 
+	  Boltmann weight of the energy difference between educts and products
+	* unification of template parameter names to enable the use of type defines
+	  within the implementations
+	* use of the DEFINE shortcuts for template calls within templates to clean
+	  and ease the code
+	* ggl/Graph_Storage :
+	  + additional template parameter to enable full graph access
+	- MR_boostProp : obsolete and never used
+
+111122 Martin Mann :
+	+ ggl/chem/GS_chem : generic graph storage super class for molecule involved
+	    graph storage implementations that covers the general data structures 
+	    needed in order to split a result graph into its components and to treat
+	    each component as a single molecule to be stored
+	  + addMolecule() : abstract reporter function to store a single molecule
+	* ggl/chem/GS_SMILES* :
+	* ggl/chem/GS_MolCheck :
+	* ggl/chem/MR_Reaction :
+	  * are now sub classes of GS_chem -> less code redundancy
+	  + addMolecule() implementation
+	* sgm/MR_SymmBreak :
+	* ggl/Rule::RuleSide :
+	* ggl/chem/MoleculeComponent :
+	  + assignment operator = added to avoid memory leaks
+	* sgm/Pattern :
+	  * copyConstraintVec : now publicly accessible to enable application in 
+	    other copy scenarios
+
+111122 Heinz Ekker :
+	+ data/kegg/* : rewrite rules for all enzymes listed in the KEGG LIGAND 
+	  database (Release 58.1 June 2011). For further details see documentation
+	  file 'data/kegg/README.txt'
+
+version 4.0.0-beta Martin Mann
+
+111121 Martin Mann :
+	* ggl/chem/MC_MC_Node* :
+	  * adaption to changed MC_Node interface to enable the application during
+	    the matching process
+	* ggl/chem/MC_MC_NodeLabel :
+	  + handling of forbidden labels added
+	* ggl/chem/MoleculeDecomposition :
+	  + MC_MC_RingNode : a constraint to ensure that a given node is matched
+	    only on a set of previously identified target node ids involved in rings
+	  * matching involves now MC_MC_RingNode constraints to increase performance
+	* ggl/chem/MoleculeComponent_GML_grammar :
+	  * parsing of MC_MC_NodeLabel operator added
+	  * BUGFIX : assignment of enum values not working for older boost versions,
+	    now explicitely done via parsed string values
+	* ggl/chem/MoleculeDecomposition_groups :
+	* ggl/chem/MoleculeDecomposition_interactions :
+	  * constraints mainly changed to "constrainNode" since more efficient than
+	    "constrainAdj"
+	* bin/toyChem :
+	  * molecule output now sorted to enable a unique output needed for testing
+
+111120 Martin Mann :
+	* tests/Makefile : 
+	  * shell script calls now via $(SHELL) variable
+	- ggl/GraphTarget(Vec) : obsolete and not used anymore
+	- sgm/Graph_boostV : obsolete and not used
+	* sgm/VF2_MatchingHandler :  
+	  + findMatches : generic template function to perform graph matching via
+	    the VF2 engine
+	    --> enables the reduction of redundant source code
+	* sgm/GraphMatching :
+	  + findMatches( .., maxHits) smaller and more expressive interface where 
+	    the maximal number of targeted matchings can be specified 
+	  - findAllMatches
+	  - findOneMatch
+	* sgm/GM_vf2 :
+	  + findMatches( .., maxHits) : implemented via template function 
+	    VF2_MatchingHandler::findMatches() 
+	  - findAllMatches
+	  - findOneMatch
+	* sgm/SubGraphMatching :
+	  + findMatches( .., maxHits) smaller and more expressive interface where 
+	    the maximal number of targeted matchings can be specified 
+	  - findAllMatches
+	  - findOneMatch
+	* sgm/SGM_vf2 :
+	  + findMatches( .., maxHits) : implemented via template function 
+	    VF2_MatchingHandler::findMatches() 
+	  - findAllMatches
+	  - findOneMatch
+	* changes of the (Sub)GraphMatching interface distributed
+
+111119 Martin Mann : 
+	* counter/iterator increment now always pre-increment for better performance
+	* sgm/MC_Node :
+	  + isValidMatch(.. targetID) : node matching specific validation function
+	    that can be used by node data comparators of SGM_vf2
+	+ sgm/VF2_MatchingHandler : general interface that collects all data 
+	  structures and methods to use the VF2 algorithm (reduces redundant code)
+	* sgm/GM_vf2 :
+	* sgm/SGM_vf2 :
+	  * subclass now from VF2_MatchingHandler and use centralized functionality
+	  + direct check of node constraints during matching to avoid unnecessary
+	    matchings
+
+111118 Martin Mann :
+	* configure :
+	  + profiling flag added to enable built with additional information for a 
+	    profiling using 'gprof'
+	* getOutEdgeEnd() handling in for-loops changed for better performance
+	* sgm/GM_vf2 :
+	* sgm/SGM_vf2 :
+	  * changes for better performance
+	  + degree information now part of the node data to match
+	  + degree distribution compatibility is checked before a matching is done 
+	* sgm/MC_NodeAdjacency :
+	* ggl/MR_ApplyRule :
+	  * changes for better performance
+
+111115 Martin Mann :
+	* ggl/MR_ApplyRule :
+	  * BUGFIX : boost::clear_vertex does not remove self loop edges, has to be
+	    done manually.. :(
+
+111114 Martin Mann :
+	* ggl/Rule :
+	  * rename of cut-and-paste to copy-and-paste
+	* sgm/MC_NodeAdjacency :
+	  * BUGFIX : wildcard handling was incorrect
+	* sgm/GM_vf2 :
+	* sgm/SGM_vf2 :
+	  * BUGFIX : findOneMatch : was not stopping after first successful match 
+	    but after the first match checked
+	* ggl/Rule::RuleCnP :
+	  * operator < : BUGFIX : was not comparing pasteID but two times target
+	* ggl/MR_ApplyRule :
+	  * cut-and-paste operations are now performed BEFORE edges are removed or
+	    added to enable cut-and-paste operations of left-side edges
+	+ tests/sgm_MC_NoEdge
+	+ tests/sgm_MC_EdgeLabel
+	+ tests/sgm_MC_NodeLabel
+	+ tests/sgm_MC_NodeAdjacency
+	+ bin/hanser : 
+	  * rules adapted
+	  + verbose / non-verbose output
+
+111111 Martin Mann :
+	* ggl/Rule_GML_grammar :
+	  * CnP source nodes can now be of 'left' or 'context' context
+	+ bin/hanser : graph grammer based implementation of the ring perception
+	  by Hanser et al. (1996)
+
+111110 Martin Mann :
+	* ggl/Rule::RuleCnP :
+	  * target : now an optional definition of the target ID of the edges to 
+	    cut-and-paste
+	  + pasteID : the node id to paste the edges to (formerly target member)
+	* ggl/Rule_GML_grammar :
+	  * RuleCnP parsing changed accordingly
+	* bin/catalan :
+	* tests/catalan/catalan.rule :
+	* misc/manual/tutorial-rules.tex :
+	  * GML cutAndPaste definition changed
+	* doxygen check and update
+
+111109 Martin Mann :
+	* sgm/MC_EdgeLabel :
+	  * BUGFIX : C&P bug : was not checking the edge but the node label ...
+	  * checks now ALL edge labels between two nodes
+	  + compareType : flag that defines whether the maintained edge labels are
+	    defining the set of allowed or forbidden labels
+	* sgm/MC_NodeLabel :
+	  + compareType : flag that defines whether the maintained edge labels are
+	    defining the set of allowed or forbidden labels
+	* sgm/GraphInterface :
+	  * members are now protected and only accessible via according functions
+	* sgm/SubGraph :
+	* sgm/Graph_boost* :
+	* ggl/LeftSidePattern :
+	* ggl/RightSidePattern :
+	* ggl/chem/MoleculeDecomposition :
+	* bin/aromModelNSPDK :
+	  * adaption to Graph_Interface change
+	* ggl/Rule_GML_grammar :
+	  + parsing of the MC_EdgeLabel and MC_NodeLabel operator
+	* test/gml_Rule_GML_grammar : updated and extended with further constraints
+
+111108 Martin Mann :
+	+ ggl/DFS_ApplyRule : general Depths-First-Search framework to combine
+	  graph grammar rule application with DFS
+	* bin/sudoku :
+	* bin/catalan :
+	  * uses now DFS_ApplyRule instead of dedicated local search instance
+
+111104 Martin Mann :
+	* vf2/*State :
+	  * IsFeasiblePair : BUGFIX : was not checking loop edges
+	* tests/sgm_SGM_vf2 :
+	  * tests now loop matching
+	* tests/catalan :
+	  * additional test with loop cleanup added
+
+111103 Martin Mann
+	* sgm/SGM_vf2 :
+	  * loop handling was not correct -> too many copies of loops created since
+	    each loop is reported twice as out-edge
+	* vf2/NULL_NODE : 
+	  * now ULONG_MAX instead of old USHORT_MAX value since we have changed the
+	    type node_id from unsigned short to unsigned long
+	* ggl/Rule_GML_grammar :
+	  * code cleanup
+	  * edge handling now multiset instead of set -> needed for parallel edges
+	  - memorize_node() : obsolete
+	  - memorize_edge() : obsolete
+
+111102 Martin Mann
+	* bin/catalan :
+	  * catalan shrink rule was not correct : constraints removed, since edges
+	    between the fused nodes are allowed and to be removed
+	  + additional loop edge shrink rule added to remove the loops resulting
+	    from the cut-and-paste of two adjacent nodes that are directly connected
+
+111031 Martin Mann
+	* documentation updated
+	* TODOs checked and cleaned
+	* ggl/chem/ChemRule
+	  + checkEdgeInDel() : checks if all bonds are correctly defined by either
+	    a single context, left, or right edge or a combination of one left and
+	    right edge
+	  + C_EdgeMultiplicity : error code for checkEdgeInDel() failure
+
+111028 Martin Mann
+	* bin/catalan :
+	  + dfs solution trace printed in GML format
+	+ tests/testbin_catalan : catalan binary runtime test
+	* sgm/Pattern_Automorphism :
+	  + clone() functionality
+	* sgm/PA_OrderCheck :
+	  * pattern now pointer access instead of reference to enable flat copying
+	  + copy constructor
+	  + clone() functionality
+	* sgm/MR_SymmBreak :
+	  + copy constructor
+	  * data members now pointer to enable assignment
+	  * symmCheck now a real copy of the given Pattern_Automorphism using clone
+	- sgm/Match_Constraint : now part of the Pattern_Interface
+	*sgm/Pattern_Interface :
+	  + Match_Constraint : former sgm::Match_Constraint
+	    * isValidMatch( pattern ) : needs now also the pattern information; this
+	      enables the handling von wildcard labels
+	* sgm/MC_* :
+	* ggl/chem/MC_MC_* :
+	  * adaption to Match_Constraint interface change
+	  * use of wildcard information where needed
+	* sgm/GM_vf2 :
+	* sgm/SGM_vf2 :
+	* ggl/chem/MoleculeDecomposition :
+	  * adaption to Match_Constraint interface change
+	* ggl/Rule::RuleCnP :
+	  + edgeLabels : member that holds the labels of the edges that are to be
+	    cut-and-pasted. if the set is empty, all edges are copied.
+	* ggl/Rule_GML_grammar :
+	  + parsing of the cut-and-paste edge labels
+	* ggl/MR_ApplyRule :
+	  * perform cut-and-paste only for edges with given labels
+	* misc/manual/tutorial-rules
+	  + cut-and-paste documentation added
+
+111027 Martin Mann
+	+ bin/catalan : binary that solves the catalan shrinking problem via DFS
+	* ggl/MR_ApplyRule : 
+	  + considers now cut-and-paste information and performs CnP
+	  * full handling of multiple parallel edges
+	  * no support for edges with status RULE_LABEL_CHANGE any more -> obsolete
+	* ggl/Rule : 
+	  + wildcard : the wildcard string label to be used for left side matching
+	  + get/setUsedWildcard : access to wildcard label
+	* ggl/LeftSidePattern :
+	  * ports now the wildcard label provided by the central Rule object
+	* ggl/Rule_GML_grammar :
+	  + parsing of optional wildcard label definition for left side matching
+	  * additional checks if the wildcard label is present and correctly used
+	* sgm/Match_Constraint :
+	  + isConstrainedLabel(..) : check whether or not a given label is part of
+	    the constraint information; this is needed by Rule_GML_grammar for the
+	    wildcard label checks
+	* sgm/MC_* : 
+	  * adaption to interface change
+	* ggl/chem/ChemRule :
+	  * adaption of ITS generation to non-existing RULE_LABEL_CHANGE for edges
+	* tests/test* : adaption to changes
+	* misc/manual/tutorial-rules.tex
+	  * adaption to explicit wildcard specification
+
+111025 Martin Mann
+	* sgm/Pattern :
+	  + assignment operator for correct cleanup
+	* sgm/SubGraph :
+	  * adaption to wildcard handling
+	* sgm/GraphMatching :
+	* sgm/SubGraphMatching :
+	* sgm/PA_OrderCheck :
+	* ggl/LeftSidePattern :
+	  - wildcard parameter : now part of Pattern_Interface and thus accessible
+	* ggl/chem/MoleculeDecomposition :
+	  - wildcard handling now via Pattern definition
+	* ggl/chem/LeftSidePattern : 
+	  * now real subclass of ggl::LeftSidePatternT
+	  + getUsedWildcard() : access to MoleculeUtil::AtomLabelWildcard for all
+	    chemical rules' left side pattern --> i.e. wildcard is hardcoded for
+	    chemical rules and cannot be changed via definition in GML notation !!!
+	* bin/* :
+	* ggl/GS_STL* :
+	  * adaption to new wildcard handling
+	* ggl/Graph_GML_grammar :
+	  * supports now definition of multiple parallel edges
+	* ggl/Rule_GML_grammar :
+	  + additional checks if all non-left edges have non-left source/target
+	  * support for multiple parallel edges : there is no RULE_LABEL_CHANGE
+	    status for edges anymore, they are explicitly removed and inserted
+	 
+111024 Martin Mann
+	* sgm/SGM_vf2 :
+	* sgm/GM_vf2 :
+	  * support for parallel edges between two nodes integrated
+	  + EdgeLabel : multiset of edge labels to represent multiple parallel edges
+	    between two nodes with a single edge representing the labels of all
+	    original edges (needed since VF2 does not support parallel edges)
+	* tests/* : 
+	  + additional tests for parallel edge search
+	* sgm/Pattern :
+	  + getUsedWildcard() : the wildcard string to be used for (sub)graph
+	    matching is now part of the pattern interface; this enables access
+	    even for MatchReporter instances
+
+111021 Martin Mann
+	* ggl/LeftSidePatternT :
+	  * adaption to Graph_Interface iterator interface
+	* ggl/RightSidePatternT :
+	  * adaption to Graph_Interface iterator interface
+	* ggl/Rule
+	  - RuleSide::outEdges : obsolete and incomplete -> edge iterator interface
+	* tests/* : minor output adaptions to library changes	
+
+111020 Martin Mann
+	* sgm/Graph_Interface :
+	  + OutEdge_iterator : iterator class for the outgoing edges of a given node
+	  + getOutEdgesBegin()
+	  + getOutEdgesEnd() : iterator start/end for the out edges of a given node
+	  * Edge_iterator : context change : now an iterator interface for the edges
+	    between two nodes
+	  * getEdgesBegin() 
+	  * getEdgesEnd() : context change : now iterator start/end for the edges 
+	    between two nodes
+	  - getEdgeLabel() : replaced by edge iterator interface, since two nodes
+	    can be now connected by several edges showing different labels
+	  * labelAdjacentNodes : adaption to iterator interface
+	  * operator == : adaption to iterator interface
+	* sgm/Pattern :
+	  * operator << : adaption to Graph_Interface iterator interface
+	* sgm/SubGraph :
+	  * adaption to Graph_Interface iterator interface
+	* sgm/RP_Hanser96 :
+	  * adaption to Graph_Interface iterator interface
+	* sgm/SGM_vf2 :
+	  * adaption to Graph_Interface iterator interface
+	* sgm/GM_vf2 :
+	  * adaption to Graph_Interface iterator interface
+	* sgm/Graph_boost* :
+	  * adaption to Graph_Interface iterator interface
+	* sgm/MC_Node :
+	  * adaption to Graph_Interface iterator interface
+	* sgm/MC_NoEdge :
+	  * adaption to Graph_Interface iterator interface
+	* sgm/NSPDK_port :
+	  * adaption to Graph_Interface iterator interface
+	* ggl/GS_stream :
+	  * adaption to Graph_Interface iterator interface
+	* ggl/LeftSidePattern :
+	  * adaption to Graph_Interface iterator interface
+	* ggl/MR_ApplyRule :
+	  * adaption to Graph_Interface iterator interface
+	* ggl/chem/MC_MC_Node :
+	  * adaption to Graph_Interface iterator interface
+	* ggl/chem/MoleculeDecomposition :
+	  * adaption to Graph_Interface iterator interface
+	* ggl/chem/ReactionTransitionState :
+	  * adaption to Graph_Interface iterator interface
+
+111019 Martin Mann
+	* sgm/Graph_Interface :
+	  + Edge_iterator : real iterator interface for out edges of a given node
+	  + getEdgesBegin(), getEdgesEnd() : iterator access similar to STL
+	  - getFirstEdge()
+	  - getNextEdge() : both obsolete with new interface
+	  * via iterators now full support for multiple parallel edges between two
+	    nodes
+	  * operator << : now working via edge iterators
+
+111018 Martin Mann
+	* tests/testggl_Rule_grammar : parsed constraints and cutAndPaste operations
+
+111017 Martin Mann
+	* ggl/MR_ApplyRule :
+	  + (FROM==TO) edge handling enabled
+	* ggl/Rule :
+	  + RuleCnP : class to define cut-and-paste operations
+	  + CutAndPasteOperations : container for RuleCnP objects to apply
+	* ggl/chem/ChemRule :
+	  * adaptions to SuperClass changes
+	* ggl/Rule_GML_grammar : 
+	  + cutAndPaste + methods : temporary data member to parse cut-and-paste
+	    operations and to add them to the parsed Rule object 
+
+111013 Martin Mann
+	* *_grammar : compilation fix : removed the "mutable" flag from references
+	  (thanks to Heinz Ekker)
+
+111012 Martin Mann
+	* bin/sudoku :
+	  + additional more stringent rules to speedup the search
+	  * DFS abortion is now done via a pseudo exception to stop SGM search too
+	* misc/manual/tutorial-rules.tex : 
+	  + constraint definitions completed
+
+111011 Martin Mann
+	* sgm/SGM_vf2 : 
+	* sgm/GM_vf2 : 
+	  - static data members now obsolete
+	  + VF_match_handler : data structure that maintains data needed to report
+	    matches and which also handles the reporting
+	  * static data dependency fixed such that each match call runs 
+	    independently
+	+ bin/sudoku : Sudoku solver based on graph grammar rules; 
+	  Note: this is in no way efficient since it does a stupid DFS search for 
+	  valid assignments ... 
+	+ test/testbin_sudoku.sh : test script for sudoku binary
+	+ test/sudoku/* : input files for sudoku tests
+
+111005 Martin Mann
+	+ bin/gameOfLife : Game-of-Life implementation based on graph grammar rules
+	+ test/testbin_gameOfLife.sh : test script for gameOfLife binary
+	+ test/game-of-life/* : input files for gameOfLife tests
+
+110929 Martin Mann
+	* sgd/SVector :
+	  + constructor that initializes the object based on a given SVector::Rep
+	    instance : this can be used to initialize an SVector based on a given
+	    SVector::Pair[] array that defines a Rep instance
+	+ bin/model2impl : converts an sgd::SVector into a static 
+	  SVecter::Pair[] array initialization that can be used to compile a vector
+	  into a binary/library
+	* ggl/chem/AP_NSPDK_Model:
+	  + static members that hold the weight data for each predefined model.
+	    the new definition does not need parsing before the models can be used.
+	  * model loading is now doing a singleton copy of the static model data
+	+ ggl/chem/AP_NSPDK_Model_*.cc : initialization of the new static members
+	+ test/testbin_toyChem.sh : test script for toyChem binary
+
+110928 Martin Mann
+	* ggl/chem/MR_Reaction :
+	  + the AP_* instance to be used for molecule correction is now part of the
+	    constructor
+	* bin/toyChem :
+	  + setup of aromaticity model to be used for correction
+	  + input verification on demand, i.e. aromaticity perception + proton fill
+
+110927 Martin Mann
+	* ggl/chem/MR_Reaction :
+	  * used aromaticity perception applies now "ChEBI:2011:pruned" model
+	* ggl/chem/AromaticityPerception :
+	  * BUGFIX : aromatic2nonaromatic edge relabeling was not complete due to
+	    wrong EdgeData sorting
+	* test AP_NSPDK updated
+
+110926 Martin Mann
+	+ ggl/chem/AP_NSPDK_Model_*.icc
+	  --> additional aromaticity models generated WITHOUT proton pruning to be
+	  used for relabeling after rule application; the proton pruned models are
+	  to be used for protons stripped molecules BEFORE proton filling is done.
+	* ggl/chem/AP_NSPDK_Model:
+	  * registration of the additional models
+	  + getAvailableModels : access to the list of registered model IDs
+
+110922 Martin Mann
+	* configure :
+	  + additional handling for PACKAGE_URL that is not defined for 
+	    autoconf version less 2.64
+	  - version.hh handling : not needed anymore
+	- bin/version.hh.in
+	+ bin/version.hh : gets package information now directly from configure
+	  based defines 
+
+110921 Martin Mann
+	* ggl/chem/AP_NSPDK_Model :
+	  + pruneProton : member to enable feature generation with or without 
+	    protons according to the task at hand
+	* ggl/chem/AP_NSPDK :
+	  * respects the "pruneProton" information from the model
+	* changed currently integrated models to "noH" since trained without protons
+	* ggl/chem/MR_Reactions
+	  * uses per default now the "PubChem:2011:noH:pruned" aromaticity model 
+	* bin/aromModelNSPDK :
+	  + enables now the "pruneProton" model feature for training/testing
+
+110913 Martin Mann
+	+ chem/AP_NSPDK_Model_PubChem-2011-best-20.icc : aromaticity model based
+	  on PubChem database using the best 20% features
+	+ ggl/chem/AP_NSPDK_Model_ChEBI-2011-best-10.icc : aromaticity model based
+	  on ChEBI database using the best 10% features
+	+ ggl/chem/AP_NSPDK_Model_ChEBI-PubChem-2011-best-10.icc : aromaticity model
+	  based on ChEBI and PubChem database using the best 10% features
+	- ggl/chem/AP_NSPDK_Model_PubChem1.icc : replaced by new PubChem model
+	* ggl/chem/AP_NSPDK :
+	  + registration and loading of the three models from above
+	* ggl/chem/MR_Reactions
+	  * uses per default now the "PubChem:2011:pruned" aromaticity model 
+
+110909 Martin Mann
+	* bin/MoleculeUtil :
+	  * parseMolGML : 
+	    * BUGFIX : was not correctly parsing multiple graphs
+	    + automatic aromaticity correction added based on adjacent bonds
+	+ bin/gml2smiles : binary to convert GML molecule representations to SMILES
+	* sgd/SvmModel
+	  + predictValue : returns the predicted value for a test instance
+
+110908 Martin Mann
+	* ggl/chem/AP_NSPDK :
+	  + getFeatures : enables the feature generation for all rings of a given
+	    molecule --> needed to enable training on the data used for prediction
+	* bin/aromModelNSPDK :
+	  + testRing : test mode for evaluating ring-wise performance
+	  + testMol : test mode for evaluating molecule-wise performance
+	  + timing output added (to logfile)
+
+110907 Martin Mann
+	* ggl/chem/ChemRule :
+	  * BUGFIX : memleak : transitionState was not deleted within destructor
+	* ggl/chem/AP_NSPDK_Model :
+	  * BUGFIX : memleak : generated static models were not explicitely deleted
+	    --> now maintained via boost::shared_ptr
+	* ggl/chem/GS_MolCheckT :
+	  * constructor : takes now a reference and clones internally
+	* ggl/LeftSidePattern :
+	  * getGraphAutomorphismT : BUGFIX : was always producing empty symmetry
+	    containers
+	+ misc/jankowski-tool : the molecule decomposition implementation by
+	  Jankowski et al.
+	  + license_GCM.pdf
+	  + windowsBinary.zip
+	+ bin/aromModelNSPDK : binary to train and test NSPDK aromaticity models
+
+110906 Martin Mann
+	* ggl/chem/AP_NSPDK :
+	  + prunes now fused rings and predicts only for remaining smallest rings
+
+110905 Martin Mann
+	* test for MoleculeDecomposition extended
+	* test for MoleculeComponent_GML_grammar updated
+
+110904 Martin Mann
+	* test for MoleculeDecomposition extended
+
+110903 Martin Mann
+	* test for MoleculeDecomposition extended
+	* ggl/chem/MoleculeDecomposition :
+	  * BUGFIX : correctCyclicPhosphates : detection of P and O share was the
+	    wrong way around
+	
+110902 Martin Mann
+	* ggl/chem/MoleculeDecomposition :
+	  + extendPhosphateChain : special handling of non-cyclic polyphosphates
+	  + correctCyclicPhosphates : special handling of cyclic polyphosphates
+	  + correctEnclosedPhosphates : special handling of enclosed non-cyclic
+	    polyphosphates
+
+110901 Martin Mann
+	* ggl/chem/MoleculeDecomposition :
+	  * RingDescriptor simplified
+	  * RingReporter
+	    + reportMatchComplete : enables the check if a decomposition is complete
+
+110831 Martin Mann
+	* ggl/chem/MoleculeComponent :
+	  + RingFragmentType : one has to specify what type of ring the fragment
+	    should be part of
+	  + RingFragmentList : list of nodes that have to form a ring fragment
+	    (former RingFragment type)
+	  * RingFragment : now combination of RingFragmentType and RingFragmentList
+	    to describe a ring fragment
+	* ggl/chem/MoleculeComponent_GML_grammar :
+	  * updated according to MoleculeComponent changes
+	* ggl/chem/MoleculeDecomposition :
+	  + RingDescriptor : subclass to describe a ring via a sorted edge set
+	  * reportRing : groups now all reported rings by type to enable a ring
+	    fragment type selected ring fragment validation
+	  * amide counting considers now also heteroaromatic rings
+	  * prunes all rings that can be decomposed into two rings that share ONE
+	    edge. thus, only smallest rings should be maintained.
+	    --> uses the pruned lists to get the number of heteroaromatic and
+	        threemembered rings 
+
+110830 Martin Mann
+	* test for MoleculeDecomposition extended and pattern definitions fixed
+	* ggl/chem/MoleculeUtil::AtomData :
+	  + maxProtons : new member that enables the explicit definition how many
+	    protons an atom can hold
+	* ggl/chem/MoleculeUtil :
+	  * fillProtonsT : takes care of AtomData::maxProtons
+	* ggl/chem/MoleculeComponent_GML_grammar : 
+	  * BUGFIX : ringFragment and compIDs were not using new node indices
+
+110829 Martin Mann
+	* test for MoleculeDecomposition heavily extended and implementation fixed
+
+110826 Martin Mann
+	* ggl/chem/MoleculeDecomposition : 
+	  * BUGFIX : group ordering was not incorporating description string, such
+	    that some aromatic/non-aromatic versions were considered equal and thus
+	    ignored from insertion
+	  * BUGFIX : class addition for complex atoms was wrong
+	* test for MoleculeDecomposition extended
+	* ggl/chem/MoleculeUtil :
+	  * fillProtonsT : order of valence update changed, such that remaining
+	    valence check is now performed before the aromaticity add is done
+
+110825 Martin Mann
+	+ ggl/chem/MC_MC_Node* : MatchConstraints for MoleculeComponent instances, 
+	  thus (complex) atoms are assumed as node labels. Only the atom identifier
+	  is used for comparison, the charge, class, and proton information is 
+	  ignored. This is needed to enable the constraints within the
+	  MoleculeDecomposition approach that uses relabeling of nodes with class
+	  identifiers. The latter would confuse the standard match constraints.
+	* ggl/chem/MoleculeDecomposition_interactions : 
+	  * compIDs fixed (node 0 missing)
+	* test for MoleculeDecomposition extended --> bugfixing the implementation
+	  and pattern definitions
+
+110823 Martin Mann
+	* sgm/SubGraphPattern :
+	  * BUGFIX : remapping of constraints was producing segfaults and memory
+	    leaks (thanks to Jakob Lykke Andersen)
+	* sgm/Pattern :
+	  * does now a deep copy of the given constraint vector and maintains and
+	    deletes an internal copy
+	* ggl/chem/MoleculeDecomposition :
+	  + small molecule matching integrated
+	  + interaction/conjunction reporting added
+
+110818 Martin Mann
+	+ ggl/chem/MoleculeDecomposition_singleAtoms : energy values for single 
+	  atoms not part of any molecule (Jankowski et al., 2008)
+	+ ggl/chem/MoleculeDecomposition_smallMolecules : energy values for common
+	  small molecules (Jankowski et al., 2008) 
+
+110817 Martin Mann
+	* sgm/SubGraphPattern :
+	  * BUGFIX : Match_Constraints were not mapped to subgraph (thanks to Jakob 
+	    Lykke Andersen)
+	* sgm/Match_Constraint and sgm/MC_* :
+	  + remap(..) : enables the creation of a match constraint copy with altered
+	    node indices, e.g. used within SubGraphPattern to create constraints for
+	    the subgraph
+
+110712 Martin Mann
+	* ggl/RuleGraph :
+	  * BUGFIX : [Left/Right]SidePattern::getNextEdge() : iteration over
+	    adjacent nodes within the left/right pattern was confused by the 
+	    different indices within pattern graph and interal global rule core
+	    graph (thanks to Philipp Peters)
+	    * code redundancy reduced and further code commenting added 
+
+110531 Martin Mann
+	* ggl/chem/MoleculeDecomposition :
+	  + interaction correction factor for vicinal chlorines
+	  + interaction correction factor for heteroaromatic rings
+	    --> currently for all ring sizes : check if ring size is to be limited
+	  + groups : molecular substructures involving unsaturated carbons
+	  + groups : molecular substructures involving saturated carbons
+	* MoleculeUtil :
+	  * fillProtons : BUGFIX : explicit handling of proton atoms
+
+110530 Martin Mann
+	* ggl/chem/AromaticityPerception :
+	  + clone() : enables the cloning of instances 
+	+ ggl/chem/AP_NSPDK_Model : separate class describing the NSPDK model used
+	  for aromaticity prediction
+	  + getInstance(ID) : static access to the predefined models
+	  --> TODO : additional models still to be added, only one model so far
+	* ggl/chem/AP_NSPDK : 
+	  + uses now the AP_NSPDK_Model
+	  + enables the selection of different models via their ID
+	  + models are now defined in separate files included within the source
+	* ggl/chem/GS_MolCheck : minor changes of AP instance handling
+	* ggl/chem/MoleculeDecomposition :
+	  + interaction conjugation pattern and contributions
+	  + interaction correction factor for three-membered rings
+	  + interaction correction factor for hydrocarbons
+	  + interaction correction factor for amides
+	  + interaction correction factor for thioesters
+	  * halogen group pattern corrected
+
+110527 Martin Mann
+	+ misc/literature : will contain all implemented algorithms for reference
+	  and check reasons
+	  + Hanser-1996 : ring perception
+	  + Jankowski-2008 : molecule decomposition for free energy estimation
+
+110526 Martin Mann
+	* ggl/chem/MoleculeUtil :
+	  + fillProtons : fills each node within the molecule graph with protons
+	    according to its remaining valence
+	    --> NOT FINALLY VALIDATED ! IS NOT NECESSARILY CORRECT !
+	+ test: ggl/chem/AP_NSPDK : 
+	  --> TO BE EXTENDED
+	* ggl/chem/MR_Reaction :
+	  + utilizes now a GS_MolCheck instance to correct all molecules produced
+	    via chemical rule application, before they are stored within the 
+	    reaction container
+	* ggl/chem/MoleculeDecomposition :
+	  + relabeling of the molecule to decompose to be conform with the searched
+	    patterns of the groups
+
+110525 Martin Mann
+	* sgd : minor fixes
+	+ sgd/bin/svmsgd : binary to derive an SVM model for given training data
+	* ggl/chem/AP_NSPDK :
+	  + PubChem heterocyclic aromaticity model added; currently only model and
+	    default setup
+	    --> MORE MODELS TO COME
+
+110520 Martin Mann
+	* nspdk : BUGFIX : compilation and linking issues
+	* sgm/NSPDK_port : 
+	  * BUGFIX : compilation and linking issues
+	  + parameterization of maximal distance and radius for feature generation
+	+ tests/testggl_chem_AP_NSPDK : new test started 
+	  --> INCOMPLETE
+	* ggl/chem/MoleculeUtil
+	  + mapping of single/double bonds to aromatic bond label added
+	  + getComplexAtomLabel : enables the generation of a valid complex atom
+	    label for the given information --> test added
+	* ggl/chem/AromaticityPerception
+	  + implementation of relabelMolecule() finished
+	    --> NOT TESTED YET
+	+ ggl/chem/AP_NSPDK :
+	  + AromaticityModel : NSPDK model for aromatic ring prediction
+	  * uses now the information from the aromaticityModel when generating the
+	    features for prediction
+	  * ring "uncertainty" label and view point highlighting label are now part
+	    of the AromaticityModel and thus defined by the model used
+
+110518 Martin Mann
+	* ggl/chem/AromaticityPerception
+	  + implementation of relabelMolecule() started
+	    --> INCOMPLETE : handling of nodes involved in aromatic rings not done
+
+110513 Martin Mann
+	* sgm/Graph_boost* : node number initialization uses now an explicit count
+	  of accessible vertices instead of boost::num_vertices, since this function
+	  might return the wrong number e.g. for boost::filtered_graphs
+	+ ggl/chem/AromaticityPerception : abstract superclass that enables the
+	  aromaticity relabeling of a molecule, i.e. the identification of aromatic
+	  and non-aromatic rings and the SMILES conform labeling
+	  --> INCOMPLETE : relabeling missing
+	+ ggl/chem/AP_NSPDK : an implementation of AromaticityPerception that uses
+	  the NSPDK SVM models to identify aromatic rings
+	  --> INCOMPLETE : model definition and selection missing
+	+ ggl/chem/GS_MolCheck : graph storage instance that performs molecule
+	  checks and relabelings in order to further process only valid molecules
+	  --> INCOMPLETE : not implemented yet
+
+110512 Martin Mann
+	+ new library based on the Stochastic Gradient Descent library (SGD) 
+	  version 1.3, written by L\'eon Bottou and downloaded from
+	    http://leon.bottou.org/projects/sgd
+	  This library implements sparse vectors and matrices as well as a linear
+	  weight support vector machine based on gradient descent optimization.
+	  We ported only the central parts of the library and ported them into the
+	  namespace "sgd" and an explizit lib.
+	  + SvmModel : the data structure that describes a linear SVM model and 
+	    enables the prediction using its encoded data
+	  + SvmSgd : SGD implementation that enables the learning of a model and its
+	    testing for given data
+	- sgm/nspdk: now independent NSPDK library based on SGD library
+	+ nspdk : complete NSPDK library
+	  - wrapper.* (part of SGD)
+	  - vectors.* (part of SGD)
+	  + SVector : typedef to sgd::SVector
+	* MoleculeUtil:
+	  + aromaticSwapMap : maps aromatic atom labels onto their non-aromatic form
+	    and vice versa; this will enable aromaticity relabeling of molecules
+	  
+110511 Martin Mann
+	+ namespace sgm/nspdk : covers the implementation of the Neighborhood 
+	  Substructure Pairwise Distance Kernel (NSPDK) describing graphs for 
+	  machine learning, written by Fabrizio Costa
+	+ sgm/NSPDK_port : wrapper class for NSDPK functions for usage with sgm/ggl
+
+110301 Martin Mann
+	* BUGFIX : ggl/Rule.hh : C&P error in NodeMap definition 
+	  (thanks to Jakob Lykke Andersen)
+
+110112 Martin Mann
+	* BUGFIX : RingReporter::toRingList(..) : does not neccessarily produce the 
+	  intended RingList if the ring is composed from several smaller rings ...
+	* RingReporter :
+	  * Ring --> RingNodes
+	  - no member reportRing(..,RingNodes) anymore
+	  - no member toRingList(RingNodes) anymore (implementation was incomplete)
+	* RP_Hanser96 :
+	  * rings are now reported as RingList instances, causing additional 
+	    data storage, resulting in doubled memory consumption
+
+101113 Martin Mann
+	* sgm/SubGraphMatching / GraphMatching :
+	  * pattern has to be an instance of Pattern_Interface now
+	* sgm/SGM_vf2 / GM_vf2 :
+	  + each match is checked if the additional Match_Constraint defined by the
+	    pattern are fulfilled, if not no report is done
+	* ggl/MR_ApplyRule :
+	  - Match_Constraint check is now obsolete (part of SGM/GM) and was removed
+
+101112 Martin Mann
+	* ggl/Rule_GML_grammar :
+	  + support for MC_NoEdge parsing enabled
+	  + support for MC_EdgeLabel parsing enabled
+	+ sgm/Match : typedef that defines a match : MOVED : from Match_Reporter 
+	+ sgm/Pattern_Interface : special description of a pattern graph including
+	  Match_Constraint's to be fulfilled by a match
+	+ sgm/Pattern : implementation of the Pattern_Interface that is a wrapper
+	  around a given Graph_Interface and a vector of constraints
+	- sgm/Graph_Automorphism : renamed to Pattern_Automorphism 
+	+ sgm/Pattern_Automorphism : renamed from Graph_Automorphism 
+	- sgm/GA_OrderCheck : renamed to GA_OrderCheck 
+	+ sgm/PA_OrderCheck : renamed from PA_OrderCheck
+
+101111 Martin Mann
+	+ sgm/MC_Edge : Match_Constraint for a single edge
+	+ sgm/MC_NoEdge : enforces that a given edge does NOT exist in the target
+	+ sgm/MC_EdgeLabel : enforces that a given edge shows one of a set of labels
+	* ggl/Rule : 
+	  + support for arbitrary Match_Constraints enabled 
+	* ggl/chem/MoleculeDecomposition : 
+	  + exhaustive ring analysis of input molecule via RP_Hanser96
+	  + additional checks for ring fragment matches for molecule components
+	  + DecompositionReporter : abstract interface to get reports on the 
+	    decomposition and the associated components
+	  NOTE: 
+	    - list of groups and interactions incomplete
+	    - reporting incomplete (currently only matched groups and group graph)
+	    - STILL NOT TESTED NOR VERIFIED YET : DONT USE !
+	* ggl/chem/MoleculeComponent* :
+	  + ring fragment specification added for further match constraining
+	+ sgm/RP_Hanser96 : Implementation of the exhaustive ring perception 
+	  algorithm by Hanser et al. (1996) (see header for reference)
+	
+101110 Martin Mann
+	+ sgm/RingReporter : abstract interface to report a found ring within graphs
+	+ sgm/RingPerception : abstract interface of ring detection algorithms
+	+ ggl/chem/MoleculeDecomposition : implements the molecule decomposition 
+	  approach to analyze a molecules thermodynamics. The approach follows the
+	  article by Jankowski et al. (2008) (see header for reference)
+	  NOTE: 
+	    - currently only the framework is developed
+	    - RING handling still not implemented
+	    - list of groups and interactions incomplete
+	    - NOT TESTED NOR VERIFIED YET : DONT USE !
+	* ggl/chem/MoleculeComponent* :
+	  + new member 'compIDs' that holds the node IDs of the pattern that are
+	    part of the molecule component described by the features
+	* sgm/Graph_boost : property maps are now globally handled and not always
+	  locally accessed
+
+101109 Martin Mann
+	+ ggl/chem/MoleculeComponent : Describes a molecule component that is used 
+	  by MoleculeDecomposition to assess thermodynamic properties of a molecule. 
+	  It describes the molecule component pattern to be matched and the 
+	  according properties.
+	+ ggl/chem/MoleculeComponent_GML_grammar : GML parser for MoleculeComponent
+	+ sgm/Match_Constraint : abstract class to formulate match constraints
+	- ggl/RuleConstraint : moved to be sgm::MC_Node
+	+ sgm/MC_Node : Match_Constraints for a single node
+	+ sgm/MC_NodeAdjacency : constraints the adjacnency of a node
+	+ sgm/MC_NodeLabel : constraints the allowed labels of a node
+	* SMILES_grammar :
+	  BUGFIX of BUGFIX : explicit aromatic bond handling reenabled
+	* SMILESwriter :
+	  BUGFIX : two letter atom labels were not written in brackets
+
+101108 Martin Mann
+	* ggl/Graph : 
+	  + stream operator "<<" defined using Graph_GML_writer::write
+	* SMILES_grammar :
+	  BUGFIX : was not handling all SMILES conform ring closures
+	* SMILESwriter :
+	  * BUGFIX : if the ring number exceeded one digit, no "%" was added. This 
+	    resulted in non-conform, unparseable SMILES.
+	  * changed internal ring ID style from "ROxx%" to "[<xx]" for the opening
+	    and "RCxx%" to "[>xx]" for the closing tag
+	* ggl/chem/MoleculeUtil :
+	  * RENAME : AtomData::protons --> AtomData::atomicNumber
+	  + C_BondRing : additional check for a bond that connects an atom with 
+	    itself
+	  + C_NonConnected : checks if the molecule graph is connected, i.e. shows
+	    only one connected component
+	  + decodeConsistencyStatus : writes a description of the consistency error
+	    to stream to ease error parsing
+	* ggl/chem/ChemRule :
+	  + C_BondRing : additional check for a bond that connects an atom with 
+	    itself
+	  + decodeConsistencyStatus : writes a description of the consistency error
+	    to stream to ease error parsing
+
+101105 Christoph Flamm
+	* ggl/chem/MoleculeUtil :
+	  + atom weight for each atom is now stored
+	  * list of handled atom data is now complete
+	  
+101105 Heinz Ekker
+	+ perl port for bin/ToyChemUtil::applyRule functionality
+
+101105 Martin Mann
+	+ ggl/RC_NodeLabel : new RuleConstraint that checks if the mapped node label
+	  is among a given set of allowed labels. 
+	  NOTE: This rule constraint makes only sense if the rule node to be mapped 
+	  is labeled with a wildcard.
+	* ggl/Rule_GML_grammar :
+	  * RENAME : key "constrainNode" --> "constrainAdj" to define RC_Adjacency
+	    rule constraints
+	  + support for RC_NodeLabel parsing using keyword "constrainNode" 
+	  + additional checks that ensure a label change if something occures in
+	    left and right context
+	* ggl/MR_ApplyRule :
+	  * BUGFIX : was using the left side pattern node labels to create the final
+	    result graph instead of the matched node labels of the target. This
+	    resulted in wrong results when using wildcards within the rule.
+	* ggl/chem/MoleculeUtil:
+	  * BUGFIX : checkBondLabelT : was not using isValidBondLabel() function
+	  + C_AtomLabelWildcard : check error encoding for atoms with wildcards
+	  + C_AtomComplexWithH : check error encoding for atoms with implicit H's
+	  * isConsistent() : now ensures that no atom label is equal to the
+	    AtomLabelWildcard, i.e. wildcard are only allowed within rules, and
+	    no implicit H atoms are present within complex atom labels
+	* ggl/chem/ChemRule :
+	  + C_AtomComplexWithH : check error encoding for atoms with implicit H's
+	  * isConsistent() : now ensures that no implicit H atoms are present within
+	    complex atom labels, currently not supported
+	* bin/toyChemUtil:
+	  * parseSMILES : 
+	    + checks if the produced molecule is consistent, throws an
+	      exception otherwise
+	    + checks if a SMILES contains a '.' connector and throws an exception
+	      if present (currently not supported but could be added...) 
+	  * parseMolGML : checks if the produced molecule is consistent, throws an
+	    exception otherwise 
+
+101104 Martin Mann
+	* Rule_GML_grammar : 
+	  * utilizes now a vector<RuleConstraint*> to enable subclassing
+	* Rule : 
+	  * RuleSide : utilizes now a vector<RuleConstraint*> to enable subclassing
+	* RuleConstraint :
+	  * is now abstract superclass for different kinds of rule constraints
+	+ RC_Adjacency : represents the former "RuleConstraint" implementation and
+	  constrains the adjacency of a node
+	* MR_ApplyRule :
+	  * isApplicable : uses now RuleConstraint member function to check if any
+	    of the rule constraints is violated
+	* bin/toyChemUtil :
+	  * automorphism initializations use MoleculeUtil::AtomlabelWildcard
+	    !!! TO CHECK !!! not sure if this is not resulting in wrong symmetry
+	                     rules ... to be checked
+	  * SGM matching calls use MoleculeUtil::AtomlabelWildcard
+	* ggl/chem/MoleculeUtil :
+	  + AtomLabelWildcard : constant : the standard atom wildcard used in 
+	    molecule descriptions, defaults currently to "*"
+	* ggl/RuleGraph :
+	  * getGraphAutomorphism : is now a template function where the used 
+	    GraphMatcher can be specified, forwards the parameter to 
+	    GA_OrderCheck::getGraphAutomorphismT<..>.
+	    A non-template wrapper function defaulting to sgm::GM_vf2 is available.
+	  * getGraphAutomorphism* : wildcard can be specified if needed for 
+	    automorphismgeneration
+	* sgm/GA_OrderCheck :
+	  * getGraphAutomorphism : is now a template function where the used 
+	    GraphMatcher can be specified.
+	    A non-template wrapper function defaulting to sgm::GM_vf2 is available.
+	  + wildcard support added
+	  + NO_WILDCARD : new static const member == GraphMatcher::NO_WILDCARD
+	* ggl/GS_STL_pushUnique* : 
+	  + wildcard support added
+	  + NO_WILDCARD : new static const member == GraphMatcher::NO_WILDCARD
+	* sgm/SubGraphMatching :
+	  + wildcard specification now possible according to GraphMatching
+	  + NO_WILDCARD : new static const member == GraphMatcher::NO_WILDCARD
+	* sgm/SGM_vf2 :
+	  + wildcard support implemented
+	* sgm/GraphMatching :
+	  * wildcard specification now applied for both, pattern and target
+	* sgm/GM_vf2 :
+	  + wildcard support implemented
+	* tests :
+	  * Makefile : additional '-Wno-deprecated' compiler flag removed and 
+	    '-w' added instead to suppress all warning for test compilation
+	  * GM_vf2 : wildcard mapping tests added
+	  * SGM_vf2 : wildcard mapping tests added
+	  * MR_ApplyRule : wildcard mapping tests added
+
+101103 Martin Mann
+	* sgm/GraphMatching : 
+	  + support for wildcard specification for the mapping
+	* configure :
+	  + "-fPIC" gcc flag enabled for shared libraries (only set if no static
+	    library is build)
+	    NOTE: the flag is not set under Cygwin since it produces a  
+	          non-suppressable warning
+	  * AC_INIT initialization changed : url now at URL position
+	* sgm/Makefile :
+	  * BUGFIX : HashMap.hh was not installed correctly (thanks to Heinz Ekker)
+	* ggl/chem/SMILESwriter :
+	  * boost include version dependent
+
+101102 Martin Mann
+	* bin/toyChemUtil :
+	  * BUGFIX : parsed SMILES were not using H-compressed graphs, therefore an
+	    input of "HCH" was not stored as "[CH2]" as it would be when produced by
+	    a reaction. this might have resulted in multiple entries of molecules 
+	    and wrong molecule numbers. (thanks to Christoph Flamm)
+
+100929 Martin Mann
+	* ggl/Rule_GML_grammar
+	  * the specification of the 'ruleID' is now mandatory and checked
+	* test/testggl_Rule_GML_grammar : adapted accordingly
+	  
+version 3.6.2
+
+100928 Martin Mann
+	* ggl/chem/ChemRule
+	  * BUGFIX : checkAtomLabel(..) : was not correctly checking the right label
+	    of nodes that change their label
+	* ggl/Rule_GML_grammar
+	  * documentation updated/extended/fixed
+	* misc/manual/tutorial-rules :
+	  * ruleId --> ruleID : GML key wrong in all examples
+	+ ggl/Rule_GML_error : exception class for verbose error reporting during
+	  GML rule parsing. Intended for logical errors like unknown IDs or multiple
+	  specifications of nodes/edges, etc.
+	* ggl/Rule_GML_grammar :
+	  + uses Rule_GML_error to report logical errors withing the GML rule
+	    specification --> replaces the use of 'assert' statements
+	* bin/toyChemUtil :
+	  * parseRule : explicit exception handling for Rule_GML_error instances
+
+100927 Martin Mann
+	* configure :
+	  + check for 'pdflatex' for documentation generation
+	+ misc/manual
+	  + Makefile : automatic documentation build
+	  + version-info.tex : configure based version information
+
+100923 Christoph Flamm
+	+ misc/manual/tutorial-rules : tutorial how to write a graph grammar rule
+	  in GML
+
+version 3.6.1
+
+100518 Martin Mann
+	* ggl/Rule_GML_grammar :
+	  * BUGFIX : node index update was missing for rule constraints 
+	    (thanks to Daniel Högerl)
+
+version 3.6.0
+
+100419 Martin Mann
+	* RuleConstraint : can be used to constrain the number of adjacent edge and
+	  node label combinations of a certain node of the rule graph
+	  --> currently only used for rule.leftSide, i.e. rule matching, but usage
+	      could be extended to constrain rule application results as well...
+	- ggl/RC_AdjNodes : now with extended functionality integrated into 
+	  ggl::RuleConstraint (no sub classing, type casting, etc. needed anymore)
+	* test/MR_ApplyRule : 
+	  + tests for RuleConstraint usage added
+	* Rule_GML_grammar :
+	  + extended grammar for rule constraints
+	  + trimQuotes(..) : dedicated function to trim leading and tailing quote
+	    signals, i.e. "", '', "&";
+	  * strings are now also parsed when enclosed by single quotes '..'
+	* ggl/chem/ChemRule : Rule (super class) constructor changes integrated
+	* ggl/chem/MoleculeOB 
+	  * getMolEnergy() : now NaN returned in case the force field loading failed
+
+100416 Martin Mann
+	+ ggl/RuleConstraint : encodes additional constraints important to specify
+	  a Rule
+	+ ggl/RC_AdjNodes : a rule constraint that constrains the number of adjacent
+	  nodes showing a certain label to a given number (via relational operator) 
+	* ggl/Rule/RuleSide :
+	  + constraints : new member that holds the rule constraints that  
+	    further restrict the rule side
+	* ggl/LeftSidePattern :
+	  + getMatchConstraints() : const access to rule.leftSide.constraints
+	* ggl/MR_ApplyRule :
+	  + isApplicable : checks whether or not the left side of a rule can be 
+	    applied for a given match; 
+	    currently implementing the RC_AdjNodes mapping constraints of
+	    a graph grammar rule
+
+100323 Martin Mann
+	* ggl/chem/MoleculeUtil :
+	  * compressHnodes : BUGFIX : check if there was already a complex label 
+	    ending with ']' was missing such that such label resulted in double
+	    bracket end ']]' (Thanks to Daniel Högerl)
+
+100315 Martin Mann
+	* ggl/chem/MoleculeOB :
+	  * BUGFIX: smiles2molecule parsing was checking for wrong result 
+	    ("1" instead of "-1"), check replaced with assertion
+
+100315 Daniel Högerl
+    * ggl/chem/MoleculeOB : prune H-atoms when creating a MoleculeOB
+	  object from SMILES or ggl::chem::Molecule, so OpenBabel can handle the
+	  containing OBMol object
+	+ testggl_chem_MoleculeOB : tests the MoleculeOB class
+
+100313 Martin Mann
+	* ... : doxygen documentation updated
+	+ ggl/chem/Reaction : now part of ggl::chem:: namespace
+	+ ggl/chem/MR_Reactions : now part of ggl::chem:: namespace
+	+ ggl/chem/ReactionTransitionState : now part of ggl::chem:: namespace
+	+ ggl/chem/ReactionRateCalculation : now part of ggl::chem:: namespace
+	+ testggl_chem_MR_Reactions : tests all above classes
+
+100312 Martin Mann
+	* ggl/chem/SMILESwriterOB :
+	  * BUGFIX : OpenBabel cannot handle explicit H-atoms within SMILES, thus
+	    before generating the temporary SMILES using SMILESwriter a molecule
+	    without explicit protons (H) is created that is transformed afterwards
+	    --> STILL : no efficient implementation and not sure if resulting in
+	                cannonical SMILES (still to test for both SMILES writer)
+
+100311 Martin Mann
+	* ggl/chem/MoleculeUtil :
+	  + copyT : template : copies a boost graph object into a Molecule object
+	
+100310 Martin Mann
+	* ggl/chem/MoleculeUtil :
+	  + copy : copies a molecule object into another
+
+100309 Martin Mann
+	* ggl/chem/MoleculeUtil :
+	  + getAtom : returns the atom identifier only
+	  + removeProtons : removes all protons from a given molecule graph, i.e.
+	    all nodes that represent an H-atom only (not for H-H molecules) as well
+	    as all proton information from all other atom labels
+
+100308 Martin Mann
+	* bin/toyChem
+	  + in verbose mode : print currently processed reaction and afterwards the
+	    number of produced molecules 
+
+100304 Daniel Högerl
+	* ggl/chem/MoleculeOB
+	  + fixed missing variable declaration
+
+version 3.5.4
+
+100304 Martin Mann
+	* bin/ReactionTransitionState
+	  * COMPILE BUGFIX : was using protected member Rule.LeftSide directly 
+	    instead via access member function (thanks to Christoph Flamm)
+	* *_grammar
+	  + switch for deprecated BGL headers with BOOST version >= 103800
+
+100216 Daniel Högerl
+	* ggl/chem/MoleculeOB
+	  + use ForceField for energy calculation
+	  
+100216 Daniel Högerl
+	* ggl/chem/MoleculeOB
+	  + fixed compile error and added method to get molecule formation energy
+
+100212 Martin Mann
+	+ ggl/chem/MoleculeOB : a wrapper class around an OpenBabel::OBMol object
+	  created from a SMILES string or an ggl::Molecule
+	  + getMolWeight : accesses OBMol::getMolWt()
+
+version 3.5.3
+
+100114 Martin Mann
+	* tests : updated according to latest changes since last version
+
+100113 Martin Mann
+	+ RRC_TState : dummy reaction rate calculator that enforces the generation
+	  of the imaginary transition state (ITS) of the reaction but returns
+	  always "nan" as reaction rate
+	* toyChem : no rate calculation will nevertheless create the ITS using the
+	  RRC_TState class
+	* MR_Reaction, ReactionTransitionState :
+	  - autoMultiCopy : renamed to "addEachComponent"
+	  + addEachComponennt : formerly "autoMultiCopy"
+	  * default for addEachComponent now "false"
+	  * MR_Reaction::reportHit : BUGFIX : was not utilizing the addEachComponent 
+	    information, i.e. the metabolite list could have been too long in some 
+	    cases  
+	* MR_ApplyRule : 
+	  * BUGFIX : reportHit : new version was not completely correct
+	* ReactionTransitionState :
+	  * BUGFIX : graph generation was not completely correct
+	  + additional check if all left-side-nodes are mapped onto separate
+	    target-graph-nodes; if not rule application for the given match is 
+	    aborted
+
+100112 Martin Mann
+	* vflib/ArgEdit::InsertEdge : more verbose error reporting
+	* MR_ApplyRule :
+	  + additional asserts to check for duplicated edge insertions
+	  + checks now if nodes to delete (via rule) have no edges left; otherwise
+	    the rule application is aborted
+	  + additional check if all left-side-nodes are mapped onto separate
+	    target-graph-nodes; if not rule application for the given match is 
+	    aborted
+
+100111 Martin Mann
+	* MR_ApplyRule :
+	  - autoMultiCopy : renamed to "addEachComponent"
+	  + addEachComponennt : formerly "autoMultiCopy" 
+	  * reportHit : generic Graph_Interface target graph handling enabled. 
+	    till now the class was restricted to sgm::Graph_boost* classes.
+	  - minMatchedTargetGraphs : obsolete member/parameter, all done via
+	    "addEachComponent"
+	* MR_Reaction :
+	  - minMatchedTargetGraphs (see MR_ApplyRule)
+	* all MR_ApplyRule and MR_Reaction using classes/methods
+
+100109 Martin Mann
+	* RateCalculation
+	  - now no template class anymore: the rule was not needed nor available
+	+ RRC_QuantumMechanics : calculates a reaction rate based on a call to the 
+	  server of Sebastian Sauer via MOPAC or JAGGUAR.
+	  Original source by Daniel Högerl.
+	  + test for the availablity of the server added
+	* toyChem :
+	  + new param "rate" enables the setup of a rate calculation mode
+	  + new param "noRuleCheck" to disable the initial chemrule checks
+	* chem::ChemRule : 
+	  + electron change check reenabled
+
+version 3.5.2
+
+100108 Martin Mann
+	+ ReactionTransitionState : full imaginary transition state of a reaction
+	* MR_Reaction : feeds now the ReactionTransitionState into the reaction
+	  instead of the ChemRule encoded core TransitionState
+	* Reaction :
+	  * outstream operator : 
+	    + prints the transition state if present
+        * output is now one whole smiles string that encodes the reaction
+
+100107 Martin Mann
+	* configure :
+	  - warnings for deprecated headers are ignored now, to enable debug mode
+	    compilation with boost library that partially still uses deprecated
+	    headers. This caused the boost header check to fail even when the 
+	    boost header files were available.
+
+100105 Martin Mann
+	* chem::ChemRule : 
+	  - electron change check currently disabled, since we do not explicitely 
+		represent H-atoms and therefore we have only incomplete electron 
+		information 
+	    # TODO renable check as soon as H-atom filling is available
+	* toyChem :
+	  * BUGFIX : was using MR_ApplyRule instead of MR_ApplyRuleT<ChemRule>
+
+091216 Martin Mann
+	* member documentation updated
+
+091026 Martin Mann
+	* BUGFIX : ChemRule.icc : wrong assert check (thanks to Daniel Högerl)
+
+091008 Martin Mann
+	* chem::MoleculeUtil :
+	  + now all atoms with atom number 1-20 supported, remaining to come ..
+	+ ggl::chem::LeftSidePattern : LeftSidePattern of ggl::chem::ChemRule
+	+ ggl::chem::RightSidePattern : RightSidePattern of ggl::chem::ChemRule
+	* toyChem / toyChemUtil : utilize ggl::chem::*SidePattern
+	* MR_Reactions :
+	  + reports each matched molecule only once (important for intramolecular
+	    matches of multicomponent rules)
+	  + creates no reaction if no product was created (MR_ApplyRule produced no
+	    valid graph) --> should only happen for intramolecular matches that are
+	    currently not working chemically correct ...
+	+ RRC_Fixed : reaction rate calculator that returns a fixed (given) reaction
+	  rate indepently from the reaction given
+
+090828 Martin Mann
+	* TransitionState : now part (internal class) of the ChemRule definition
+	* ChemRule :
+	  + getTransitionState() : access to the minimal transition state of a rule
+	    --> calculated on demand but only once per object
+	  - constants : now part of the ChemRule_Constants superclass
+	+ ChemRule_Constants : contains all template independent ChemRule constants 
+
+090826 Martin Mann
+	* MoleculeUtil : 
+	  + checkBondLabelT() : checks if all bond label of a molecule are ok
+	  * isConsistent(mol) : 
+	    + utilizes checkBondLabelT
+	* ReactionRateCalculation : 
+	  + needTransitionState() : announces if the transition state is explicitly
+	    needed for the rate calculation (has to be precalculated and will be
+	    stored within Reaction object)
+	  * getRate() : reduced to one parameter : Reaction object
+	* Reaction :
+	  + transState : the SMILES of the transition state
+
+version 3.5.0
+
+090817 Martin Mann
+	* MoleculeUtil :
+	  + getAtomData(label) : direct access to atom data for a (complex) label 
+	  + getCharge(label) : direct access to charge info for a (complex) label 
+	  + getProtons(label) : direct access to proton info for a (complex) label 
+	  + getClass(label) : direct access to class info for a (complex) label
+	  + BondLabelData : container class that stores bond associated information
+	  + getBondData() : access to all BondLabelData entries
+	  + getBondData(label) : access to the BondLabelData for a (complex) label 
+	  + compressHnodes : formerly part of SMILESwriter
+	* SMILESwriter : 
+	  * utilizes now extended parsing interface of MoleculeUtil
+	  * generic bond handling according to bond data from MoleculeUtil
+	  - compressHnodes : now part of MoleculeUtil
+	* ChemRule :
+	  + checkBondLabel : checks if all bond label are SMILES conform
+	  + checkElectronChange : checks if the electron change via atom and bond
+	    label changes is balanced
+	* Rule_GML_grammar :
+	  * removal of rule ID string quotes if present
+	* toyChem : 
+	  + checks for ChemRule consistency and reports according error output
+	* toyChemUtil :
+	  * parseSMILES : generates a new canonical SMILES string with utilizing the
+	    SMILESwriter for storing instead of using the user given one
+
+090816 Martin Mann
+	* SMILESwriter :
+	  * compressHatoms : H-H connections are not compressed anymore
+	  - getLabelData() and labelData member : now part of MoleculeUtil
+	+ MoleculeUtil : utility class that stores atom and molecule related 
+	  information
+	  + isValidAtomLabel : checks if a given atom label is SMILES conform and
+	    can be handled, e.g. by the SMILESwriter
+	  + isConsistent(Molecule) : checks if a molecule is SMILES conform and 
+	    consistent : TODO -> testing not done yet
+	* ChemRule : 
+	  * isConsistent : additional check for label consistency and allows now for
+	    label changes
+
+090815 Martin Mann
+	* ALL TEMPLATES : for each a *_TEMPLATE and *_TYPE define is introduced in
+	  the header to avoid code blowup of repeated template information
+	* SMILESwriter : 
+	  * compressHatoms : BUGFIX : H information was not inserted directly after
+	    the atom label
+
+090814 Martin Mann
+	* bin/toyChemUtil : 
+	  * rule parsing handles now multiple rules in one input line
+	* SMILESwriter :
+	  * build_dfs : BUGFIX : support for other bond labels than "-" and "="
+	+ TransitionState : calculates the transition state graph from a given Rule
+	  * utilizes ChemRule::isConsistent() member within assertion to ensure that
+	    the chemical rule is valid
+	+ ggl/chem/ChemRule : subclass of RuleT that will enable additional checks
+	  and information needed for chemical reactions encoded in graph grammar
+	  rules
+	  + isConsistent() : consistency checks for chemical rule object with the
+	    return of according error codes
+	* bin/toyChem* : utilizes now ggl::chem::ChemRule instead of ggl::Rule
+
+090813 Martin Mann
+	* RuleContext : enum elements renamed to RULE_* for better identification
+	* Rule_GML_grammar : "ruleID" now part of the GML description and parsed
+	* bin/toyChemUtil : 
+	  * rule parsing utilizes "rule" keyword instead of comment line information
+	    for rule separation
+
+090812 Martin Mann
+	* GS_SMILES_MOLp :
+	  + additional constant SMILES-to-Molecule maps for existence checks
+	* GS_SMILES_MOL* : BUGFIX : for multi-component matches 
+	    : was not storing the resulting graph components but the whole graph
+	* MR_Reaction :
+	  * uses now containers of GS_SMILES_MOLp superclass
+	* SMILESwriter :
+	  * compressHatoms : only H-atoms with degree == 1 are removed/compressed
+	+ ReactionRateCalculation : super class for different kinds of rate 
+	  calculations for a given Reaction
+	* MR_Reaction :
+	  * if a ReactionRateCalculation is given, a rate is requested for each
+	    new Reaction derived
+	* Reaction :
+	  * initializes the rate with NaN 
+	  * operator < : compares rates only if both are set (i.e. != NaN)
+	* bin/toyChem :
+	  + new parameter "-showNew" : prints all really new molecules per iteration
+	* tests updated
+
+090811 Martin Mann
+	* SMILESwriter : 
+	  + compressHatoms : moves all H-nodes into the adjacent node label and 
+	    removes all H-nodes
+	* GS_SMILES :
+	  * utilizes compressHatoms to produce only smiles without explicite H-nodes
+	    --> all H-atoms are incorporated into the adjacent node labels before
+	        the SMILES string is created (better human readable)
+	* Graph_Interface :
+	  + ostream operator added (prints the adjacency information including 
+	    labels)
+	* bin/toyChemUtil.cc :
+	  * utilizes compressHatoms to create initial SMILES when reading from 
+	    molecule graphs
+	
+090801 Martin Mann / Alexander Ullrich
+	* SMILESwriter :
+	  * allows for an almost complete list of atom labels
+	  + utilizes 'H' information in complex atom labels
+
+090706 Martin Mann
+	* configure.ac : internal structure updated and obsolete handling of CP
+	  module erased
+	* tests/Makefile.am : now POSIX conform
+	* toyChem : ouput of GML example finally ready
+	
+090629 Martin Mann
+	* toyChem : molecule graph example added
+
+090626 Christoph Flamm
+	* SMILES, Rule-GML grammars : added missing header <iostream> to
+	  make sources g++ (GCC) 4.4.0 20090506 (Red Hat 4.4.0-4) FC11
+	  complient.
+	  
+090625 Christoph Flamm
+	* SMILES parser : added functions and semantic actions to handle
+	  explicit hydrogen atoms of complex atoms. Explicit hydrogens are
+	  now add to the constructed molecular graph. Modified SMILES
+	  parser test.
+	
+090623 Christoph Flamm
+	* SMILES parser : added warnings to ignored complex atom fields;
+	  only charged complex atoms keep their square brackets; in all other
+	  cases the ignored fields and the square brackets are removed during
+	  parsing. Fixed BUG of strange handling of [nH] elements.
+	
+090622 Martin Mann
+	* toychem : ruleExample : visualization differed from rule definition
+	  (thanks to Daniel Hoegerl) 
+
+090607 Martin Mann
+	* configure.ac : old and obsolete macros replaced
+
+version 3.4.6
+
+090518 Martin Mann
+
+BUG : SMILES_grammar : strange handling of [nH] elements in current version 
+ --> leads to test failure and successively to test failure of SMILESwriter
+     and GS_SMILES
+
+090518 Martin Mann
+	* MR_Reaction : BUGFIX : debug assertions (were not compiling in debug mode)
+	* ggl::chem::SMILESwriter : 
+	  * signed-unsigned comparison removed
+	  * BUGFIX : was not working for boost::filtered_graph instances due to the
+	    assumption that nodes are successively indexed starting from 0 and such
+	    the last node index is (num_of_vertices(g)-1). This is not true for 
+	    filtered_graphs where only a subset of nodes is displayed.
+	* configure : 
+	  + check for Windows system (cygwin, mingw, ..) to enable the auto-import
+	    flag of the gnu ld linker
+	* toychem :
+	  + new parameter "-XTOF" for temporary debug use until the SMILESwriter
+	    problems are solved ...
+
+version 3.4.5
+
+090428 Martin Mann
+	* toyChem :
+	  + support for molecule input in GML format
+	  + support for a list of files as value for all rule/molecule input sources
+
+090427 Christoph Flamm
+	* ggl::chem::SMILES_grammar :
+	  * fixed complex_symbol rule, atoms with charge are parsable now and 
+	    produce the atom label [atomSymbol-|+digit]; isotope, chirality, 
+	    hcount name are still ignored and do not go into the atom label
+	    
+090424 Martin Mann
+	* configure
+	  * slightly changed OpenBabel and dependency checks
+	* ggl/Makefile.am
+	  * OpenBabel header variable was wrong within the lib_gglchem list ... 
+	    led to omission of these headers in the distribution
+	* ggl::chem::SMILESwriterOB
+	  * include and define handling updated to be more general, still a hack...
+
+version 3.4.4
+
+090424 Martin Mann
+	* tests/Makefile : 
+	  * updated to work with new configure internals
+	  + avoid deprecated header warnings (got them by boost internal includes)
+	* sgm/HashMap.hh : 
+	  - test for boost::unordered_map removed
+	  - hash or map includes removed (now only defines are set)
+	* HashMap depending files
+	  - usage of boost::unordered_map removed
+	  + explicit hash or map include
+	  * better hash/map handling via defines from sgm/HashMap.hh
+
+version 3.4.3
+
+090423 Martin Mann
+	* configure :
+	  + full pkg-config support and pgk-config based dependency path setup
+	  + replace CXXFLAGS and LDFLAGS setup with AM_CXXFLAGS and AM_LDFLAGS
+	  + more verbose dependency failure output
+	  + more verbose output on modules that will compiled
+	  + boost path support added
+	* ggl.pc : full information (cflags,libs) for standard pkg-config based
+	  path setup for GGL depending stuff
+
+version 3.4.2
+
+090404 Martin Mann
+	* toyChem : new routine for more efficient recursive rule application (uses
+	  information what molecules are new from last iteration)
+	  --> currently for "outMode=R" only
+
+version 3.4.1
+
+090403 Martin Mann
+	* toyChem : general toyChem stuff outsourced to toyChemUtil.*
+
+version 3.4.0
+
+090402 Martin Mann
+	+ sgm::GA_OrderCheck : Graph_Automorphism that checks for a graphs 
+	  symmetries based on a list of order checks
+	  + includes static faculty member function to generate such an object for
+	    a given Graph_Interface implementation based on sgm::GM_vf2
+	* ggl::LeftSidePattern
+	  + new member symmBreakList : GA_OrderCheck data that is lazily calculated
+	    and used for accessing the Graph_Automorphism of a Rule when matching
+	    the left side pattern
+
+version 3.3.0
+
+090331 Martin Mann
+	* ggl::Rule : + new member ID to store a string identifier or description
+	+ Reaction : storage class for chemical reaction information
+	+ MR_Reactions : Match_Reporter that utilizes a MR_ApplyRule to generate
+	  Reaction information for all successful Rule matches
+	* toyChem : new mode : (R)eaction that prints the collected Reactions from 
+	  the last iteration to output stream
+
+090330 Martin Mann
+	* ggl::chem::SMILESwriter : bugfix : primes function fixed
+
+090327 Martin Mann
+	+ OpenBabel modul added
+	  + configure flags and checks added for OpenBabel library
+	  + ggl::chem::SMILESwriterOB : OpenBabel based canonical SMILES writer
+	    NOTE : currently buggy and beta only! generation seems not to be unique
+	  + ggl::chem::GS_SMILES_OB : GS_SMILES pendant using SMILESwriterOB
+	* SMILESwriter : bugfix : first 1000 primes were no primes.. replaced now
+
+090326 Martin Mann
+	* ggl::GS_STL* : template paramter order changed for better default params
+	  and public typedefs added
+	+ ggl::GS_STL_pushAllP : for STL containers including graph pointer
+	+ ggl::GS_STL_pushUniqueP : for STL containers including graph pointer
+	* ggl::chem::SMILESwriter : added static array of first 500 prime numbers 
+	  to avoid direct calculation for each request
+
+version 3.2.0
+
+090325 Martin Mann
+	* sgm::Graph_Automorphism : check function member now const
+	* sgm::MM_SymmBreak : utilizes now a const sgm::Graph_Automorphism
+	* time measurement and hit/stored output now via define "FULL_DEBUG"
+
+090221 Martin Mann
+	* *.hh : added the namespaces to the header defines to be more unique
+	* sgm::Graph_Interface : "==" and "!=" operators added for graph comparisons
+	* toyChem : recursive generation of all lists of molecules with one for each 
+	  pattern component which was first checked if the component is present
+	  --> this reduces search space for the SGM and speeds up enormously
+	* support for Graph_Automorphism definitions of the LeftSidePattern added
+	  --> currently their automatic generation or user input is missing !
+
+090220 Martin Mann
+	* .. : replaced the usage of std::map with available hash_map
+	
+090219 Martin Mann
+	+ sgm::Graph_Automorphism : defines symmetries of a graph and allows to 
+	  test a Match_Reporter::Match if it is symmetric to another match to come
+	+ sgm::MR_SymmBreak : wraps a Graph_Automorphism and another Match_Reporter
+	  to check each Match for symmetries. If it is a non-symmetric match it is
+	  forwarded to the wrapped reporter.
+
+090218 Martin Mann
+	+ tests added
+	+ MR_Storing : adds matches to a storage container
+	* LeftSidePattern : provides access to its component labeling and the first
+	  index for each component --> enables component checking in MR_ApplyRule
+	* MR_ApplyRule : if LeftSidePattern component size equals the number of
+	  different target graphs to match, a copy of each graph is included in 
+	  the result graph. (e.g. 2 components of leftside match to same target 
+	  graph --> target graph is represented in result graph two times) 
+	+ SubGraph : wrapper for Graph_Interface to represent only a subgraph.
+	  A subgraph is defined by a subset of nodes and all edges between these
+	  nodes present in the original graph.
+	* configure : checks for unordered_map added
+	- ggl::HashMap : now in sgm namespace
+	+ smg::HashMap : determines what hash map implementation is available and
+	  includes the corresponding header. furthermore a description string of
+	  the found map is provided.
+	* ggl::chem::SMILESwriter : back to original source because new
+	  version was not generating canonical SMILES. Will be replaced later as
+	  soon as this bug is fixed.
+
+090213 Martin Mann
+	* source updated for g++ 4.3.*
+	* ggl::chem::SMILESwriter : new internal source
+	+ base for constraint based subgraph matching algorithms build
+	
+081205 Martin Mann
+	* configure: 
+	  + check for GNU hash_map and hash_set
+	* toyChem:
+	  + support for boost unordered set if present
+	  + output of running times in verbose mode
+	  + output of match numbers in verbose mode
+	+ ggl::HashMap : header include depending of presence of GNU hash_map
+	* ggl::chem::GS_SMILES : runtime add
+	* ggl::chem::SMILESwriter : runtime check added and usage of different hash maps
+
+version 3.1.2
+
+081203 Martin Mann
+	* toyChem/ggrIt : speedup of 4times for the application of 2-components
+	  rules
+	  --> should increase speed for multi-component rules as well
+
+version 3.1.1
+
+081121 Martin Mann
+	* tests/Makefile.am : configure DEFINES enabled
+
+version 3.1.0
+
+081117 Martin Mann
+	+ ggl::Graph_GML_writer : function wrapper to write a ggl::Graph in GML
+	  format to stream
+	+ ggl::Graph_GML_grammar : GML graph string representation parser grammar
+	  including functionality for direct string2graph parsing
+	* bin/ggrIt :
+	  + GML result graph output support
+	  + GML source graph input support
+	  + version information added
+	* bin/toyChem : 
+	  + version information added
+	* ggl::Rule_GML_grammar : white spaces at the end of the parsed string are
+	  ignored now
+
+081114 Christoph Flamm
+	* configure.ac : additional remarks for the user
+	+ autogen.sh : runs autotools after checkout from repository
+
+081114 Martin Mann
+	+ sgm::GraphMatching : abstract interface of graph-isomorphism algorithms
+	+ sgm::GM_vf2 : sgm::GraphMatching implementation using the VF2 algorithm
+	+ sgm::MR_Counting : sgm::MatchReporter that only counts the number of 
+	  reported matches
+	+ ggl::GS_STL_pushAll : a ggl::GraphStorage that adds all reported graphs
+	  to an STL container using its "push_back" method
+	+ ggl::GS_STL_pushUnique : a ggl::GraphStorage that adds each reported graph
+	  only once to an STL container using its "push_back" method. The uniqueness
+	  is guaranteed by comparing each reported graph against all already stored
+	  graphs using a provided sgm::GraphMatching instance. NOTE: This is not
+	  efficient when the storage becomes very large!
+	+ bin/ggrIt : general graph grammar rule application iteration similar to
+	  toyChem functionality but on general graphs
+	  NOTE: currently input via SMILES strings due to missing GML parser !!!
+
+081111 Martin Mann
+	* BUGFIX : ggl::chem::GS_SMILES : empty SMILES are now ignored
+	* vf2-lib : internal indexing changed from 'unsigned short'
+	  to 'unsigned long int' 
+	  NOTE : hope it works ! ;)
+
+081107 Martin Mann
+	* sgm::SubGraphMatching 
+	  + matchin routines for matching a vector of patterns using one match 
+	    reporter only
+	* sgm::SGM_vf2 : extended interface due to sgm::SubGraphMatching
+	* ggl::MR_ApplyRule
+	  + new parameter minMatchedTargetGraphs : allows for the filtering of
+	    matches: each match against an sgm::Graph_boostV* wrapper will only be
+	    handled if the minimal number of wrapped subgraphs is reached. this 
+	    enables that the matching of Rules with k connected components in the 
+	    LeftSidePattern involves k different subgraphs
+	* bin/toyChem
+	  + new parameter "allowAllIntra" : enables that all rules can be applied
+	    to a single molecule. Otherwise, rules with k connected components in
+	    the LeftSidePattern have to be matched to k independent molecules
+
+081106 Martin Mann
+	+ sgm::Graph_boostV_p : representation of a vector of BGL graph POINTERS
+	  in one single Graph_Interface, i.e. as an unconnected graph
+	* sgm::Graph_Interface
+	  + connectedComponents : static member to calculate connected component
+	    labeling of a given Graph_Interface implementation
+	* BUGFIX : sgm::Graph_*, ggl::*SidePatternT : getNextEdge expected that
+	  the last generated EdgeDescriptor is present : update was missing if not
+	* bin/toyChem : 
+	  + rules are now grouped by the number of connected components (c) in their
+	    leftsidepattern. to match the group with c components, c copies are
+	    of each molecule are represented in the target graph to allow for the
+	    application of the rule on one type of molecules only
+
+version 3.0.0
+
+081105 Martin Mann
+	+ Doxygen source code API generation enabled
+	+ pkg_config support
+	* headers updated for correct API generation
+
+081104 Martin Mann
+	* bin/toyChem : 
+	  + rule example output added for user help
+	* ggl::chem::SMILESwriter :
+	  + support for boost::filtered_graph where node indices are not guaranteed
+	    to start with 0 and increase successively
+	* ggl::chem::GS_SMILES :
+	  + support for resulting molecule graphs that contain several connected
+	    components and thus represent a set of molecules instead only one.
+	    These are splitted and a SMILES string is generated for each of them. 
+
+081031 Martin Mann
+	+ bin/toyChem : tool that reads a set of chemical rules R and a list of 
+	  molecules M in SMILES notation. Afterwards it performs an iteration of
+	  rule application. In each iteration all rules in R are applied to M 
+	  resulting in new molecules M'. The molecules of the next iteration are
+	  then M union M', thus the union of the initial and resulting molecules 
+	  of the last iteration, and so forth.
+	* BUGFIX : ggl::Rule_GML_grammar : quote characters "" and '' were not
+	  removed from labels
+	* BUGFIX : ggl::Rule_GML_grammar : label change case was not correctly 
+	  handled
+	* BUGFIX : ggl::chem::SMILES_grammar : initial reset of internal data 
+	  structures in contructor was missing
+	* BUGFIX : ggl::Rule_GML_grammar : initial reset of internal data 
+	  structures in contructor was missing
+
+081030 Martin Mann
+	* ggl::chem::SMILESwriter : 
+	  * uses now Daylight's SMILES bond labels
+	  * getSMILES : takes now a constant MOLECULE object
+	* tests : file rename : namespace now lower case
+	* ggl::Graph_Storage : now template class for the BOOST_GRAPH type
+	  --> MR_ApplyRule and GS_stream adapted
+	+ ggl::chem::GS_SMILES : a Graph_Storage for MR_ApplyRule that rewrites 
+	  each generated graph into a SMILES string and inserts it into a STL 
+	  container via an stl::input_iterator
+
+081029 Martin Mann
+	* ggl::chem::SMILES_grammar : return value of parseSMILES method corrected
+	+ Rule_GML_grammar : a boost::spirit rules definition of GML BNF grammar
+	  to parse a Rule object from GML string encoding
+	  (original source code by Christoph Flamm)
+	  --> the class allows for a direct parsing of GML to Rules via its
+	      static "parseRule(..)" function
+	+ ggl::chem::SMILESwriter : class to calculate a canonical SMILES string from a 
+	  Molecule graph.
+	  NOTE: this implementation is INCOMPLETE, i.e. it handles only a few types
+	  of atoms and bonds!!!
+	  (original source code by Alexander Ullrich)
+
+080808 Martin Mann
+	+ ggl::chem namespace contains classes for graph representations of 
+	  molecules
+	+ ggl::chem::Molecule : definition of a molecule graph
+	+ ggl::chem::SMILES_grammar : a boost::spirit rules definition of 
+	  Daylight's (tm) SMILES BNF grammar 
+	  (original source code by Christoph Flamm)
+	  --> the class allows for a direct parsing of SMILES to graphs via its
+	      static "parseSMILES(..)" function
+	+ tests : ggl::chem::SMILES_grammar
+
+080806 Martin Mann
+	* ggl::MR_ApplyRule : 
+	  + support for ggl::Graph_boostV target graphs
+	* tests : ggl::MR_ApplyRule cases extended
+	- sgm::mergeGraph : obsolete due to boost::copy_graph
+	- tests : mergeGraph
+	
+080805 Martin Mann
+	+ sgm::mergeGraph to merge two boost::graphs into one including all labels
+	+ tests : mergeGraph
+
+080804 Martin Mann
+	* sgm::MR_stream : new method "resetHits()" to reset hit counter
+	+ tests : sgm::MR_stream
+	+ tests : sgm::SGM_vf2
+
+080802 Martin Mann
+	* tests : ggl::MR_ApplyRule cases extended
+	+ tests : sgm::Graph_boost
+	+ tests : sgm::Graph_boostV
+	+ header sgm/Match_Reporter.hh : definition of Match_Reporter class removed 
+	  from sgm/SubGraphMatching.hh
+
+080801 Martin Mann
+	* ggl::RuleT : extended list of template parameters to contain all 
+	  properties that are necessary to describe the rule
+	* ggl::LeftSidePattern : template parameter list shrinked to RULE
+	  --> all properties now available via RuleT
+	* ggl::RightSidePattern : template parameter list shrinked to RULE
+	  --> all properties now available via RuleT
+	* RENAME : ggl::MR_ApplyRule --> template class ggl::MR_ApplyRuleT
+	+ ggl::MR_ApplyRule : wrapper class around default template arguments of 
+	  ggl::MR_ApplyRuleT
+
+version 2.3.0
+
+080714 Martin Mann
+	+ tests for GGL classes added
+	+ ggl::Graph_Storage : abstract interface class to store ggl::Graph objects
+	  e.g. used by MR_ApplyRule
+	+ ggl::GS_stream : Graph_Storage implementation that writes each added graph
+	  in text-form to stream (wrappes around template implementation GS_streamT)
+	+ ggl::MR_ApplyRule : sgm::Match_Reporter implementation that applies a rule
+	  that left side was matched to a ggl::Graph object and reports the 
+	  resulting graph to a specified ggl::Graph_Storage object
+
+080713 Martin Mann
+	* RENAME : GrammarRule --> RuleContext
+	* RENAME : RuleCoreGraph boost graph properties to Prop***
+	* BUGFIX : sgm::SGM_vf2 : now performs subgraph-monomorphism instead of 
+	  isomorphism. (since now it compared the induced graph with the pattern to
+	  verify a match. now only the corresponding edges are checked.)
+	+ new RuleContext::LABEL_CHANGE : used to specify if a rule element is part
+	  of both rule sides but the label is changing
+	+ new boost property: Prop****RightLabel : contains the label of the right
+	  rule side if a the graph element has RuleContext LABEL_CHANGE
+	* RENAME : sgm::Graph_boost --> sgm::Graph_boostV 
+	+ sgm::Graph_boost : Graph_Interface implementation to wrap around ONE boost
+	  graph object 
+	* sgm::Graph_boost and sgm::Graph_boostV : default template parameter for 
+	  the boost properties
+	+ sgm::MatchReporter : extended parameter set of report function to pattern
+	  and target access of the reported hit
+	+ ggl : wrapper typedefs around the template classes for an easier usage
+	+ ggl::Graph : boost graph that represents a graph that contains all 
+	  properties neccessary to apply a graph grammar rule
+	+ ggl::GraphTarget and ggl::GraphTargetVector : sgm::Graph_boost typedefs
+	  to allow for the usage of ggl::Graph objects as target for the 
+	  sgm::SubGraphMatching algorithms
+
+080711 Martin Mann
+	+ ggl namespace : graph grammar library
+	+ RuleCoreGraph : boost graph that contains all properties neccessary to 
+	  encode a graph grammar rule
+	+ Rule : wrapper class around a RuleCoreGraph that is able to distinguish
+	  between left/right side and context of the rule
+	+ LeftSidePattern : sgm::Graph_Interface implementation for the subgraph
+	  matching of the left side of a given rule with other sgm graphs
+
+version 2.2.0
+
+080711 Martin Mann
+	* SubgraphMatching / SGM_vf2 :
+	  + support for the matching of many patterns against one target to allow
+	    for more efficient internal handling of data structures
+	* Graph_boost :
+	  + const access to the internal graphs
+	+ VF-2 library has now own vf2 namespace
+
+version 2.1.0
+
+080709 Martin Mann
+	+ sgm namespace : contains all sources of the SGM CORE library
+	+ two new libraries libsgm and libsgm_vf2
+	+ Graph_Interface : abstract interface for sub-graph matching
+	+ Graph_boost : boost graph based Graph_Interface implementation
+	+ SubGraphMatching : abstracct interface of sub-graph matching algorithms
+	+ SGM_vf2 : implementation of SubGraphMatching that wraps around vf2-library
+	+ Match_Reporter : abstract interface to handle a match
+	+ MR_stream : implementation of Match_Reporter that writes the match to 
+	  stream
+	+ MR_boostProp : implementation of Match_Reporter that stores the match in
+	  the property map of a boost graph
+	- BIU-dependency removed
+
+version 2.0.0
+
+080702 Martin Mann
+	* DEPENDENCY change : Gecode 2.*.*
+	* simpleGM : DDS enabled
+
+version 1.0.0
+
+080702 Martin Mann
+	+ vflib now part of the package
+	+ vf2All : vflib frontend matching tool
+	* simpleGM : small interface and output changes
+

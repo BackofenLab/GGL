@@ -1,0 +1,289 @@
+==============  BEGIN TEST  ==================
+==============================================
+               bin/catalan
+==============================================
+
+ --> checking help
+
+ => usage:	catalan -catalan=... [...optional parameters]
+
+ => complete parameterlist:
+
+   -catalan=..  The initial catalan input file name or 'STDIN' when to read from
+         standard input (see -inputExample for a sample)
+         type=str   default="STDIN"
+  [-out=..] Output file name or 'STDOUT' when to write to standard output
+         type=str   default="STDOUT"
+  [-help] Displays help on all parameters
+         type=bool
+  [-inputExample] Displays an example for the Catalan input encoding
+         type=bool
+  [-v  ] Verbose output
+         type=bool
+  [-version] Version information
+         type=bool
+
+
+ => informations:
+
+
+Solves a Catalan via depths-first-search given a start setup.
+
+The start setup has to be defined by a tabular format. Use '-inputExample' for
+an example.
+
+
+
+ => usage:	catalan -catalan=... [...optional parameters]
+
+
+ --> running solver
+ --> parameter =  -catalan=catalan/2-step.input
+
+ Input Catalan 
+
+     0 (1)  -->  | 1 (1-2) |
+     1 (2)  -->  | 0 (1-2) | 2 (2-3) | 3 (2-4) |
+     2 (3)  -->  | 1 (2-3) | 4 (3-5) |
+     3 (4)  -->  | 1 (2-4) | 4 (4-5) |
+     4 (5)  -->  | 2 (3-5) | 3 (4-5) | 5 (5-6) | 6 (5-7) |
+     5 (6)  -->  | 4 (5-6) |
+     6 (7)  -->  | 4 (5-7) |
+
+
+ Found a solution
+
+
+ --> the DFS trace :
+
+
+graph [
+  node [ id 0 label "1" ]
+  node [ id 1 label "2" ]
+  node [ id 2 label "3" ]
+  node [ id 3 label "4" ]
+  node [ id 4 label "5" ]
+  node [ id 5 label "6" ]
+  node [ id 6 label "7" ]
+  edge [ source 0 target 1 label "1-2" ]
+  edge [ source 1 target 2 label "2-3" ]
+  edge [ source 1 target 3 label "2-4" ]
+  edge [ source 2 target 4 label "3-5" ]
+  edge [ source 3 target 4 label "4-5" ]
+  edge [ source 4 target 5 label "5-6" ]
+  edge [ source 4 target 6 label "5-7" ]
+]
+
+
+graph [
+  node [ id 0 label "5" ]
+  node [ id 1 label "6" ]
+  node [ id 2 label "7" ]
+  node [ id 3 label "N" ]
+  edge [ source 1 target 0 label "5-6" ]
+  edge [ source 2 target 0 label "5-7" ]
+  edge [ source 3 target 0 label "3-5" ]
+  edge [ source 3 target 0 label "4-5" ]
+]
+
+
+graph [
+  node [ id 0 label "5" ]
+  node [ id 1 label "N" ]
+  node [ id 2 label "6" ]
+  node [ id 3 label "7" ]
+  edge [ source 0 target 1 label "4-5" ]
+  edge [ source 2 target 0 label "5-6" ]
+  edge [ source 3 target 0 label "5-7" ]
+]
+
+
+graph [
+  node [ id 0 label "N" ]
+]
+
+ --> running solver
+ --> parameter =  -catalan=catalan/3-step.input
+
+ Input Catalan 
+
+     0 (1)  -->  | 1 (1-2) |
+     1 (2)  -->  | 0 (1-2) | 2 (2-3) | 3 (2-4) |
+     2 (3)  -->  | 1 (2-3) | 3 (3-4) | 4 (3-5) | 9 (10-3) |
+     3 (4)  -->  | 1 (2-4) | 2 (3-4) | 4 (4-5) | 7 (4-8) | 9 (10-4) |
+     4 (5)  -->  | 2 (3-5) | 3 (4-5) | 5 (5-6) | 7 (5-8) | 9 (10-5) |
+     5 (6)  -->  | 4 (5-6) | 6 (6-7) |
+     6 (7)  -->  | 5 (6-7) |
+     7 (8)  -->  | 3 (4-8) | 4 (5-8) | 8 (8-9) |
+     8 (9)  -->  | 7 (8-9) |
+     9 (10)  -->  | 2 (10-3) | 3 (10-4) | 4 (10-5) |
+
+
+ Found a solution
+
+
+ --> the DFS trace :
+
+
+graph [
+  node [ id 0 label "1" ]
+  node [ id 1 label "2" ]
+  node [ id 2 label "3" ]
+  node [ id 3 label "4" ]
+  node [ id 4 label "5" ]
+  node [ id 5 label "6" ]
+  node [ id 6 label "7" ]
+  node [ id 7 label "8" ]
+  node [ id 8 label "9" ]
+  node [ id 9 label "10" ]
+  edge [ source 0 target 1 label "1-2" ]
+  edge [ source 1 target 2 label "2-3" ]
+  edge [ source 1 target 3 label "2-4" ]
+  edge [ source 2 target 3 label "3-4" ]
+  edge [ source 2 target 4 label "3-5" ]
+  edge [ source 3 target 4 label "4-5" ]
+  edge [ source 3 target 7 label "4-8" ]
+  edge [ source 4 target 5 label "5-6" ]
+  edge [ source 4 target 7 label "5-8" ]
+  edge [ source 5 target 6 label "6-7" ]
+  edge [ source 7 target 8 label "8-9" ]
+  edge [ source 9 target 2 label "10-3" ]
+  edge [ source 9 target 3 label "10-4" ]
+  edge [ source 9 target 4 label "10-5" ]
+]
+
+
+graph [
+  node [ id 0 label "2" ]
+  node [ id 1 label "1" ]
+  node [ id 2 label "6" ]
+  node [ id 3 label "7" ]
+  node [ id 4 label "8" ]
+  node [ id 5 label "9" ]
+  node [ id 6 label "N" ]
+  edge [ source 1 target 0 label "1-2" ]
+  edge [ source 3 target 2 label "6-7" ]
+  edge [ source 5 target 4 label "8-9" ]
+  edge [ source 6 target 0 label "2-3" ]
+  edge [ source 6 target 0 label "2-4" ]
+  edge [ source 6 target 4 label "4-8" ]
+  edge [ source 6 target 6 label "3-4" ]
+  edge [ source 6 target 2 label "5-6" ]
+  edge [ source 6 target 4 label "5-8" ]
+  edge [ source 6 target 6 label "3-5" ]
+  edge [ source 6 target 6 label "4-5" ]
+]
+
+
+graph [
+  node [ id 0 label "N" ]
+  node [ id 1 label "2" ]
+  node [ id 2 label "1" ]
+  node [ id 3 label "6" ]
+  node [ id 4 label "7" ]
+  node [ id 5 label "8" ]
+  node [ id 6 label "9" ]
+  edge [ source 0 target 0 label "3-5" ]
+  edge [ source 0 target 0 label "4-5" ]
+  edge [ source 1 target 0 label "2-3" ]
+  edge [ source 1 target 0 label "2-4" ]
+  edge [ source 2 target 1 label "1-2" ]
+  edge [ source 3 target 0 label "5-6" ]
+  edge [ source 4 target 3 label "6-7" ]
+  edge [ source 5 target 0 label "4-8" ]
+  edge [ source 5 target 0 label "5-8" ]
+  edge [ source 6 target 5 label "8-9" ]
+]
+
+
+graph [
+  node [ id 0 label "N" ]
+  node [ id 1 label "2" ]
+  node [ id 2 label "1" ]
+  node [ id 3 label "6" ]
+  node [ id 4 label "7" ]
+  node [ id 5 label "8" ]
+  node [ id 6 label "9" ]
+  edge [ source 0 target 0 label "4-5" ]
+  edge [ source 1 target 0 label "2-3" ]
+  edge [ source 1 target 0 label "2-4" ]
+  edge [ source 2 target 1 label "1-2" ]
+  edge [ source 3 target 0 label "5-6" ]
+  edge [ source 4 target 3 label "6-7" ]
+  edge [ source 5 target 0 label "4-8" ]
+  edge [ source 5 target 0 label "5-8" ]
+  edge [ source 6 target 5 label "8-9" ]
+]
+
+
+graph [
+  node [ id 0 label "N" ]
+  node [ id 1 label "2" ]
+  node [ id 2 label "1" ]
+  node [ id 3 label "6" ]
+  node [ id 4 label "7" ]
+  node [ id 5 label "8" ]
+  node [ id 6 label "9" ]
+  edge [ source 1 target 0 label "2-3" ]
+  edge [ source 1 target 0 label "2-4" ]
+  edge [ source 2 target 1 label "1-2" ]
+  edge [ source 3 target 0 label "5-6" ]
+  edge [ source 4 target 3 label "6-7" ]
+  edge [ source 5 target 0 label "4-8" ]
+  edge [ source 5 target 0 label "5-8" ]
+  edge [ source 6 target 5 label "8-9" ]
+]
+
+
+graph [
+  node [ id 0 label "N" ]
+  node [ id 1 label "2" ]
+  node [ id 2 label "1" ]
+  node [ id 3 label "6" ]
+  node [ id 4 label "7" ]
+  node [ id 5 label "8" ]
+  node [ id 6 label "9" ]
+  edge [ source 0 target 1 label "2-4" ]
+  edge [ source 2 target 1 label "1-2" ]
+  edge [ source 3 target 0 label "5-6" ]
+  edge [ source 4 target 3 label "6-7" ]
+  edge [ source 5 target 0 label "4-8" ]
+  edge [ source 5 target 0 label "5-8" ]
+  edge [ source 6 target 5 label "8-9" ]
+]
+
+
+graph [
+  node [ id 0 label "N" ]
+  node [ id 1 label "8" ]
+  node [ id 2 label "2" ]
+  node [ id 3 label "1" ]
+  node [ id 4 label "6" ]
+  node [ id 5 label "7" ]
+  node [ id 6 label "9" ]
+  edge [ source 0 target 1 label "5-8" ]
+  edge [ source 2 target 0 label "2-4" ]
+  edge [ source 3 target 2 label "1-2" ]
+  edge [ source 4 target 0 label "5-6" ]
+  edge [ source 5 target 4 label "6-7" ]
+  edge [ source 6 target 1 label "8-9" ]
+]
+
+
+graph [
+  node [ id 0 label "1" ]
+  node [ id 1 label "7" ]
+  node [ id 2 label "9" ]
+  node [ id 3 label "N" ]
+  edge [ source 3 target 2 label "8-9" ]
+  edge [ source 3 target 0 label "1-2" ]
+  edge [ source 3 target 1 label "6-7" ]
+]
+
+
+graph [
+  node [ id 0 label "N" ]
+]
+
+
+===============  END TEST  ===================

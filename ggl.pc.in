@@ -1,0 +1,10 @@
+prefix=@PREFIX_PATH@
+exec_prefix=${prefix}/bin
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: ggl
+Description: GGL Library
+Version: @VERSION@
+Libs: -L${libdir} -lgglchem -lggl -lsgmvf2 -lvf2 -lsgm
+Cflags: -I${includedir}

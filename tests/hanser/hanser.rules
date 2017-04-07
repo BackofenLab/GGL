@@ -1,0 +1,859 @@
+rule [
+ ruleID "remove single node"
+ wildcard "*"
+ left [
+   node [ id 0 label "V" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 0
+   edgeLabels [
+     label "*"
+   ]
+ ]
+ ]
+
+
+
+
+rule [
+ ruleID "remove dangling end"
+ wildcard "*"
+ left [
+   node [ id 1 label "*" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 1
+ ]
+ ]
+
+
+
+rule [
+ ruleID "compress crossing 5 to paths without loops"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+   node [ id 4 label "*" ]
+   node [ id 5 label "*" ]
+ ]
+ left [
+   node [ id 0 label "E" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 0 target 4 label "*" ]
+   edge [ source 0 target 5 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 5
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 6 label "E" ]
+   node [ id 7 label "E" ]
+   node [ id 8 label "E" ]
+   node [ id 9 label "E" ]
+   node [ id 10 label "E" ]
+   node [ id 11 label "E" ]
+   node [ id 12 label "E" ]
+   node [ id 13 label "E" ]
+   node [ id 14 label "E" ]
+   node [ id 15 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 1 id 6 ]
+ copyAndPaste [ source 0 target 2 id 6 ]
+ copyAndPaste [ source 0 target 1 id 7 ]
+ copyAndPaste [ source 0 target 3 id 7 ]
+ copyAndPaste [ source 0 target 1 id 8 ]
+ copyAndPaste [ source 0 target 4 id 8 ]
+ copyAndPaste [ source 0 target 1 id 9 ]
+ copyAndPaste [ source 0 target 5 id 9 ]
+ copyAndPaste [ source 0 target 2 id 10 ]
+ copyAndPaste [ source 0 target 3 id 10 ]
+ copyAndPaste [ source 0 target 2 id 11 ]
+ copyAndPaste [ source 0 target 4 id 11 ]
+ copyAndPaste [ source 0 target 2 id 12 ]
+ copyAndPaste [ source 0 target 5 id 12 ]
+ copyAndPaste [ source 0 target 3 id 13 ]
+ copyAndPaste [ source 0 target 4 id 13 ]
+ copyAndPaste [ source 0 target 3 id 14 ]
+ copyAndPaste [ source 0 target 5 id 14 ]
+ copyAndPaste [ source 0 target 4 id 15 ]
+ copyAndPaste [ source 0 target 5 id 15 ]
+ ]
+
+rule [
+ ruleID "compress crossing 5 to paths with loops"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+   node [ id 4 label "*" ]
+   node [ id 5 label "*" ]
+ ]
+ left [
+   node [ id 0 label "E" ]
+   edge [ source 0 target 0 label "*" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 0 target 4 label "*" ]
+   edge [ source 0 target 5 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 6
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 6 label "E" ]
+   node [ id 7 label "E" ]
+   node [ id 8 label "E" ]
+   node [ id 9 label "E" ]
+   node [ id 10 label "E" ]
+   node [ id 11 label "E" ]
+   node [ id 12 label "E" ]
+   node [ id 13 label "E" ]
+   node [ id 14 label "E" ]
+   node [ id 15 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 0 id 6 ]
+ copyAndPaste [ source 0 target 0 id 7 ]
+ copyAndPaste [ source 0 target 0 id 8 ]
+ copyAndPaste [ source 0 target 0 id 9 ]
+ copyAndPaste [ source 0 target 0 id 10 ]
+ copyAndPaste [ source 0 target 0 id 11 ]
+ copyAndPaste [ source 0 target 0 id 12 ]
+ copyAndPaste [ source 0 target 0 id 13 ]
+ copyAndPaste [ source 0 target 0 id 14 ]
+ copyAndPaste [ source 0 target 0 id 15 ]
+ 
+ copyAndPaste [ source 0 target 1 id 6 ]
+ copyAndPaste [ source 0 target 2 id 6 ]
+ copyAndPaste [ source 0 target 1 id 7 ]
+ copyAndPaste [ source 0 target 3 id 7 ]
+ copyAndPaste [ source 0 target 0 id 8 ]
+ copyAndPaste [ source 0 target 1 id 8 ]
+ copyAndPaste [ source 0 target 4 id 8 ]
+ copyAndPaste [ source 0 target 1 id 9 ]
+ copyAndPaste [ source 0 target 5 id 9 ]
+ copyAndPaste [ source 0 target 2 id 10 ]
+ copyAndPaste [ source 0 target 3 id 10 ]
+ copyAndPaste [ source 0 target 2 id 11 ]
+ copyAndPaste [ source 0 target 4 id 11 ]
+ copyAndPaste [ source 0 target 2 id 12 ]
+ copyAndPaste [ source 0 target 5 id 12 ]
+ copyAndPaste [ source 0 target 3 id 13 ]
+ copyAndPaste [ source 0 target 4 id 13 ]
+ copyAndPaste [ source 0 target 3 id 14 ]
+ copyAndPaste [ source 0 target 5 id 14 ]
+ copyAndPaste [ source 0 target 4 id 15 ]
+ copyAndPaste [ source 0 target 5 id 15 ]
+ ]
+
+
+rule [
+ ruleID "compress crossing 4 to paths without loop"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+   node [ id 4 label "*" ]
+ ]
+ left [
+   node [ id 0 label "E" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 0 target 4 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 4
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 5 label "E" ]
+   node [ id 6 label "E" ]
+   node [ id 7 label "E" ]
+   node [ id 8 label "E" ]
+   node [ id 9 label "E" ]
+   node [ id 10 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 1 id 5 ]
+ copyAndPaste [ source 0 target 2 id 5 ]
+ copyAndPaste [ source 0 target 1 id 6 ]
+ copyAndPaste [ source 0 target 3 id 6 ]
+ copyAndPaste [ source 0 target 1 id 7 ]
+ copyAndPaste [ source 0 target 4 id 7 ]
+ copyAndPaste [ source 0 target 2 id 8 ]
+ copyAndPaste [ source 0 target 3 id 8 ]
+ copyAndPaste [ source 0 target 2 id 9 ]
+ copyAndPaste [ source 0 target 4 id 9 ]
+ copyAndPaste [ source 0 target 3 id 10 ]
+ copyAndPaste [ source 0 target 4 id 10 ]
+ ]
+
+rule [
+ ruleID "compress crossing 4 to paths with loop"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+   node [ id 4 label "*" ]
+ ]
+ left [
+   node [ id 0 label "E" ]
+   edge [ source 0 target 0 label "*" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 0 target 4 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 5
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 5 label "E" ]
+   node [ id 6 label "E" ]
+   node [ id 7 label "E" ]
+   node [ id 8 label "E" ]
+   node [ id 9 label "E" ]
+   node [ id 10 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 0 id 5 ]
+ copyAndPaste [ source 0 target 1 id 5 ]
+ copyAndPaste [ source 0 target 2 id 5 ]
+ copyAndPaste [ source 0 target 0 id 6 ]
+ copyAndPaste [ source 0 target 1 id 6 ]
+ copyAndPaste [ source 0 target 3 id 6 ]
+ copyAndPaste [ source 0 target 0 id 7 ]
+ copyAndPaste [ source 0 target 1 id 7 ]
+ copyAndPaste [ source 0 target 4 id 7 ]
+ copyAndPaste [ source 0 target 0 id 8 ]
+ copyAndPaste [ source 0 target 2 id 8 ]
+ copyAndPaste [ source 0 target 3 id 8 ]
+ copyAndPaste [ source 0 target 0 id 9 ]
+ copyAndPaste [ source 0 target 2 id 9 ]
+ copyAndPaste [ source 0 target 4 id 9 ]
+ copyAndPaste [ source 0 target 0 id 10 ]
+ copyAndPaste [ source 0 target 3 id 10 ]
+ copyAndPaste [ source 0 target 4 id 10 ]
+ ]
+
+rule [
+ ruleID "compress crossing 3 to paths without loops"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+ ]
+ left [
+   node [ id 0 label "E" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 3
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 4 label "E" ]
+   node [ id 5 label "E" ]
+   node [ id 6 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 1 id 4 ]
+ copyAndPaste [ source 0 target 2 id 4 ]
+ copyAndPaste [ source 0 target 1 id 5 ]
+ copyAndPaste [ source 0 target 3 id 5 ]
+ copyAndPaste [ source 0 target 2 id 6 ]
+ copyAndPaste [ source 0 target 3 id 6 ]
+ ]
+
+rule [
+ ruleID "compress crossing 3 to paths with loops"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+ ]
+ left [
+   node [ id 0 label "E" ]
+   edge [ source 0 target 0 label "*" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 4
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 4 label "E" ]
+   node [ id 5 label "E" ]
+   node [ id 6 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 0 id 4 ]
+ copyAndPaste [ source 0 target 1 id 4 ]
+ copyAndPaste [ source 0 target 2 id 4 ]
+ copyAndPaste [ source 0 target 0 id 5 ]
+ copyAndPaste [ source 0 target 1 id 5 ]
+ copyAndPaste [ source 0 target 3 id 5 ]
+ copyAndPaste [ source 0 target 0 id 6 ]
+ copyAndPaste [ source 0 target 2 id 6 ]
+ copyAndPaste [ source 0 target 3 id 6 ]
+ ]
+
+
+rule [
+ ruleID "compress path without loop without neighbored loop"
+ wildcard "*"
+ context [
+   node [ id 0 label "*" ]
+   node [ id 1 label "E" ]
+   node [ id 2 label "*" ]
+   edge [ source 1 target 2 label "*" ]
+ ]
+ left [
+   node [ id 3 label "E" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 1 target 3 label "*" ]
+ ]
+ constrainNoEdge [ source 1 target 1 ]
+ constrainNoEdge [ source 3 target 3 ]
+ constrainAdj [
+   id 3
+   op =
+   count 2
+   nodeLabels [ label "*" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 2
+   nodeLabels [ label "*" ]
+ ]
+ copyAndPaste [ source 3 id 1 ]
+ ]
+
+
+rule [
+ ruleID "compress path without loop with neighbored loop"
+ wildcard "*"
+ context [
+   node [ id 0 label "*" ]
+   node [ id 1 label "E" ]
+   node [ id 2 label "*" ]
+   edge [ source 1 target 2 label "*" ]
+   edge [ source 1 target 1 label "*" ]
+ ]
+ left [
+   node [ id 3 label "E" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 1 target 3 label "*" ]
+ ]
+ constrainNoEdge [ source 3 target 3 ]
+ constrainAdj [
+   id 3
+   op =
+   count 2
+   nodeLabels [ label "*" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 3
+   nodeLabels [ label "*" ]
+ ]
+ copyAndPaste [ source 3 id 1 ]
+ ]
+
+
+rule [
+ ruleID "compress path with loop with neighbored loop"
+ wildcard "*"
+ context [
+   node [ id 0 label "*" ]
+   node [ id 1 label "E" ]
+   node [ id 2 label "*" ]
+   edge [ source 1 target 2 label "*" ]
+   edge [ source 1 target 1 label "*" ]
+ ]
+ left [
+   node [ id 3 label "E" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 1 target 3 label "*" ]
+   edge [ source 3 target 3 label "*" ]
+ ]
+ constrainAdj [
+   id 3
+   op =
+   count 3
+   nodeLabels [ label "*" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 3
+   nodeLabels [ label "*" ]
+ ]
+ copyAndPaste [ source 3 id 1 ]
+ ]
+
+
+rule [
+ ruleID "compress ring path without loop without neighbored loop"
+ wildcard "*"
+ context [
+   node [ id 0 label "*" ]
+   node [ id 1 label "E" ]
+   edge [ source 0 target 1 label "*" ]
+ ]
+ left [
+   node [ id 3 label "E" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 1 target 3 label "*" ]
+ ]
+ constrainNoEdge [ source 3 target 3 ]
+ constrainNoEdge [ source 1 target 1 ]
+ constrainAdj [
+   id 3
+   op =
+   count 2
+   nodeLabels [ label "*" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 2
+   nodeLabels [ label "*" ]
+ ]
+ copyAndPaste [ source 3 id 1 ]
+ ]
+
+
+rule [
+ ruleID "compress ring path without loop with neighbored loop"
+ wildcard "*"
+ context [
+   node [ id 0 label "*" ]
+   node [ id 1 label "E" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 1 target 1 label "*" ]
+ ]
+ left [
+   node [ id 3 label "E" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 1 target 3 label "*" ]
+ ]
+ constrainNoEdge [ source 3 target 3 ]
+ constrainAdj [
+   id 3
+   op =
+   count 2
+   nodeLabels [ label "*" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 3
+   nodeLabels [ label "*" ]
+ ]
+ copyAndPaste [ source 3 id 1 ]
+ ]
+
+
+rule [
+ ruleID "compress ring path with loop with neighbored loop"
+ wildcard "*"
+ context [
+   node [ id 0 label "*" ]
+   node [ id 1 label "E" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 1 target 1 label "*" ]
+ ]
+ left [
+   node [ id 3 label "E" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 1 target 3 label "*" ]
+   edge [ source 3 target 3 label "*" ]
+ ]
+ constrainAdj [
+   id 3
+   op =
+   count 3
+   nodeLabels [ label "*" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 3
+   nodeLabels [ label "*" ]
+ ]
+ copyAndPaste [ source 3 id 1 ]
+ ]
+
+
+
+rule [
+ ruleID "close and decouple ring without loop"
+ wildcard "*"
+ context [
+   node [ id 0 label "V" ]
+ ]
+ left [
+   node [ id 1 label "E" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 1 label "*" ]
+ ]
+ constrainNoEdge [ source 1 target 1 ]
+ constrainAdj [
+   id 1
+   op =
+   count 1
+   nodeLabels [ label "*" ]
+ ]
+ right [
+   node [ id 1 label "ring" ]
+ ]
+ copyAndPaste [ source 0 target 1 id 1 ]
+ ]
+
+rule [
+ ruleID "close and decouple ring with loops"
+ wildcard "*"
+ context [
+   node [ id 0 label "V" ]
+ ]
+ left [
+   node [ id 1 label "E" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 1 target 1 label "*" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 2
+   nodeLabels [ label "*" ]
+ ]
+ right [
+   node [ id 2 label "ring" ]
+ ]
+ copyAndPaste [ source 1 id 2 ]
+ copyAndPaste [ source 0 target 1 id 2 ]
+ ]
+
+
+rule [
+ ruleID "transform crossing 3 to paths"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+ ]
+ left [
+   node [ id 0 label "V" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 3
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 4 label "E" ]
+   node [ id 5 label "E" ]
+   node [ id 6 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 1 id 4 ]
+ copyAndPaste [ source 0 target 2 id 4 ]
+ copyAndPaste [ source 0 target 1 id 5 ]
+ copyAndPaste [ source 0 target 3 id 5 ]
+ copyAndPaste [ source 0 target 2 id 6 ]
+ copyAndPaste [ source 0 target 3 id 6 ]
+ ]
+
+
+rule [
+ ruleID "transform crossing 4 to paths"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+   node [ id 4 label "*" ]
+ ]
+ left [
+   node [ id 0 label "V" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 0 target 4 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 4
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 5 label "E" ]
+   node [ id 6 label "E" ]
+   node [ id 7 label "E" ]
+   node [ id 8 label "E" ]
+   node [ id 9 label "E" ]
+   node [ id 10 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 1 id 5 ]
+ copyAndPaste [ source 0 target 2 id 5 ]
+ copyAndPaste [ source 0 target 1 id 6 ]
+ copyAndPaste [ source 0 target 3 id 6 ]
+ copyAndPaste [ source 0 target 1 id 7 ]
+ copyAndPaste [ source 0 target 4 id 7 ]
+ copyAndPaste [ source 0 target 2 id 8 ]
+ copyAndPaste [ source 0 target 3 id 8 ]
+ copyAndPaste [ source 0 target 2 id 9 ]
+ copyAndPaste [ source 0 target 4 id 9 ]
+ copyAndPaste [ source 0 target 3 id 10 ]
+ copyAndPaste [ source 0 target 4 id 10 ]
+ ]
+
+
+rule [
+ ruleID "transform crossing 5 to paths"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+   node [ id 4 label "*" ]
+   node [ id 5 label "*" ]
+ ]
+ left [
+   node [ id 0 label "V" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 0 target 4 label "*" ]
+   edge [ source 0 target 5 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 5
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 6 label "E" ]
+   node [ id 7 label "E" ]
+   node [ id 8 label "E" ]
+   node [ id 9 label "E" ]
+   node [ id 10 label "E" ]
+   node [ id 11 label "E" ]
+   node [ id 12 label "E" ]
+   node [ id 13 label "E" ]
+   node [ id 14 label "E" ]
+   node [ id 15 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 1 id 6 ]
+ copyAndPaste [ source 0 target 2 id 6 ]
+ copyAndPaste [ source 0 target 1 id 7 ]
+ copyAndPaste [ source 0 target 3 id 7 ]
+ copyAndPaste [ source 0 target 1 id 8 ]
+ copyAndPaste [ source 0 target 4 id 8 ]
+ copyAndPaste [ source 0 target 1 id 9 ]
+ copyAndPaste [ source 0 target 5 id 9 ]
+ copyAndPaste [ source 0 target 2 id 10 ]
+ copyAndPaste [ source 0 target 3 id 10 ]
+ copyAndPaste [ source 0 target 2 id 11 ]
+ copyAndPaste [ source 0 target 4 id 11 ]
+ copyAndPaste [ source 0 target 2 id 12 ]
+ copyAndPaste [ source 0 target 5 id 12 ]
+ copyAndPaste [ source 0 target 3 id 13 ]
+ copyAndPaste [ source 0 target 4 id 13 ]
+ copyAndPaste [ source 0 target 3 id 14 ]
+ copyAndPaste [ source 0 target 5 id 14 ]
+ copyAndPaste [ source 0 target 4 id 15 ]
+ copyAndPaste [ source 0 target 5 id 15 ]
+ ]
+
+
+rule [
+ ruleID "transform crossing 6 to paths"
+ wildcard "*"
+ context [
+   node [ id 1 label "*" ]
+   node [ id 2 label "*" ]
+   node [ id 3 label "*" ]
+   node [ id 4 label "*" ]
+   node [ id 5 label "*" ]
+   node [ id 6 label "*" ]
+ ]
+ left [
+   node [ id 0 label "V" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 0 target 2 label "*" ]
+   edge [ source 0 target 3 label "*" ]
+   edge [ source 0 target 4 label "*" ]
+   edge [ source 0 target 5 label "*" ]
+   edge [ source 0 target 6 label "*" ]
+ ]
+ constrainAdj [
+   id 0
+   op =
+   count 6
+   nodeLabels [
+     label "*"
+   ]
+ ]
+ right [
+   node [ id 7 label "E" ]
+   node [ id 8 label "E" ]
+   node [ id 9 label "E" ]
+   node [ id 10 label "E" ]
+   node [ id 11 label "E" ]
+   node [ id 12 label "E" ]
+   node [ id 13 label "E" ]
+   node [ id 14 label "E" ]
+   node [ id 15 label "E" ]
+   node [ id 16 label "E" ]
+   node [ id 17 label "E" ]
+   node [ id 18 label "E" ]
+   node [ id 19 label "E" ]
+   node [ id 20 label "E" ]
+   node [ id 21 label "E" ]
+   node [ id 22 label "E" ]
+ ]
+ copyAndPaste [ source 0 target 1 id 7 ]
+ copyAndPaste [ source 0 target 2 id 7 ]
+ copyAndPaste [ source 0 target 1 id 8 ]
+ copyAndPaste [ source 0 target 3 id 8 ]
+ copyAndPaste [ source 0 target 1 id 9 ]
+ copyAndPaste [ source 0 target 4 id 9 ]
+ copyAndPaste [ source 0 target 1 id 10 ]
+ copyAndPaste [ source 0 target 5 id 10 ]
+ copyAndPaste [ source 0 target 1 id 11 ]
+ copyAndPaste [ source 0 target 6 id 11 ]
+ 
+ copyAndPaste [ source 0 target 2 id 12 ]
+ copyAndPaste [ source 0 target 3 id 12 ]
+ copyAndPaste [ source 0 target 2 id 13 ]
+ copyAndPaste [ source 0 target 4 id 14 ]
+ copyAndPaste [ source 0 target 2 id 15 ]
+ copyAndPaste [ source 0 target 5 id 15 ]
+ copyAndPaste [ source 0 target 2 id 16 ]
+ copyAndPaste [ source 0 target 6 id 16 ]
+ 
+ copyAndPaste [ source 0 target 3 id 17 ]
+ copyAndPaste [ source 0 target 4 id 17 ]
+ copyAndPaste [ source 0 target 3 id 18 ]
+ copyAndPaste [ source 0 target 5 id 18 ]
+ copyAndPaste [ source 0 target 3 id 19 ]
+ copyAndPaste [ source 0 target 6 id 19 ]
+ 
+ copyAndPaste [ source 0 target 4 id 20 ]
+ copyAndPaste [ source 0 target 5 id 20 ]
+ copyAndPaste [ source 0 target 4 id 21 ]
+ copyAndPaste [ source 0 target 6 id 21 ]
+ 
+ copyAndPaste [ source 0 target 5 id 22 ]
+ copyAndPaste [ source 0 target 6 id 22 ]
+ 
+ ]
+
+
+
+rule [
+ ruleID "transform vertex to edge"
+ wildcard "*"
+ context [
+   node [ id 0 label "V" ]
+   node [ id 2 label "V" ]
+ ]
+ left [
+   node [ id 1 label "V" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 1 target 2 label "*" ]
+ ]
+ right [
+   node [ id 3 label "E" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 2
+   edgeLabels [
+     label "*"
+   ]
+ ]
+ copyAndPaste [ source 1 id 3 ]
+ ]
+
+rule [
+ ruleID "transform vertex to path"
+ wildcard "*"
+ left [
+   node [ id 1 label "V" ]
+   edge [ source 0 target 1 label "*" ]
+   edge [ source 1 target 2 label "*" ]
+ ]
+ context [
+   node [ id 0 label "*" ]
+   node [ id 2 label "E" ]
+ ]
+ constrainAdj [
+   id 1
+   op =
+   count 2
+   edgeLabels [
+     label "*"
+   ]
+ ]
+ copyAndPaste [ source 1 id 2 ]
+ ]

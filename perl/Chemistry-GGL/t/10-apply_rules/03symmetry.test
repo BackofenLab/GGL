@@ -1,0 +1,24 @@
+// in
+[CH2]1[CH2][CH2][CH2][CH2]1
+// rule
+rule [
+ruleID "kaputt"
+left [
+edge [ source 1 target 2 label "-" ]
+edge [ source 1 target 31 label "-" ]
+edge [ source 2 target 32 label "-" ]
+]
+context [
+node [ id 1 label "C" ]
+node [ id 2 label "C" ]
+node [ id 31 label "H" ]
+node [ id 32 label "H" ]
+]
+right [
+edge [ source 1 target 2 label "=" ]
+edge [ source 31 target 32 label "-" ]
+]
+]
+// out
+C1CC=CC1
+HH

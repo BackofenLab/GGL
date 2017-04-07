@@ -1,0 +1,32 @@
+# purine in different versions
+c1c2c(nc[nH]2)ncn1
+[NH]1[CH]=Nc2n[cH]n[cH]c12
+[NH]1[CH]=NC2N=[CH]N=[CH]C1=2
+[NH]1[CH]=NC2=N[CH]=N[CH]=C12
+
+# adenine
+c1[nH]c2c(ncnc2n1)N
+c1[nH]c2C(=NC=Nc2n1)N
+C1[NH]C2C(=NC=NC=2N=1)N
+C1[NH]C2=C(N=CN=C2N=1)N
+n1c(c2c(nc1)nc[nH]2)N
+
+# guanine
+c1[nH]c2c(n1)c(=O)[nH]c(n2)N
+C1[NH]c2c(N=1)c(=O)[nH]c(n2)N
+c1[nH]c2c(n1)C(=O)[NH]C(=N2)N
+C1[NH]C2=C(N=1)C(=O)[NH]C(=N2)N
+
+# adenosine
+[NH2]c1n[cH]nc2n(C3OC(CO)C(O)C3O)[cH]nc12
+Nc1ncnc2n(cnc12)[CH]1O[CH](CO)[CH](O)[CH]1O
+n2c1c(ncnc1n(c2)[CH]3O[CH]([CH](O)C3(O))CO)N
+
+# guanosine
+c1nc2c(=O)[nH]c(nc2n1C3C(C(C(O3)CO)O)O)N
+c1nc2c(=O)[nH]c(nc2n1[CH]3[CH]([CH]([CH](O3)CO)O)O)N
+c1nc2c(n1[CH]3C(O)[CH]([CH](O3)CO)O)nc([nH]c2=O)N
+[NH2]c1nc2c(n[cH]n2[CH]3[CH](O)[CH]([OH])[CH]([CH2][OH])O3)c(=O)[nH]1
+
+
+

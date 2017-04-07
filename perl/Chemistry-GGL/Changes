@@ -1,0 +1,10 @@
+Revision history for Perl extension Chemistry::GGL.
+
+130812 : Martin Mann
+	* GGL.xs :
+	  * new default aromaticity model is "Marvin:general:2013"
+
+0.01  Fri Nov  5 17:45:13 2010
+	- original version; created by h2xs 1.23 with options
+		-A -n Chemistry::GGL
+

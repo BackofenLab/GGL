@@ -1,0 +1,101 @@
+
+==============  BEGIN TEST  ==================
+==============================================
+    ggl::chem::MoleculeComponent_GML_grammar  
+==============================================
+
+
+######### next GML #########
+  molcomp [
+     description " '-Cl' (attached to a primary carbon with no other chlorine atoms attached)"
+     priority 4
+     energy  -11.7
+     node [ id 0 label "*" ]
+     node [ id 1 label "Cl" ]
+     edge [ source 0 target 1 label "-" ]
+     compIDs [ id 1 ]
+     constrainAdj [
+       id 0
+       op =
+       count 1
+       nodeLabels [ label "Cl" ]
+     ]
+     constrainAdj [
+       id 0
+       op =
+       count 2
+       nodeLabels [ label "H" ]
+     ]
+     constrainNode [
+       id 0
+       op =
+       nodeLabels [ label "C" label "c" ]
+     ]
+  ]
+############################
+
+
+-->MoleculeComponent_GML_grammar::parse( GML )
+
+ result MoleculeComponent : 
+ + description = ''-Cl' (attached to a primary carbon with no other chlorine atoms attached)'
+ + priority    = '4'
+ + energy      = '-11.7'
+ + pattern     =
+
+graph [
+  node [ id 0 label "*" ]
+  node [ id 1 label "Cl" ]
+  edge [ source 0 target 1 label "-" ]
+]
+
+ + compIDs     = 1 
+ + constraints = 3
+  - cAdj 0 = 1 NL={ Cl } EL={}
+  - cAdj 0 = 2 NL={ H } EL={}
+  - cNod 0  NL={ C c }
+ + rings       = 0
+
+
+
+######### next GML #########
+  molcomp [
+     description " '-S-' (participating in a ring)"
+     priority 2
+     energy  0.72
+     node [ id 0 label "*" ]
+     node [ id 1 label "S" ]
+     node [ id 2 label "*" ]
+     edge [ source 0 target 1 label "-" ]
+     edge [ source 1 target 2 label "-" ]
+     compIDs [ id 1 ]
+     ringFragment [ id 0 id 1 id 2 type nonaromatic ]
+  ]
+############################
+
+
+-->MoleculeComponent_GML_grammar::parse( GML )
+
+ result MoleculeComponent : 
+ + description = ''-S-' (participating in a ring)'
+ + priority    = '2'
+ + energy      = '0.72'
+ + pattern     =
+
+graph [
+  node [ id 0 label "*" ]
+  node [ id 1 label "S" ]
+  node [ id 2 label "*" ]
+  edge [ source 0 target 1 label "-" ]
+  edge [ source 1 target 2 label "-" ]
+]
+
+ + compIDs     = 1 
+ + constraints = 0
+ + rings       = 1
+  - 0 1 2  = non-aromatic
+
+
+
+==============  BEGIN TEST  ==================
+

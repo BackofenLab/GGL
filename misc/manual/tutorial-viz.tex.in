@@ -1,0 +1,306 @@
+
+% -*-latex-*-
+\NeedsTeXFormat{LaTeX2e}
+\documentclass[a4paper,12pt]{article}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\usepackage{url}
+\usepackage[version=3]{mhchem}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+
+
+% include the general settings for all tutorials
+\input{../../misc/manual/def-include}
+
+\def\builddir{../../misc/manual}
+
+\title{\GGL{} Tutorial: Visualization\\
+  \includegraphics[width=.2\textwidth]{../../misc/logo/GGL-logo}}
+
+\author{Norah Schnorr$^2$, Christoph Flamm$^{1,}$\thanks{Send comments to
+\texttt{xtof@tbi.univie.ac.at} or \texttt{mmann@informatik.uni-freiburg.de}}
+     \ and Martin Mann$^2$\\[2ex] 
+     $^1$~Institute for Theoretical Chemistry, Vienna University\\[2ex]
+        \includegraphics[width=.3\textwidth]{\builddir/Figures/univielogo}\hspace{3em}\\[2ex]
+     $^2$~Bioinformatics Group, University of Freiburg\\[2ex]
+        \includegraphics[height=.15\textwidth]{\builddir/Figures/unifrlogo}
+        }
+
+\date{\small{\url{http://www.tbi.univie.ac.at/software/GGL/}}\\[2ex]
+      Version~\today\\[3ex]}
+
+
+%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%% Title page
+\maketitle
+\begin{center}
+  Built for \GGL{} version 4.1.0-trunk
+\end{center}
+\thispagestyle{empty}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tableofcontents
+\newpage
+\setcounter{page}{1}
+
+
+\newcommand{\Graphviz}{\texttt{Graphviz}}
+\newcommand{\molGmlToPic}{\texttt{molGml2pic.pl}}
+\newcommand{\reactionGmlToPic}{\texttt{reactionGml2pic.pl}}
+\newcommand{\reactionItsGmlToPic}{\texttt{reactionItsGml2pic.pl}}
+
+\newcommand{\molTool}{\texttt{molTool}}
+\newcommand{\reactionTool}{\texttt{reactionTool}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{In General}
+\label{s:General}
+ Within the \GGL{}, graphs are specified using the \GML{} language. Since these \GML{} definitions can become quite large and hard to read the \GGL{} provides several tools to vizualize molecules and reactions whithin its perl module. \newline
+
+Internally the vizualization scripts call the \Graphviz{} library and therefor require its presence. From the \Graphviz{} library the neato layout programm is used (reference to graphviz.org).\newline
+Important neato parameters are: 
+\begin{itemize}
+  \item ``-T'' specifies the output format, such as SVG, PNG, PDF. All scripts need to be called accordingly with ``-Tsvg $>$ outimage.svg'' for example.
+  \item ``-h'', ``-help'' and ``-?'' display the neato help message. 
+  \item ``-index'' displays node indices in the node labels. This option is not available in \reactionGmlToPic{} and \reactionItsGmlToPic{} which by default display node indices to ease the mapping between educt and product graph.
+\end{itemize}
+
+See section \ref{sub:molCall} and \ref{sub:reactionCall} for further examples.\newline
+
+
+The different vizualization tools all need a special \GML{} input which are explained in the corresponding sections \ref{sub:molCall} and \ref{sub:reactionCall}. \newline
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\molGmlToPic{} - Molecule visualization}
+\label{sec:molGmlToPic}
+This section shows how to use the \molGmlToPic{} script to vizualize molecules. Given a molecule in \GML{} notation the script produces a graphical depiction using the \Graphviz{} neato layouting programm. The following section explains how to call \molGmlToPic{} and section \ref{sub:molExample} shows an example.
+
+\subsection{Call} % (fold)
+\label{sub:molCall}
+
+The \molGmlToPic{} script needs a \GML{} as input representing a SMILES encoding of a molecule. Therefor \GGL{} provides the \molTool{} to transfer SMILES encodings into \GML{} format.
+The \molTool{} is called with the following parameters:
+\begin{itemize}
+  \item  input mode: ``-inMode=S'' for SMILES encodings
+  \item  output mode: ``-outMode=G'' to generate \GML{} format or ``-outMode=L'' to generate ... ?
+  \item input \GML{}: ``-in=MOLECULE.gml''
+\end{itemize}
+
+
+Using the \molTool{} and \molGmlToPic{} direct piping is possible:\newline
+{\footnotesize
+\begin{verbatim}
+ echo 'c1ccccc1' | molTool -inMode=S -outMode=G \
+   | perl molGml2pic.pl -Tsvg > benzene.svg
+\end{verbatim}
+}
+
+ For the parameters of the \molGmlToPic{} script which are required by the \Graphviz{} call see section \ref{s:General}.
+
+
+
+\subsection{Example} % (fold)
+\label{sub:molExample}
+In this section the usage of the \molGmlToPic{} script is explained by an example.\newline
+
+In the following we present an example that uses the \molTool{} to convert the ...?? molecule into \GML{} and then calls the \molGmlToPic{} to generate a graphical depiction in Scalable Vector Graphics (SVG) format. The corresponding \GML{} is shown underneath and the resulting image is shown in Fig.~\ref{fig:molGraph}.\newline
+ 
+{\footnotesize
+\begin{verbatim}
+ \$ echo c1ccccc1 | molTool -inMode=S -outMode=G \ 
+ | perl molGml2pic.pl -Tsvg > benzene.svg
+ \end{verbatim}
+ }
+  The resulting  graph in \GML{} format: \newline
+
+\startGML
+\begin{verbatim}
+graph [
+  node [ id 0 label "C" ]
+  node [ id 1 label "N" ]
+  node [ id 2 label "c" ]
+  node [ id 3 label "c" ]
+  node [ id 4 label "c" ]
+  node [ id 5 label "c" ]
+  node [ id 6 label "n" ]
+  node [ id 7 label "c" ]
+  edge [ source 1 target 0 label "-" ]
+  edge [ source 2 target 1 label "-" ]
+  edge [ source 3 target 2 label ":" ]
+  edge [ source 4 target 3 label ":" ]
+  edge [ source 5 target 4 label ":" ]
+  edge [ source 6 target 5 label ":" ]
+  edge [ source 7 target 6 label ":" ]
+  edge [ source 7 target 2 label ":" ]
+]
+
+\end{verbatim}
+\endGML
+
+\begin{figure}[htb]
+\begin{center}
+  a)
+  \includegraphics[height=0.45\textwidth]{\builddir/Figures/depictMol}
+  b)
+  \includegraphics[height=0.45\textwidth]{\builddir/Figures/depictMolIndex}
+  \caption{The benzene molecule depicted with \molGmlToPic{} (a) and using the ``-index'' parameter (b) }
+    \label{fig:molGraph}
+\end{center}
+\end{figure}
+
+
+% subsection example (end)
+% subsection call (end)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\reactionGmlToPic{} - Reaction visualization}
+
+ To create graphical depictions of molecule reactions \GGL{} provides two vizualization scripts: 
+ \begin{itemize} 
+ \item\reactionGmlToPic{} (\ref{ssub:reactionCall}) 
+ \item \reactionItsGmlToPic{} (\ref{ssub:reactionItsCall})
+ \end{itemize}
+  Both show a depiction of the educt and product graphs of the reaction. The \reactionItsGmlToPic{} script additionally depicts a imaginary transition state (ITS).\newline
+ Via node indices the vizualization includes additional mapping information.\newline
+
+ In the educt graph, bond and charge changes occuring in the reaction are colored in red and in the product graph in green, respectively. \newline
+ In \reactionItsGmlToPic{} the coloring of the nodes encodes the charge changes in the reaction. Negative charge changes are shown with green node color and red labels. Positive charge changes with red node color and green labels respectively. Black nodes and labels denote no charge change of the atom.\newline
+
+ Both scripts need a special \GML{} encoding which specifies the bond and charge changes of the reaction. The next section explains how to call the scripts and section \ref{sub:reactionExample} shows an example.
+
+
+\subsection{Call} % (fold)
+\label{sub:reactionCall}  
+
+This sections explains how the \reactionGmlToPic{} and \reactionItsGmlToPic{} can be called. The input of both scripts is a compacted \GML{} which encludes all bond and charge changes occuring along a reaction. Therefor the \GGL{} provides the \reactionTool{}. The \reactionTool{} takes a reaction in \GML{} format as input and generates a compacted version of it. It is called with the following parameters: 
+\begin{itemize}
+  \item input mode: ``-inMode=G'' 
+  \item ouput mode: ``-outMode=C''
+  \item input \GML{}: ``-in=REACTION.gml''
+\end{itemize}
+
+For the parameters of \reactionItsGmlToPic{} and \reactionGmlToPic{} which are required by the \Graphviz{} call see section \ref{s:General}.
+
+
+\subsubsection{Educt-Product Visualization} % (fold)
+\label{ssub:reactionCall}
+This section explains the usage of the \reactionGmlToPic{} script. This script depicts a molecule reaction as educt and product graphs including atom mapping information via node indices which are depicted as subscripts of the node labels.\newline
+
+The input of the \reactionGmlToPic{} is a compacted \GML{} which can be created with the \reactionTool{} (\ref{sub:reactionCall}). An example is shown is section \ref{sub:reactionExample}.\newline
+
+Using the \reactionTool{} and the \reactionGmlToPic{} direct pipelining is possible:\newline
+
+{\footnotesize
+\begin{verbatim}
+
+ reactionTool -in=dielsalder\_rule.gml -inMode=G -outMode=C \
+ | reactionGml2pic.pl -Tsvg > diels.alder.svg''
+\end{verbatim}
+}
+
+\subsubsection{Reaction ITS Visualization} % (fold)
+\label{ssub:reactionItsCall}
+The \reactionItsGmlToPic{} scripts depicts additionally to educt and product graph and imaginary transition state (ITS). This ITS represents an overlap of the educt and product molecules and highlights all changes occuring along the reaction.\newline
+Via node indices which are depicted as subscripts of the node labels additional mapping information is provided.\newline
+The input of the \reactionItsGmlToPic{} script is a compacted \GML{} which can be created using the \reactionTool{} (\ref{sub:reactionCall}). An example is shown in section \ref{sub:reactionExample}.\newline
+
+
+Using the \reactionTool{} and \reactionItsGmlToPic{} direct pipelining is possible:\newline
+
+{\footnotesize
+\begin{verbatim}
+ reactionTool -in=dielsalder\_rule.gml -inMode=G -outMode=C \
+ | reactionItsGml2pic.pl -Tsvg > diels.alder.svg
+\end{verbatim}
+}
+
+
+\subsection{Example} % (fold)
+\label{sub:reactionExample}
+In this section we present an example that uses the 
+the \reactionTool{} th convert the Diels-Alder reaction given in \GML{} format into a compacted \GML{}. Then the \reactionGmlToPic{}  and the \reactionItsGmlToPic{} are called with this compacted \GML{} as input to generate a graphical depiction in Scalable Vector Graphics (SVG) format. The corresponding \GML{} and compacted \GML{} are shown in the following  and the resulting images can be seen in in Fig.~\ref{fig:reactionGraph} for the \reactionGmlToPic{} and in Fig.~\ref{fig:molGraph} for the \reactionItsGmlToPic{} respectively.\newline
+
+The Diels-Alder rule in \GML{}:
+\startGML
+\begin{verbatim}
+rule [
+ ruleID "Diels-Alder reaction"
+ context [
+   node [ id 0 label "C" ]
+   node [ id 1 label "C" ]
+   node [ id 2 label "C" ]
+   node [ id 3 label "C" ]
+   node [ id 4 label "C" ]
+   node [ id 5 label "C" ]
+ ]
+ left [
+   edge [ source 1 target 2 label "=" ]
+   edge [ source 4 target 5 label "-" ]
+   edge [ source 3 target 4 label "=" ]
+   edge [ source 0 target 5 label "=" ]
+   constrainNoEdge [ source 0 target 2 ]
+   constrainNoEdge [ source 3 target 1 ]
+ ]
+ right [
+   edge [ source 0 target 1 label "-" ]
+   edge [ source 1 target 2 label "-" ]
+   edge [ source 2 target 3 label "-" ]
+   edge [ source 3 target 4 label "-" ]
+   edge [ source 4 target 5 label "=" ]
+   edge [ source 5 target 0 label "-" ]
+ ]
+]
+\end{verbatim}
+\endGML
+\hspace{10pt}
+The compacted \GML{} after calling ``\$ reactionTool -in=diels-alder.gml -inMode=G -outMode=C'': \newline
+
+\startGML
+\begin{verbatim}
+graph [
+  node [ id 0 label "C" ]
+  node [ id 1 label "C" ]
+  node [ id 2 label "C" ]
+  node [ id 3 label "C" ]
+  node [ id 4 label "C" ]
+  node [ id 5 label "C" ]
+  edge [ source 3 target 4 label "=|-" ]
+  edge [ source 0 target 5 label "=|-" ]
+  edge [ source 1 target 2 label "=|-" ]
+  edge [ source 4 target 5 label "-|=" ]
+  edge [  source 2 target 3 label "|-" ]
+  edge [  source 0 target 1 label "|-" ]
+]
+
+\end{verbatim}
+\endGML
+The resulting figures:\newline
+\begin{figure}
+  \includegraphics[height=0.45\textwidth]{\builddir/Figures/molGraph}
+  \caption{The Diels-Alder reaction depicted using the \reactionGmlToPic{}.}
+    \label{fig:reactionGraph}
+
+\end{figure}
+
+
+\begin{figure}
+  \includegraphics[height=0.45\textwidth]{\builddir/Figures/molGraph}
+  \caption{The Diels-Alder reaction depicted using the \reactionItsGmlToPic{}.}
+    \label{fig:reactionItsGraph}
+
+\end{figure}
+
+
+%%%%%%%%%%%%%%
+\end{document}
+

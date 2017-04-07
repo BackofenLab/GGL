@@ -1,0 +1,171 @@
+==============  BEGIN TEST  ==================
+==============================================
+               bin/gameOfLife
+==============================================
+
+ --> checking help
+
+ => usage:	gameOfLife -rules=... -grid=... [...optional parameters]
+
+ => complete parameterlist:
+
+   -rules=..  Graph grammar rules input file name or 'STDIN' when to read from
+         standard input (use -ruleExample for a sample)
+         type=str 
+   -grid=..  The initial grid input file name or 'STDIN' when to read from standard
+         input (see -gridExample for a sample)
+         type=str   default="STDIN"
+  [-iter=..] Number of rule application iterations
+         type=int   default="1"
+  [-out=..] Output file name or 'STDOUT' when to write to standard output
+         type=str   default="STDOUT"
+  [-help] Displays help on all parameters
+         type=bool
+  [-ruleExample] Displays an example for the graph grammar rule GML encoding
+         type=bool
+  [-gridExample] Displays an example for the input grid encoding
+         type=bool
+  [-v  ] Verbose output
+         type=bool
+  [-version] Version information
+         type=bool
+
+
+ => informations:
+
+
+Explores the Game of Life for a given set of rules and a given start grid.
+
+The rule input has to be in GML format. The start grid has to be defined by a
+tabular format with label encoding. Use '-ruleExample' or '-gridExample' for an
+example.
+
+
+
+ => usage:	gameOfLife -rules=... -grid=... [...optional parameters]
+
+
+ --> running glider grid
+ --> parameter =  -rules=game-of-life/gof.rules -grid=game-of-life/gof.glider -iter=10
+
+##########
+# O      #
+#  O     #
+#OOO     #
+#        #
+#        #
+#        #
+##########
+
+ 1. iteration
+
+##########
+#        #
+#O O     #
+# OO     #
+# O      #
+#        #
+#        #
+##########
+
+ 2. iteration
+
+##########
+#        #
+#  O     #
+#O O     #
+# OO     #
+#        #
+#        #
+##########
+
+ 3. iteration
+
+##########
+#        #
+# O      #
+#  OO    #
+# OO     #
+#        #
+#        #
+##########
+
+ 4. iteration
+
+##########
+#        #
+#  O     #
+#   O    #
+# OOO    #
+#        #
+#        #
+##########
+
+ 5. iteration
+
+##########
+#        #
+#        #
+# O O    #
+#  OO    #
+#  O     #
+#        #
+##########
+
+ 6. iteration
+
+##########
+#        #
+#        #
+#   O    #
+# O O    #
+#  OO    #
+#        #
+##########
+
+ 7. iteration
+
+##########
+#        #
+#        #
+#  O     #
+#   OO   #
+#  OO    #
+#        #
+##########
+
+ 8. iteration
+
+##########
+#        #
+#        #
+#   O    #
+#    O   #
+#  OOO   #
+#        #
+##########
+
+ 9. iteration
+
+##########
+#        #
+#        #
+#        #
+#  O O   #
+#   OO   #
+#   O    #
+##########
+
+ 10. iteration
+
+##########
+#        #
+#        #
+#        #
+#    O   #
+#  O O   #
+#   OO   #
+##########
+
+
+===============  END TEST  ===================

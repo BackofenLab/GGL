@@ -1,0 +1,375 @@
+
+==============  BEGIN TEST  ==================
+==============================================
+           sgm::RP_Hanser96  
+==============================================
+
+
+ ####### NEXT GRAPH ##################################
+
+
+ graph to check:
+graph [ 
+ node [ id 0 label "a" ]
+ node [ id 1 label "b" ]
+ node [ id 2 label "c" ]
+ node [ id 3 label "d" ]
+ node [ id 4 label "e" ]
+ node [ id 5 label "f" ]
+ node [ id 6 label "g" ]
+ node [ id 7 label "h" ]
+ edge [ source 0 target 1 label "-" ]
+ edge [ source 0 target 2 label "-" ]
+ edge [ source 0 target 7 label "-" ]
+ edge [ source 1 target 2 label "-" ]
+ edge [ source 1 target 3 label "-" ]
+ edge [ source 3 target 4 label "-" ]
+ edge [ source 3 target 5 label "-" ]
+ edge [ source 3 target 6 label "-" ]
+]
+
+
+-->Graph_GMLparser::parseGraph( GML )
+
+ result graph : 
+     0 (a)  -->  | 1 (-) | 2 (-) | 7 (-) |
+     1 (b)  -->  | 0 (-) | 2 (-) | 3 (-) |
+     2 (c)  -->  | 0 (-) | 1 (-) |
+     3 (d)  -->  | 1 (-) | 4 (-) | 5 (-) | 6 (-) |
+     4 (e)  -->  | 3 (-) |
+     5 (f)  -->  | 3 (-) |
+     6 (g)  -->  | 3 (-) |
+     7 (h)  -->  | 0 (-) |
+
+
+-->RP_Hanser96::findRings( graph, RR_Count, 8 )
+ + returned ring number = 1
+ + reported ring number = 1
+
+-->RP_Hanser96::findRings( graph, RR_Count, 7 )
+ + returned ring number = 1
+ + reported ring number = 1
+
+-->RP_Hanser96::findRings( graph, RR_Count, 6 )
+ + returned ring number = 1
+ + reported ring number = 1
+
+-->RP_Hanser96::findRings( graph, RR_Count, 5 )
+ + returned ring number = 1
+ + reported ring number = 1
+
+-->RP_Hanser96::findRings( graph, RR_Count, 4 )
+ + returned ring number = 1
+ + reported ring number = 1
+
+-->RP_Hanser96::findRings( graph, RR_Count, 3 )
+ + returned ring number = 1
+ + reported ring number = 1
+
+-->RP_Hanser96::findRings( graph, RR_Count, 2 )
+ + returned ring number = 0
+ + reported ring number = 0
+
+-->RP_Hanser96::findRings( graph, RR_Count, 1 )
+ + returned ring number = 0
+ + reported ring number = 0
+ + ring bond number     = 3
+
+ ####### NEXT GRAPH ##################################
+
+
+ graph to check:
+graph [ 
+ node [ id 0 label "a" ]
+ node [ id 1 label "b" ]
+ node [ id 2 label "c" ]
+ node [ id 3 label "d" ]
+ node [ id 4 label "e" ]
+ node [ id 5 label "f" ]
+ node [ id 6 label "g" ]
+ node [ id 7 label "h" ]
+ node [ id 8 label "i" ]
+ edge [ source 0 target 3 label "-" ]
+ edge [ source 0 target 6 label "-" ]
+ edge [ source 0 target 4 label "-" ]
+ edge [ source 1 target 4 label "-" ]
+ edge [ source 1 target 5 label "-" ]
+ edge [ source 1 target 7 label "-" ]
+ edge [ source 2 target 3 label "-" ]
+ edge [ source 2 target 5 label "-" ]
+ edge [ source 2 target 8 label "-" ]
+ edge [ source 3 target 6 label "-" ]
+ edge [ source 3 target 8 label "-" ]
+ edge [ source 4 target 6 label "-" ]
+ edge [ source 4 target 7 label "-" ]
+ edge [ source 5 target 7 label "-" ]
+ edge [ source 5 target 8 label "-" ]
+ edge [ source 6 target 7 label "-" ]
+ edge [ source 6 target 8 label "-" ]
+ edge [ source 7 target 8 label "-" ]
+]
+
+
+-->Graph_GMLparser::parseGraph( GML )
+
+ result graph : 
+     0 (a)  -->  | 3 (-) | 4 (-) | 6 (-) |
+     1 (b)  -->  | 4 (-) | 5 (-) | 7 (-) |
+     2 (c)  -->  | 3 (-) | 5 (-) | 8 (-) |
+     3 (d)  -->  | 0 (-) | 2 (-) | 6 (-) | 8 (-) |
+     4 (e)  -->  | 0 (-) | 1 (-) | 6 (-) | 7 (-) |
+     5 (f)  -->  | 1 (-) | 2 (-) | 7 (-) | 8 (-) |
+     6 (g)  -->  | 0 (-) | 3 (-) | 4 (-) | 7 (-) | 8 (-) |
+     7 (h)  -->  | 1 (-) | 4 (-) | 5 (-) | 6 (-) | 8 (-) |
+     8 (i)  -->  | 2 (-) | 3 (-) | 5 (-) | 6 (-) | 7 (-) |
+
+
+-->RP_Hanser96::findRings( graph, RR_Count, 9 )
+ + returned ring number = 248
+ + reported ring number = 248
+
+-->RP_Hanser96::findRings( graph, RR_Count, 8 )
+ + returned ring number = 222
+ + reported ring number = 222
+
+-->RP_Hanser96::findRings( graph, RR_Count, 7 )
+ + returned ring number = 156
+ + reported ring number = 156
+
+-->RP_Hanser96::findRings( graph, RR_Count, 6 )
+ + returned ring number = 87
+ + reported ring number = 87
+
+-->RP_Hanser96::findRings( graph, RR_Count, 5 )
+ + returned ring number = 43
+ + reported ring number = 43
+
+-->RP_Hanser96::findRings( graph, RR_Count, 4 )
+ + returned ring number = 22
+ + reported ring number = 22
+
+-->RP_Hanser96::findRings( graph, RR_Count, 3 )
+ + returned ring number = 10
+ + reported ring number = 10
+
+-->RP_Hanser96::findRings( graph, RR_Count, 2 )
+ + returned ring number = 0
+ + reported ring number = 0
+
+-->RP_Hanser96::findRings( graph, RR_Count, 1 )
+ + returned ring number = 0
+ + reported ring number = 0
+ + ring bond number     = 18
+
+ ####### NEXT GRAPH ##################################
+
+
+ graph to check:
+graph [ 
+ node [ id 0 label "a" ]
+ node [ id 1 label "b" ]
+ node [ id 2 label "c" ]
+ node [ id 3 label "d" ]
+ node [ id 4 label "e" ]
+ node [ id 5 label "f" ]
+ node [ id 6 label "g" ]
+ node [ id 7 label "h" ]
+ node [ id 8 label "i" ]
+ node [ id 9 label "j" ]
+ node [ id 10 label "k" ]
+ node [ id 11 label "l" ]
+ node [ id 12 label "m" ]
+ node [ id 13 label "n" ]
+ node [ id 14 label "o" ]
+ node [ id 15 label "p" ]
+ node [ id 16 label "q" ]
+ edge [ source 0 target 1 label "-" ]
+ edge [ source 0 target 5 label "-" ]
+ edge [ source 1 target 2 label "-" ]
+ edge [ source 2 target 3 label "-" ]
+ edge [ source 2 target 6 label "-" ]
+ edge [ source 3 target 4 label "-" ]
+ edge [ source 3 target 9 label "-" ]
+ edge [ source 4 target 5 label "-" ]
+ edge [ source 6 target 7 label "-" ]
+ edge [ source 6 target 10 label "-" ]
+ edge [ source 7 target 8 label "-" ]
+ edge [ source 7 target 13 label "-" ]
+ edge [ source 8 target 9 label "-" ]
+ edge [ source 10 target 11 label "-" ]
+ edge [ source 11 target 12 label "-" ]
+ edge [ source 12 target 13 label "-" ]
+ edge [ source 12 target 14 label "-" ]
+ edge [ source 13 target 16 label "-" ]
+ edge [ source 14 target 15 label "-" ]
+ edge [ source 15 target 16 label "-" ]
+]
+
+
+-->Graph_GMLparser::parseGraph( GML )
+
+ result graph : 
+     0 (a)  -->  | 1 (-) | 5 (-) |
+     1 (b)  -->  | 0 (-) | 2 (-) |
+     2 (c)  -->  | 1 (-) | 3 (-) | 6 (-) |
+     3 (d)  -->  | 2 (-) | 4 (-) | 9 (-) |
+     4 (e)  -->  | 3 (-) | 5 (-) |
+     5 (f)  -->  | 0 (-) | 4 (-) |
+     6 (g)  -->  | 2 (-) | 7 (-) | 10 (-) |
+     7 (h)  -->  | 6 (-) | 8 (-) | 13 (-) |
+     8 (i)  -->  | 7 (-) | 9 (-) |
+     9 (j)  -->  | 3 (-) | 8 (-) |
+    10 (k)  -->  | 6 (-) | 11 (-) |
+    11 (l)  -->  | 10 (-) | 12 (-) |
+    12 (m)  -->  | 11 (-) | 13 (-) | 14 (-) |
+    13 (n)  -->  | 7 (-) | 12 (-) | 16 (-) |
+    14 (o)  -->  | 12 (-) | 15 (-) |
+    15 (p)  -->  | 14 (-) | 16 (-) |
+    16 (q)  -->  | 13 (-) | 15 (-) |
+
+
+-->RP_Hanser96::findRings( graph, RR_Count, 17 )
+ + returned ring number = 10
+ + reported ring number = 10
+
+-->RP_Hanser96::findRings( graph, RR_Count, 16 )
+ + returned ring number = 9
+ + reported ring number = 9
+
+-->RP_Hanser96::findRings( graph, RR_Count, 15 )
+ + returned ring number = 9
+ + reported ring number = 9
+
+-->RP_Hanser96::findRings( graph, RR_Count, 14 )
+ + returned ring number = 9
+ + reported ring number = 9
+
+-->RP_Hanser96::findRings( graph, RR_Count, 13 )
+ + returned ring number = 8
+ + reported ring number = 8
+
+-->RP_Hanser96::findRings( graph, RR_Count, 12 )
+ + returned ring number = 7
+ + reported ring number = 7
+
+-->RP_Hanser96::findRings( graph, RR_Count, 11 )
+ + returned ring number = 7
+ + reported ring number = 7
+
+-->RP_Hanser96::findRings( graph, RR_Count, 10 )
+ + returned ring number = 7
+ + reported ring number = 7
+
+-->RP_Hanser96::findRings( graph, RR_Count, 9 )
+ + returned ring number = 5
+ + reported ring number = 5
+
+-->RP_Hanser96::findRings( graph, RR_Count, 8 )
+ + returned ring number = 4
+ + reported ring number = 4
+
+-->RP_Hanser96::findRings( graph, RR_Count, 7 )
+ + returned ring number = 4
+ + reported ring number = 4
+
+-->RP_Hanser96::findRings( graph, RR_Count, 6 )
+ + returned ring number = 4
+ + reported ring number = 4
+
+-->RP_Hanser96::findRings( graph, RR_Count, 5 )
+ + returned ring number = 1
+ + reported ring number = 1
+
+-->RP_Hanser96::findRings( graph, RR_Count, 4 )
+ + returned ring number = 0
+ + reported ring number = 0
+
+-->RP_Hanser96::findRings( graph, RR_Count, 3 )
+ + returned ring number = 0
+ + reported ring number = 0
+
+-->RP_Hanser96::findRings( graph, RR_Count, 2 )
+ + returned ring number = 0
+ + reported ring number = 0
+
+-->RP_Hanser96::findRings( graph, RR_Count, 1 )
+ + returned ring number = 0
+ + reported ring number = 0
+ + ring bond number     = 20
+
+ ####### NEXT GRAPH ##################################
+
+
+ graph to check:
+graph [
+  node [ id 1 label "1" ] 
+  node [ id 2 label "2" ] 
+  node [ id 3 label "3" ] 
+  node [ id 4 label "4" ] 
+  node [ id 5 label "5" ] 
+  node [ id 6 label "6" ] 
+  node [ id 7 label "7" ] 
+  node [ id 8 label "8" ] 
+  edge [ source 1 target 2 label "-" ] 
+  edge [ source 1 target 3 label "-" ] 
+  edge [ source 1 target 5 label "-" ] 
+  edge [ source 2 target 4 label "-" ] 
+  edge [ source 2 target 6 label "-" ] 
+  edge [ source 3 target 4 label "-" ] 
+  edge [ source 3 target 7 label "-" ] 
+  edge [ source 4 target 8 label "-" ] 
+  edge [ source 5 target 6 label "-" ] 
+  edge [ source 5 target 7 label "-" ] 
+  edge [ source 6 target 8 label "-" ] 
+  edge [ source 7 target 8 label "-" ]
+]
+
+
+-->Graph_GMLparser::parseGraph( GML )
+
+ result graph : 
+     0 (1)  -->  | 1 (-) | 2 (-) | 4 (-) |
+     1 (2)  -->  | 0 (-) | 3 (-) | 5 (-) |
+     2 (3)  -->  | 0 (-) | 3 (-) | 6 (-) |
+     3 (4)  -->  | 1 (-) | 2 (-) | 7 (-) |
+     4 (5)  -->  | 0 (-) | 5 (-) | 6 (-) |
+     5 (6)  -->  | 1 (-) | 4 (-) | 7 (-) |
+     6 (7)  -->  | 2 (-) | 4 (-) | 7 (-) |
+     7 (8)  -->  | 3 (-) | 5 (-) | 6 (-) |
+
+
+-->RP_Hanser96::findRings( graph, RR_Count, 8 )
+ + returned ring number = 28
+ + reported ring number = 28
+
+-->RP_Hanser96::findRings( graph, RR_Count, 7 )
+ + returned ring number = 22
+ + reported ring number = 22
+
+-->RP_Hanser96::findRings( graph, RR_Count, 6 )
+ + returned ring number = 22
+ + reported ring number = 22
+
+-->RP_Hanser96::findRings( graph, RR_Count, 5 )
+ + returned ring number = 6
+ + reported ring number = 6
+
+-->RP_Hanser96::findRings( graph, RR_Count, 4 )
+ + returned ring number = 6
+ + reported ring number = 6
+
+-->RP_Hanser96::findRings( graph, RR_Count, 3 )
+ + returned ring number = 0
+ + reported ring number = 0
+
+-->RP_Hanser96::findRings( graph, RR_Count, 2 )
+ + returned ring number = 0
+ + reported ring number = 0
+
+-->RP_Hanser96::findRings( graph, RR_Count, 1 )
+ + returned ring number = 0
+ + reported ring number = 0
+ + ring bond number     = 12
+
+==============  BEGIN TEST  ==================
+

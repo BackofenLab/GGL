@@ -1,0 +1,81 @@
+
+
+namespace ggl {
+namespace chem {
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+	inline
+	AP_NSPDK::
+	AP_NSPDK( const std::string & modelID )
+		: AromaticityPerception(),
+		  nspdkGraph(),
+		  aromaticityModel( AP_NSPDK_Model::getInstance(modelID))
+	{
+		assert( aromaticityModel != NULL /*model selection failed*/);
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+	inline
+	AP_NSPDK::
+	AP_NSPDK( const AP_NSPDK_Model * const model )
+		: AromaticityPerception(),
+		  nspdkGraph(),
+		  aromaticityModel( model )
+	{
+		assert( aromaticityModel != NULL /*model selection failed*/);
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+	inline
+	AP_NSPDK::
+	AP_NSPDK( const AP_NSPDK &toCopy )
+		: AromaticityPerception( toCopy )
+		, nspdkGraph(toCopy.nspdkGraph)
+		, aromaticityModel( toCopy.aromaticityModel )
+	{
+		assert( aromaticityModel != NULL /*model selection failed*/);
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+	inline
+	AP_NSPDK::
+	~AP_NSPDK()
+	{
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+	inline
+	const AP_NSPDK_Model* const
+	AP_NSPDK::
+	getModel( void ) const
+	{
+		return aromaticityModel;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+	inline
+	AP_NSPDK *
+	AP_NSPDK::
+	clone( void ) const
+	{
+		return new AP_NSPDK(*this);
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+}} // namespace
