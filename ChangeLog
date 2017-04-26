@@ -2,6 +2,8 @@
 170426 Martin Mann
 	+ ggl/chem/Molecule_Graph_noClass : wrapper for a ggl::chem::Molecule_Graph
 	  that removes all class label information from the atom node labels
+	* toyChem/Util :
+	  + argument 'ignoreAtomClass' : ignore atom class label for rule matching
 
 170407 Martin Mann
 	* configure.ac :
