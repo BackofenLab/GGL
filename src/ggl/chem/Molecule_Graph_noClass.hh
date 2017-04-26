@@ -1,7 +1,7 @@
 #ifndef GGL_CHEM_MOLECULE_GRAPH_NOCLASS_HH_
 #define GGL_CHEM_MOLECULE_GRAPH_NOCLASS_HH_
 
-#include "ggl/chem/Molecule.hh"
+#include "sgm/Graph_Interface.hh"
 
 namespace ggl {
   namespace chem {
@@ -18,7 +18,7 @@ namespace ggl {
 	protected:
 		
 		//! wrapped molecules representation to strip the class label information from
-		const ggl::chem::Molecule_Graph & molecules;
+		const sgm::Graph_Interface & molecules;
 		
 	public:
 
@@ -26,7 +26,7 @@ namespace ggl {
 		//! @param molecules the graph representing the molecules to wrap;
 		//!    atom labels are reduced to their substrings up to the first
 		//!    occurrence of the class label separator ':'
-		Molecule_Graph_noClass( const ggl::chem::Molecule_Graph & molecules )
+		Molecule_Graph_noClass( const sgm::Graph_Interface & molecules )
 		 :	molecules(molecules)
 		{}
 
@@ -75,7 +75,7 @@ namespace ggl {
 
 		//! Provides access to the original graph without reduced atom labels.
 		//! @return the original graph wrapped by this graph
-		const ggl::chem::Molecule_Graph &
+		const sgm::Graph_Interface &
 		getWithFullAtomLabels() const
 		{ return molecules; }
 
