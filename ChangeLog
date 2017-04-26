@@ -1,4 +1,8 @@
 
+170426 Martin Mann
+	+ ggl/chem/Molecule_Graph_noClass : wrapper for a ggl::chem::Molecule_Graph
+	  that removes all class label information from the atom node labels
+
 170407 Martin Mann
 	* configure.ac :
 	  + "-DBOOST_SYSTEM_NO_DEPRECATED" compiler flag to disable unneeded 

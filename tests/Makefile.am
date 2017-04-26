@@ -68,6 +68,7 @@ TESTSOURCES =   \
 				testggl_chem_AP_NSPDK.cc \
 				testggl_chem_MoleculeComponent_GML_grammar.cc \
 				testggl_chem_MoleculeGroups.cc \
+				testggl_chem_Molecule_Graph_noClass.cc \
 				testggl_chem_MoleculeDecomposition.cc \
 				testggl_chem_RRC_ArrheniusLaw.cc \
 				$(TESTSOURCES_OB)

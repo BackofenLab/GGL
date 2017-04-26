@@ -87,6 +87,7 @@ gglchem_OB_headerfiles = \
 
 lib_gglchem_HEADERS = \
 					chem/Molecule.hh \
+					chem/Molecule_Graph_noClass.hh \
 					chem/MoleculeUtil.hh \
 					chem/MoleculeUtil.icc \
 					chem/ClassIDGraph.hh \
