@@ -88,6 +88,7 @@ TESTDATA =		\
 				dielsalder/da1.gml \
 				dielsalder/da2.smi \
 				dielsalder/da2.gml \
+				dielsalder/da3.smi \
 				toyChem/groups.gml \
 				toyChem/lactat.smi \
 				toyChem/NADH.smi \

@@ -11,11 +11,77 @@
 #include <ggl/chem/SMILESparser.hh>
 #include <ggl/chem/GS_MolCheck.hh>
 #include "ggl/chem/GS_SMILES.hh"
+#include <ggl/chem/Molecule_Graph_noClass.hh>
 
 #include <boost/lexical_cast.hpp>
 
 #include <fstream>
 #include <algorithm>
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+#include <sgm/Match_Reporter.hh>
+
+/**
+ * Wrapper class to restore the atom label information of the target graph that
+ * was ignored using ggl::chem::Molecule_Graph_noClass, which is forwarded to
+ * a given Match_Reporter instance.
+ *
+ */
+class MR_restoreAtomClass : public sgm::Match_Reporter {
+
+protected:
+
+	//! the Match_Reporter to forward the match information to with full atom
+	//! label information for the target graph
+	sgm::Match_Reporter & forwardMR;
+
+public:
+
+	//! construction
+	//! @param forwardMR the Match_Reporter to forward the match information
+	//!            to with full atom label information for the target graph
+	MR_restoreAtomClass( sgm::Match_Reporter & forwardMR )
+	 :	forwardMR(forwardMR)
+	{}
+
+	virtual
+	~MR_restoreAtomClass()
+	{}
+
+	  //! Reports a match. The match is encoded using a vector. The length
+	  //! of the vector corresponds to the number of vertices in the pattern
+	  //! and position i encodes the matched position of pattern node i in
+	  //! the target graph.
+	  //! @param pattern the pattern graph that was searched for
+	  //! @param target the graph the pattern was found within
+	  //! @param match contains the indices of the matched pattern nodes in
+	  //! the target graph. match[i] corresponds to the mapping of the ith
+	  //! vertex in the pattern graph.
+	virtual
+	void
+	reportHit (	const sgm::Pattern_Interface & pattern,
+				const sgm::Graph_Interface & target,
+				const sgm::Match & match )
+	{
+		// try to cast
+		const ggl::chem::Molecule_Graph_noClass * targetMol
+			= dynamic_cast<const ggl::chem::Molecule_Graph_noClass *>( &target );
+
+		// check if we can undo the atom label change (if any)
+		if ( targetMol != NULL ) {
+			// forward match information but use fully labeled original molecule
+			forwardMR.reportHit( pattern, targetMol->getWithFullAtomLabels(), match );
+		} else {
+			// forward with current target, since no instance of Molecule_Graph_noClass
+			forwardMR.reportHit( pattern, target, match );
+		}
+	}
+
+
+};
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -1123,7 +1189,9 @@ singleRuleApplication(	sgm::SubGraphMatching& sgm
 						, const ggl::chem::LeftSidePattern& rulePattern
 						, const SMILES_container & allTargets
 						, sgm::Match_Reporter& mrApplyRule
-						, const sgm::Pattern_Automorphism* ruleSymmetry )
+						, const sgm::Pattern_Automorphism* ruleSymmetry
+						, const bool ignoreAtomClassLabel
+						)
 {
 	  // target graph holding compNbr different targets
 	std::vector< const ggl::chem::Molecule* > 
@@ -1136,7 +1204,8 @@ singleRuleApplication(	sgm::SubGraphMatching& sgm
 										, allTargets
 										, curTargets
 										, mrApplyRule
-										, ruleSymmetry );
+										, ruleSymmetry
+										, ignoreAtomClassLabel );
 }
 
 
@@ -1149,7 +1218,9 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 							, const SMILES_container & allTargets
 							, std::vector< const ggl::chem::Molecule* >& curTargets
 							, sgm::Match_Reporter& mrApplyRule
-							, const sgm::Pattern_Automorphism* ruleSymmetry )
+							, const sgm::Pattern_Automorphism* ruleSymmetry
+							, const bool ignoreAtomClassLabel
+							)
 {
 	assert(ruleComponent <= rulePattern.getFirstOfEachComponent().size() /* ruleComponent exeeds number of rule components */);
 	
@@ -1158,15 +1229,25 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 	if (ruleComponent == rulePattern.getFirstOfEachComponent().size()) {
 		 // represent all target molecules as one graph to search
 		sgm::Graph_boostV_p< ggl::chem::Molecule > targets(curTargets);
+		 // create final target graph to search
+		sgm::Graph_Interface* finalTargets = ignoreAtomClassLabel
+						? (sgm::Graph_Interface*)new ggl::chem::Molecule_Graph_noClass( targets )
+						: (sgm::Graph_Interface*)&targets;
+		 // create final match reported for rule application
+		sgm::Match_Reporter* mrApplyRuleFinal = ignoreAtomClassLabel
+						? new MR_restoreAtomClass( mrApplyRule )
+						: &mrApplyRule;
 		if (ruleSymmetry != NULL) {
 			  // set up symmetry breaking interface
-			sgm::MR_SymmBreak mrSymmBreak( *ruleSymmetry, mrApplyRule);
+			sgm::MR_SymmBreak mrSymmBreak( *ruleSymmetry, *mrApplyRuleFinal);
 			  // find all matches and apply rule
-			sgm.findMatches( rulePattern, targets, mrSymmBreak, UINT_MAX );
+			sgm.findMatches( rulePattern, *finalTargets, mrSymmBreak, UINT_MAX );
 		} else {
 			  // find all matches and apply rule
-			sgm.findMatches( rulePattern, targets, mrApplyRule, UINT_MAX );
+			sgm.findMatches( rulePattern, *finalTargets, *mrApplyRuleFinal, UINT_MAX );
 		}
+		  // cleanup
+		if (ignoreAtomClassLabel) { delete finalTargets; delete mrApplyRuleFinal; }
 		  // all done --> end recursion here
 		return true;
 	}
@@ -1201,8 +1282,12 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		
 		  // set up wrapper for current target for matching
 		sgm::Graph_boost< ggl::chem::Molecule > curTarget(*(it->second));
+		 // create final target graph to search
+		sgm::Graph_Interface* finalTarget = ignoreAtomClassLabel
+						? (sgm::Graph_Interface*)new ggl::chem::Molecule_Graph_noClass( curTarget )
+						: (sgm::Graph_Interface*)&curTarget;
 		  // check if current target contains this component at least once
-		const size_t numOfMatches = sgm.findMatches( component, curTarget, mrCounting,1 );
+		const size_t numOfMatches = sgm.findMatches( component, *finalTarget, mrCounting,1 );
 		if (numOfMatches == 0) {
 			// this component is not contained in current target
 			// --> go to next target
@@ -1210,6 +1295,8 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		} else {
 			thisComponentPresent = true;
 		}
+		  // cleanup
+		if (ignoreAtomClassLabel) { delete finalTarget; }
 		  // add current target to the overall graph to apply this rule to
 		curTargets[ruleComponent] = it->second;
 		  // recursive call to handle next component or to start matching
@@ -1219,7 +1306,8 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 															, allTargets
 															, curTargets
 															, mrApplyRule
-															, ruleSymmetry );
+															, ruleSymmetry
+															, ignoreAtomClassLabel );
 		if (!remMatched)
 			return false;
 	}	
@@ -1240,7 +1328,9 @@ singleRuleApplication(	sgm::SubGraphMatching& sgm
 						, const SMILES_container & newTargets
 						, const SMILES_container & oldTargets
 						, sgm::Match_Reporter& mrApplyRule
-						, const sgm::Pattern_Automorphism* ruleSymmetry )
+						, const sgm::Pattern_Automorphism* ruleSymmetry
+						, const bool ignoreAtomClassLabel
+						)
 {
 	  // target graph holding compNbr different targets
 	std::vector< const ggl::chem::Molecule* > 
@@ -1255,7 +1345,8 @@ singleRuleApplication(	sgm::SubGraphMatching& sgm
 										, false
 										, curTargets
 										, mrApplyRule
-										, ruleSymmetry );
+										, ruleSymmetry
+										, ignoreAtomClassLabel );
 }
 
 
@@ -1270,7 +1361,9 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 							, const bool atLeastOneNewAdded
 							, std::vector< const ggl::chem::Molecule* >& curTargets
 							, sgm::Match_Reporter& mrApplyRule
-							, const sgm::Pattern_Automorphism* ruleSymmetry )
+							, const sgm::Pattern_Automorphism* ruleSymmetry
+							, const bool ignoreAtomClassLabel
+							)
 {
 	assert(ruleComponent <= rulePattern.getFirstOfEachComponent().size() /* ruleComponent exeeds number of rule components */);
 	
@@ -1279,15 +1372,31 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 	if (ruleComponent == rulePattern.getFirstOfEachComponent().size()) {
 		 // represent all target molecules as one graph to search
 		sgm::Graph_boostV_p< ggl::chem::Molecule > targets(curTargets);
+		 // create final target graph to search
+		sgm::Graph_Interface* finalTargets = ignoreAtomClassLabel
+						? (sgm::Graph_Interface*)new ggl::chem::Molecule_Graph_noClass( targets )
+						: (sgm::Graph_Interface*)&targets;
+		 // create final match reported for rule application
+		sgm::Match_Reporter* mrApplyRuleFinal = ignoreAtomClassLabel
+						? new MR_restoreAtomClass( mrApplyRule )
+						: &mrApplyRule;
+
 		if (ruleSymmetry != NULL) {
 			  // set up symmetry breaking interface
-			sgm::MR_SymmBreak mrSymmBreak( *ruleSymmetry, mrApplyRule);
+			sgm::MR_SymmBreak mrSymmBreak( *ruleSymmetry, *mrApplyRuleFinal);
 			  // find all matches and apply rule
-			sgm.findMatches( rulePattern, targets, mrSymmBreak, UINT_MAX );
+			sgm.findMatches( rulePattern, *finalTargets, mrSymmBreak, UINT_MAX );
 		} else {
 			  // find all matches and apply rule
-			sgm.findMatches( rulePattern, targets, mrApplyRule, UINT_MAX );
+			sgm.findMatches( rulePattern, *finalTargets, *mrApplyRuleFinal, UINT_MAX );
 		}
+
+		// cleanup if necessary
+		if (ignoreAtomClassLabel) {
+			delete finalTargets;
+			delete mrApplyRuleFinal;
+		}
+
 		  // all done --> end recursion here
 		return 0;
 	}
@@ -1326,9 +1435,13 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		
 		  // set up wrapper for current target for matching
 		sgm::Graph_boost< ggl::chem::Molecule > curTarget(*(it->second));
+		 // create final target graph to search
+		sgm::Graph_Interface* finalTarget = ignoreAtomClassLabel
+						? (sgm::Graph_Interface*)new ggl::chem::Molecule_Graph_noClass( curTarget )
+						: (sgm::Graph_Interface*)&curTarget;
 		  // check if current target contains this component at least once
 		mrCounting.resetHits();
-		sgm.findMatches( component, curTarget, mrCounting, 1 );
+		sgm.findMatches( component, *finalTarget, mrCounting, 1 );
 		if (mrCounting.getHits() == 0) {
 			// this component is not contained in current target
 			// --> go to next target
@@ -1336,6 +1449,8 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		} else {
 			thisComponentPresent = true;
 		}
+		  // cleanup
+		if (ignoreAtomClassLabel) { delete finalTarget; }
 		  // add current target to the overall graph to apply this rule to
 		curTargets[ruleComponent] = it->second;
 		  // recursive call to handle next component or to start matching
@@ -1347,7 +1462,8 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 															, true
 															, curTargets
 															, mrApplyRule
-															, ruleSymmetry );
+															, ruleSymmetry
+															, ignoreAtomClassLabel );
 		otherComponentsPresent = (recCall == 0);
 	}	
 	
@@ -1368,9 +1484,13 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		
 		  // set up wrapper for current target for matching
 		sgm::Graph_boost< ggl::chem::Molecule > curTarget(*(it->second));
-		  // check if current target contains this component at least once
+		 // create final target graph to search
+		sgm::Graph_Interface* finalTarget = ignoreAtomClassLabel
+						? (sgm::Graph_Interface*)new ggl::chem::Molecule_Graph_noClass( curTarget )
+						: (sgm::Graph_Interface*)&curTarget;
+		 // check if current target contains this component at least once
 		mrCounting.resetHits();
-		sgm.findMatches( component, curTarget, mrCounting, 1 );
+		sgm.findMatches( component, *finalTarget, mrCounting, 1 );
 		if (mrCounting.getHits() == 0) {
 			// this component is not contained in current target
 			// --> go to next target
@@ -1378,6 +1498,8 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		} else {
 			thisComponentPresent = true;
 		}
+		  // cleanup
+		if (ignoreAtomClassLabel) { delete finalTarget; }
 		  // add current target to the overall graph to apply this rule to
 		curTargets[ruleComponent] = it->second;
 		  // recursive call to handle next component or to start matching
@@ -1389,7 +1511,8 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 															, atLeastOneNewAdded
 															, curTargets
 															, mrApplyRule
-															, ruleSymmetry );
+															, ruleSymmetry
+															, ignoreAtomClassLabel );
 		switch (recCall) {
 		case 0 : oldMolsPresent = true;  break;
 		case 1 : oldMolsPresent = false; break;
@@ -1421,6 +1544,7 @@ applyRules( const RulePatternMap & rules
 			, ggl::chem::MR_Reactions::Reaction_Container & producedReactions
 			, const ggl::chem::ReactionRateCalculation * rateCalc
 			, const ggl::chem::AromaticityPerception & aromaticity
+			, const bool ignoreAtomClassLabel
 		)
 {
 	  // set up graph matcher
@@ -1449,7 +1573,8 @@ applyRules( const RulePatternMap & rules
 									, *(pat->second.at(curRule))
 									, initialMolecules
 									, mr
-									, &ga );
+									, &ga
+									, ignoreAtomClassLabel );
 		}
 	}
 
@@ -1482,6 +1607,7 @@ applyRules( const RulePatternMap & rules
 			, const ggl::chem::ReactionRateCalculation * rateCalc
 			, const bool allowAllIntra
 			, const ggl::chem::AromaticityPerception & aromaticity
+			, const bool ignoreAtomClassLabel
 		)
 {
 	  // set up graph matcher
@@ -1515,7 +1641,9 @@ applyRules( const RulePatternMap & rules
 										, *(pat->second.at(curRule))
 										, newMolecules
 										, mr
-										, &ga );
+										, &ga
+										, ignoreAtomClassLabel
+										);
 			}
 		} else {
 			
@@ -1541,7 +1669,9 @@ applyRules( const RulePatternMap & rules
 										, newMolecules
 										, oldMolecules
 										, mr
-										, &ga );
+										, &ga
+										, ignoreAtomClassLabel
+										);
 			}
 		}
 	}

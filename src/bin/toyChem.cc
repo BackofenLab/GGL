@@ -592,7 +592,7 @@ int main( int argc, char** argv ) {
 				}
 				
 				SMILES_container toFill;
-				applyRules(rulePattern, targetSmiles, producedSmiles, toFill, producedReactions, rateCalc, allowAllIntra, *aromaticityPrediction);
+				applyRules(rulePattern, targetSmiles, producedSmiles, toFill, producedReactions, rateCalc, allowAllIntra, *aromaticityPrediction, opts.argExist("ignoreAtomClass"));
 				targetSmiles.insert(producedSmiles.begin(), producedSmiles.end());
 				producedSmiles.clear();
 				producedSmiles.insert( toFill.begin(), toFill.end() );
@@ -675,7 +675,9 @@ int main( int argc, char** argv ) {
 												, *(static_cast<const ggl::chem::LeftSidePattern*>(pat->second.at(curRule)))
 												, targetSmiles
 												, *mr_applyRule
-												, &ga );
+												, &ga
+												, opts.argExist("ignoreAtomClass")
+												);
 
 						// print number of molecules produced by this reaction
 						if (infoMode == OUT_VERBOSE) {
@@ -935,6 +937,9 @@ initAllowedArguments(biu::OptionMap & allowedArgs, std::string &infoText )
 							"aromaticity", true, biu::COption::CHAR,
 							"The aromaticity perception model to be used : (M)arvin general model, (O)penBabel model, or (N)o aromaticity perception.",
 							"M"));
+	allowedArgs.push_back(biu::COption(
+							"ignoreAtomClass", true, biu::COption::BOOL,
+							"If present, the atom class of molecules is ignored for rule pattern matches. Note, rules should thus also make no use of atom class information in the pattern!"));
 	allowedArgs.push_back(biu::COption(
 							"noInputCorrection", true, biu::COption::BOOL,
 							"Dont correct the input molecules (aromaticity perception, proton filling, ...)"));

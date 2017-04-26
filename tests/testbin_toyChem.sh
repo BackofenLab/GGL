@@ -35,6 +35,16 @@ echo " --> running Diels-Alder reaction"
 echo " --> parameter = $RUNPARAM"
 $TOYCHEM $RUNPARAM 2>&1
 
+RUNPARAM=" -smiles=dielsalder/da3.smi:dielsalder/da2.smi -rules=dielsalder/da_rule.gml -iter=2 -outMode=S -v"
+echo " --> running Diels-Alder reaction with atom class label without atom-class-ignore"
+echo " --> parameter = $RUNPARAM"
+$TOYCHEM $RUNPARAM 2>&1
+
+RUNPARAM=" -smiles=dielsalder/da3.smi:dielsalder/da2.smi -rules=dielsalder/da_rule.gml -iter=2 -outMode=S -ignoreAtomClass -v"
+echo " --> running Diels-Alder reaction with atom class label with atom-class-ignore"
+echo " --> parameter = $RUNPARAM"
+$TOYCHEM $RUNPARAM 2>&1
+
 
 RUNPARAM=" -smiles=toyChem/NADH.smi:toyChem/lactat.smi -groups=toyChem/groups.gml -rules=toyChem/lactat-dehydrogenase.gml -iter=1"
 echo " --> running Lactat-dehydrogenase reaction"
