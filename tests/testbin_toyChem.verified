@@ -688,25 +688,22 @@ digraph reactionNetwork {
  C=C
  [C:1]=[C:2][C:3]=[C:4]
 
- iteration 1 : apply reaction 'Diels-Alder reaction' : 6
+ iteration 1 : apply reaction 'Diels-Alder reaction' : 5
 
- 1. iteration done : molecules = 8
+ 1. iteration done : molecules = 7
 
  new molecules :
- C1C[C:1][C:2]=[C:3][C:4]1
  C1C[C:4][C:3]=[C:2][C:1]1
  [C:1]=[C:2][C:3]1[C:4][C:1][C:2]=[C:3][C:4]1
  [C:1]=[C:2][C:3]1[C:4][C:4][C:3]=[C:2][C:1]1
  [C:4]=[C:3][C:2]1[C:1][C:1][C:2]=[C:3][C:4]1
  [C:4]=[C:3][C:2]1[C:1][C:4][C:3]=[C:2][C:1]1
 
- iteration 2 : apply reaction 'Diels-Alder reaction' : 20
+ iteration 2 : apply reaction 'Diels-Alder reaction' : 14
 
- 2. iteration done : molecules = 28
+ 2. iteration done : molecules = 21
 
  new molecules :
- C1C[C:1][C:2]2[C:1][C:2]=[C:3][C:4][C:3]2[C:4]1
- C1C[C:1][C:2]2[C:4][C:3]=[C:2][C:1][C:3]2[C:4]1
  C1C[C:4][C:3]2[C:1][C:2]=[C:3][C:4][C:2]2[C:1]1
  C1C[C:4][C:3]2[C:4][C:3]=[C:2][C:1][C:2]2[C:1]1
  [C:1]=[C:2][C:3]1[C:4][C:1][C:2]2[C:1][C:2]=[C:3][C:4][C:3]2[C:4]1
@@ -719,12 +716,8 @@ digraph reactionNetwork {
  [C:4]=[C:3][C:2]1[C:1][C:4][C:3]2[C:4][C:3]=[C:2][C:1][C:2]2[C:1]1
  [C:1]1[C:1][C:2]([C:4][C:3]=[C:2]1)[C:3]2[C:4][C:1][C:2]=[C:3][C:4]2
  [C:1]1[C:1][C:2]([C:4][C:3]=[C:2]1)[C:3]2[C:4][C:4][C:3]=[C:2][C:1]2
- [C:1]1[C:4][C:3]([C:4][C:3]=[C:2]1)[C:2]2[C:1][C:1][C:2]=[C:3][C:4]2
- [C:1]1[C:4][C:3]([C:4][C:3]=[C:2]1)[C:2]2[C:1][C:4][C:3]=[C:2][C:1]2
  [C:4]1[C:1][C:2]([C:1][C:2]=[C:3]1)[C:3]2[C:4][C:1][C:2]=[C:3][C:4]2
  [C:4]1[C:1][C:2]([C:1][C:2]=[C:3]1)[C:3]2[C:4][C:4][C:3]=[C:2][C:1]2
- [C:4]1[C:4][C:3]([C:1][C:2]=[C:3]1)[C:2]2[C:1][C:1][C:2]=[C:3][C:4]2
- [C:4]1[C:4][C:3]([C:1][C:2]=[C:3]1)[C:2]2[C:1][C:4][C:3]=[C:2][C:1]2
 
 
 
@@ -733,14 +726,11 @@ digraph reactionNetwork {
 
  C=C
  [C:1]=[C:2][C:3]=[C:4]
- C1C[C:1][C:2]=[C:3][C:4]1
  C1C[C:4][C:3]=[C:2][C:1]1
  [C:1]=[C:2][C:3]1[C:4][C:1][C:2]=[C:3][C:4]1
  [C:1]=[C:2][C:3]1[C:4][C:4][C:3]=[C:2][C:1]1
  [C:4]=[C:3][C:2]1[C:1][C:1][C:2]=[C:3][C:4]1
  [C:4]=[C:3][C:2]1[C:1][C:4][C:3]=[C:2][C:1]1
- C1C[C:1][C:2]2[C:1][C:2]=[C:3][C:4][C:3]2[C:4]1
- C1C[C:1][C:2]2[C:4][C:3]=[C:2][C:1][C:3]2[C:4]1
  C1C[C:4][C:3]2[C:1][C:2]=[C:3][C:4][C:2]2[C:1]1
  C1C[C:4][C:3]2[C:4][C:3]=[C:2][C:1][C:2]2[C:1]1
  [C:1]=[C:2][C:3]1[C:4][C:1][C:2]2[C:1][C:2]=[C:3][C:4][C:3]2[C:4]1
@@ -753,12 +743,8 @@ digraph reactionNetwork {
  [C:4]=[C:3][C:2]1[C:1][C:4][C:3]2[C:4][C:3]=[C:2][C:1][C:2]2[C:1]1
  [C:1]1[C:1][C:2]([C:4][C:3]=[C:2]1)[C:3]2[C:4][C:1][C:2]=[C:3][C:4]2
  [C:1]1[C:1][C:2]([C:4][C:3]=[C:2]1)[C:3]2[C:4][C:4][C:3]=[C:2][C:1]2
- [C:1]1[C:4][C:3]([C:4][C:3]=[C:2]1)[C:2]2[C:1][C:1][C:2]=[C:3][C:4]2
- [C:1]1[C:4][C:3]([C:4][C:3]=[C:2]1)[C:2]2[C:1][C:4][C:3]=[C:2][C:1]2
  [C:4]1[C:1][C:2]([C:1][C:2]=[C:3]1)[C:3]2[C:4][C:1][C:2]=[C:3][C:4]2
  [C:4]1[C:1][C:2]([C:1][C:2]=[C:3]1)[C:3]2[C:4][C:4][C:3]=[C:2][C:1]2
- [C:4]1[C:4][C:3]([C:1][C:2]=[C:3]1)[C:2]2[C:1][C:1][C:2]=[C:3][C:4]2
- [C:4]1[C:4][C:3]([C:1][C:2]=[C:3]1)[C:2]2[C:1][C:4][C:3]=[C:2][C:1]2
 
  --> running Lactat-dehydrogenase reaction
  --> parameter =  -smiles=toyChem/NADH.smi:toyChem/lactat.smi -groups=toyChem/groups.gml -rules=toyChem/lactat-dehydrogenase.gml -iter=1

@@ -75,9 +75,10 @@ namespace ggl {
 			MoleculeUtil::OneByte charge;
 			MoleculeUtil::OneByte protons;
 			MoleculeUtil::OneByte isAromatic;
+			int classLabel;
 			  //! default construction
 			NodeData()
-			 : valence(0), atomicNumber(0), connect(0), nonhydro(0), sign(0), charge(0), protons(0), isAromatic(0)
+			 : valence(0), atomicNumber(0), connect(0), nonhydro(0), sign(0), charge(0), protons(0), isAromatic(0), classLabel(-1)
 			{}
 			  /*! construction from atom label
 			   *  @param atomLabel the atom label that defines the initial data
@@ -103,6 +104,7 @@ namespace ggl {
 		};
 
 
+		//! mapping of nodes to according invariant information for canonization
 		typedef std::map<MVertex_t, NodeData> MV_NodeData_Map;
 
 		static std::set<std::string> organic_subset;

@@ -1,4 +1,11 @@
 
+170427 Martin Mann
+	* ggl/chem/SMILESwriter :
+	  * NodeData :
+	    + classLabel : atom class label if present (used for rank tie break)
+	  * canonize() :
+	    + use class labels for rank tie-breaking
+
 170426 Martin Mann
 	+ ggl/chem/Molecule_Graph_noClass : wrapper for a ggl::chem::Molecule_Graph
 	  that removes all class label information from the atom node labels

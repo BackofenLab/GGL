@@ -114,6 +114,14 @@ int main() {
 	SMILES.push_back( "[Fe+2](^O)^O" );
 	SMILES.push_back( "c1cc(O2)c([O-]^[Fe+2]^2)cc1" );
 	
+	// equal
+	SMILES.push_back( "[C][C:1]" );
+	SMILES.push_back( "[C:1][C]" );
+
+	// equal
+	SMILES.push_back( "C1C[C:1][C:2]=[C:3][C:4]1" );
+	SMILES.push_back( "C1C[C:4][C:3]=[C:2][C:1]1" );
+
 	for (size_t i=0; i<SMILES.size(); i++) {
 
 		std::cout <<"\n\n PROCESSING SMILES = '" <<SMILES[i] <<"'\n" <<std::endl;

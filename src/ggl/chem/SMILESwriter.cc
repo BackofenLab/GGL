@@ -206,9 +206,9 @@ namespace ggl {
  			MA_Iterator_t ai, ai_end;
  			int invariant=0, rank=0, oldrank=0;
  			bool first;
- 			std::map<int, std::vector<int> > invariants, localinv;
- 			std::map<int, std::vector<int> >::iterator i,k;
- 			std::vector<int>::iterator j,l;
+ 			std::map<int, std::set< std::pair<int,int> > > invariants, localinv;
+ 			std::map<int, std::set< std::pair<int,int> > >::iterator i,k;
+ 			std::set< std::pair<int,int> >::iterator j,l;
  			std::vector<int> temp, localtemp;
  			MEdge_t e;
 
@@ -327,11 +327,11 @@ namespace ggl {
  				i = invariants.find(invariant);
  				if ( i == invariants.end() ) {
  					  // insert empty container to map
- 					i = invariants.insert( make_pair( invariant, std::vector<int>() ) ).first;
+ 					i = invariants.insert( make_pair( invariant, std::set< std::pair<int,int> >() ) ).first;
  				}
  				assert( i != invariants.end() /*invariants container not set*/);
  				  // add current node to according container in map
- 				i->second.push_back(idx[ni->first]);
+ 				i->second.insert( std::pair<int,int>( ni->second.classLabel, idx[ni->first]) );
  			}
 
 			  // create and resize the ranks array accordingly
@@ -344,8 +344,15 @@ namespace ggl {
  			rank = 0;
  			for(i = invariants.begin(); i!=invariants.end(); ++i ){
  				rank++;
+ 				int lastClassLabel = i->second.begin()->first;
  				for(j = i->second.begin(); j!=i->second.end(); ++j){
- 					ranks[*j] = rank;
+ 					// check if we can use the class label for tie-breaking,
+ 					// i.e. there are different class labels present
+ 					if (lastClassLabel != j->first) { rank++; }
+ 					// set rank
+ 					ranks[j->second] = rank;
+ 					// update last class label
+ 					lastClassLabel = j->first;
  				}
  			}
 
@@ -371,17 +378,24 @@ namespace ggl {
  						  // calculate ranks of the nodes previously with equal ranks
  						for(j = i->second.begin(); j!=i->second.end(); ++j){
  							  // store current node according to its (newrank)
- 							k = localinv.find(newranks[*j]);
+ 							k = localinv.find(newranks[j->second]);
  							if( k == localinv.end() ) {
- 								k = localinv.insert(make_pair(newranks[*j], std::vector<int>())).first;
+ 								k = localinv.insert(make_pair(newranks[j->second], std::set< std::pair<int,int> >())).first;
  							}
- 							k->second.push_back(*j);
+ 							k->second.insert( *j );
  						}
  						  // set new consecutive ranks for the nodes previously with equal ranks
  						for(k = localinv.begin(); k!= localinv.end(); ++k){
  							rank++;
+ 							int lastClassLabel = k->second.begin()->first;
  							for( l = k->second.begin(); l!=k->second.end(); ++l) {
- 								ranks[*l]=rank;
+ 			 					// check if we can use the class label for tie-breaking,
+ 			 					// i.e. there are different class labels present
+ 			 					if (lastClassLabel != l->first) { rank++; }
+ 			 					// set rank
+ 								ranks[l->second]=rank;
+ 								// update last class label
+ 								lastClassLabel = l->first;
  							}
  						}
  					}
@@ -392,9 +406,9 @@ namespace ggl {
  						rank = ranks[idx[ni->first]];
  						i = invariants.find(rank);
  						if( i == invariants.end() ) {
- 							i = invariants.insert(make_pair(rank, std::vector<int>())).first;
+ 							i = invariants.insert(make_pair(rank, std::set< std::pair<int,int> >())).first;
  						}
- 						i->second.push_back(idx[ni->first]);
+ 						i->second.insert( std::pair<int,int>(ni->second.classLabel, idx[ni->first]) );
  					}
  					rank=invariants.size();
  					  // break loop if the number of ranks is getting less by this loop
@@ -412,9 +426,9 @@ namespace ggl {
  						  // store current node according to its (rank*2)
  						i = invariants.find(rank);
  						if( i == invariants.end() ) {
- 							i = invariants.insert(make_pair(rank, std::vector<int>())).first;
+ 							i = invariants.insert(make_pair(rank, std::set< std::pair<int,int> >())).first;
  						}
- 						i->second.push_back(idx[ni->first]);
+ 						i->second.insert( std::pair<int,int>( ni->second.classLabel, idx[ni->first] ) );
  					}
  					rank=0;
  					first=true;
@@ -426,7 +440,7 @@ namespace ggl {
  						if(first && i->second.size()>1){
  							first=false;
  							  // set rank
- 							ranks[*j]=rank;
+ 							ranks[j->second]=rank;
  							  // increase rank that is given to remaining nodes
  							rank++;
  							  // proceed to next node with formerly same rank
@@ -434,7 +448,7 @@ namespace ggl {
  						}
  						  // assign ranks
  						for(; j!=i->second.end(); ++j)
- 							ranks[*j]=rank;
+ 							ranks[j->second]=rank;
  					}
  					// we should update the invariants map too to keep it in sync with the ranks vector
  					invariants.clear();
@@ -444,9 +458,9 @@ namespace ggl {
  						rank = ranks[idx[ni->first]];
  						i = invariants.find(rank);
  						if( i == invariants.end() ) {
- 							i = invariants.insert(make_pair(rank, std::vector<int>())).first;
+ 							i = invariants.insert(make_pair(rank, std::set< std::pair<int,int> >())).first;
  						}
- 						i->second.push_back(idx[ni->first]);
+ 						i->second.insert( std::pair<int,int>( ni->second.classLabel, idx[ni->first]) );
  					}
  					rank=invariants.size();
  				}
@@ -719,7 +733,7 @@ namespace ggl {
  		SMILESwriter::
 		NodeData::
 		NodeData( const std::string & atomLabel, const bool allowWildcard)
-		 : valence(0), atomicNumber(0), connect(0), nonhydro(0), sign(0), charge(0), protons(0), isAromatic(0)
+		 : valence(0), atomicNumber(0), connect(0), nonhydro(0), sign(0), charge(0), protons(0), isAromatic(0), classLabel(-1)
 		{
 			if (!allowWildcard && MoleculeUtil::AtomLabelWildcard.compare(atomLabel) == 0) {
 				std::string error = std::string("SMILESwriter : wildcard '") + atomLabel + std::string("' not allowed as atom label");
@@ -742,6 +756,8 @@ namespace ggl {
 			nonhydro = atomData->isAromatic;
 			  // get number of protons WITHIN label
 			protons = MoleculeUtil::getProtons( atomLabel );
+			  // set class label if present
+			classLabel = MoleculeUtil::getClass( atomLabel );
 
 			  // get charge information
 			const int curCharge = MoleculeUtil::getCharge( atomLabel );
