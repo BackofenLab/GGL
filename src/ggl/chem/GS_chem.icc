@@ -119,11 +119,11 @@ namespace ggl {
 //std::cout <<"## EDGE_CHECK ( "<<componentID <<", " <<componentVec->size() <<", " <<idxMap <<" )" <<std::endl;
 		Molecule::vertex_descriptor from = boost::source(e, *m);
 //std::cout <<"## EDGE_CHECK : source = " <<from <<std::endl;
-		if (!componentVec->at((size_t)boost::get(*idxMap,from)) == componentID)
+		if (componentVec->at((size_t)boost::get(*idxMap,from)) != componentID)
 			return false;
 		Molecule::vertex_descriptor to = boost::target(e, *m);
 //std::cout <<"## EDGE_CHECK : target = " <<to <<std::endl;
-		if (!componentVec->at((size_t)boost::get(*idxMap,to)) == componentID)
+		if (componentVec->at((size_t)boost::get(*idxMap,to)) != componentID)
 			return false;
 		return true;
 	}
