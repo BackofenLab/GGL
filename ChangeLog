@@ -1,4 +1,7 @@
 
+170522 Martin Mann
+	+ bin/toyKin : chemical kinetics simulator (idea by Christoph Flamm)
+
 170427 Martin Mann
 	* ggl/chem/SMILESwriter :
 	  * NodeData :

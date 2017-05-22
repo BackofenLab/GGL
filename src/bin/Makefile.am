@@ -13,6 +13,7 @@ LIBS        = @LIBS@
 bin_PROGRAMS = 	gmlRings \
 				aromModelNSPDK aromModel2impl \
 				molTool reactionTool toyChem \
+				toyKin \
 				molMatch molRings \
 				gameOfLife sudoku 
 # catalan hanser # disabled due to a BGL bug for v < 1.50.0 
@@ -32,6 +33,29 @@ toyChem_SOURCES =	\
 					toyChem.cc
 				
 toyChem_LDADD = \
+				$(top_builddir)/src/ggl/libgglchem.a \
+				$(top_builddir)/src/ggl/libggl.a \
+				$(top_builddir)/src/sgm/libsgm_nspdk.a \
+				$(top_builddir)/src/sgm/libsgm_vf2.a \
+				$(top_builddir)/src/sgm/libsgm.a \
+				$(top_builddir)/src/@LOCAL_NSPDK_FOLDER@/libnspdk.a \
+				$(top_builddir)/src/@LOCAL_SGD_FOLDER@/libsgd.a \
+				$(top_builddir)/src/@LOCAL_VF2_FOLDER@/libvf2.a 
+
+####################################################################
+
+#############   TOYKIN PROGRAM   ##################################
+
+toyKin_SOURCES =	\
+					biu/OptionParser.hh \
+					biu/OptionParser.cc \
+					biu/Timer.hh \
+					version.hh \
+					toyChemUtil.hh \
+					toyChemUtil.cc \
+					toyKin.cc
+				
+toyKin_LDADD = \
 				$(top_builddir)/src/ggl/libgglchem.a \
 				$(top_builddir)/src/ggl/libggl.a \
 				$(top_builddir)/src/sgm/libsgm_nspdk.a \
