@@ -10,12 +10,17 @@ AM_CXXFLAGS = 	-I$(top_srcdir)/src \
 AM_LDFLAGS  = @AM_LDFLAGS@ 
 LIBS        = @LIBS@ 
 
-bin_PROGRAMS = 	gmlRings \
-				aromModelNSPDK aromModel2impl \
-				molTool reactionTool toyChem \
-				toyKin \
-				molMatch molRings \
-				gameOfLife sudoku 
+bin_PROGRAMS = toyKin
+#bin_PROGRAMS = 	\
+#				gmlRings \
+#				aromModelNSPDK aromModel2impl \
+#				molTool reactionTool toyChem \
+#				toyKin \
+#				molMatch molRings \
+#				gameOfLife sudoku
+
+
+ 
 # catalan hanser # disabled due to a BGL bug for v < 1.50.0 
 # ggrIt
 
@@ -28,6 +33,8 @@ toyChem_SOURCES =	\
 					version.hh \
 					RRC_QuantumMechanics.hh \
 					RRC_QuantumMechanics.cc \
+					MR_UniqueAtomMatch.hh \
+					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					toyChem.cc
@@ -51,6 +58,8 @@ toyKin_SOURCES =	\
 					biu/OptionParser.cc \
 					biu/Timer.hh \
 					version.hh \
+					MR_UniqueAtomMatch.hh \
+					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					toyKin.cc
@@ -73,6 +82,8 @@ molTool_SOURCES =	\
 					biu/OptionParser.hh \
 					biu/OptionParser.cc \
 					version.hh \
+					MR_UniqueAtomMatch.hh \
+					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					molTool.cc
@@ -95,6 +106,8 @@ molMatch_SOURCES =	\
 					biu/OptionParser.hh \
 					biu/OptionParser.cc \
 					version.hh \
+					MR_UniqueAtomMatch.hh \
+					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					molMatch.cc
@@ -133,6 +146,8 @@ molRings_SOURCES =	\
 					biu/OptionParser.hh \
 					biu/OptionParser.cc \
 					version.hh \
+					MR_UniqueAtomMatch.hh \
+					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					molRings.cc
@@ -155,6 +170,8 @@ reactionTool_SOURCES =	\
 					biu/OptionParser.hh \
 					biu/OptionParser.cc \
 					version.hh \
+					MR_UniqueAtomMatch.hh \
+					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					reactionTool.cc
@@ -282,4 +299,5 @@ sudoku_LDADD =  \
 #				$(top_builddir)/src/@LOCAL_VF2_FOLDER@/libvf2.a 
 #
 ####################################################################
+
 

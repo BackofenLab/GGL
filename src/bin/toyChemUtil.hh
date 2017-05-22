@@ -527,6 +527,9 @@ typedef
 	  *        be ignored for the rule pattern matching, i.e. all the atom
 	  *        labels from all initialMolecules are reduced to the atom label
 	  *        prefix substring up to the class label separator ':' (if present)
+	  * @param ensureUniqueAtomMatch if set to true, each match is checked if
+	  *        if covers distinct molecule atoms, e.g. important when a rule is
+	  *        applied to two copies of the same molecule
 	  */
 	void
 	applyRules( const RulePatternMap & rules
@@ -536,6 +539,7 @@ typedef
 				, const ggl::chem::ReactionRateCalculation * rateCalc
 				, const ggl::chem::AromaticityPerception & aromaticity
 				, const bool ignoreAtomClassLabel = false
+				, const bool ensureUniqueAtomMatch = false
 		);
 	
 	
@@ -568,6 +572,9 @@ typedef
 	  *        be ignored for the rule pattern matching, i.e. all the atom
 	  *        labels from all initialMolecules are reduced to the atom label
 	  *        prefix substring up to the class label separator ':' (if present)
+	  * @param ensureUniqueAtomMatch if set to true, each match is checked if
+	  *        if covers distinct molecule atoms, e.g. important when a rule is
+	  *        applied to two copies of the same molecule
 	  */
 	void
 	applyRules( const RulePatternMap & rules
@@ -579,6 +586,7 @@ typedef
 				, const bool allowAllIntra
 				, const ggl::chem::AromaticityPerception & aromaticity
 				, const bool ignoreAtomClassLabel = false
+				, const bool ensureUniqueAtomMatch = false
 			);
 	
 	

@@ -40,6 +40,20 @@
 
 //////////////////////////////////////////////////////////////////////////
 
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+
+size_t
+getRandomNumber( const size_t maxExluding )
+{
+	// get random number in float interval [0,1] exluding the upper bound 1
+	double range01 = (double)rand() / (1.0 + (double)RAND_MAX);
+
+	// get value within integer range < maxExcluding
+	return (size_t) floor( ( range01 * (double)maxExluding )) ;
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,9 +126,6 @@ int main( int argc, char** argv ) {
 	enum InfoMode {OUT_SILENT, OUT_NORMAL, OUT_VERBOSE};
 	InfoMode infoMode = OUT_NORMAL;
 	
-	enum PrintMode {PRINT_SMILES, PRINT_GRAPHS, PRINT_GML, PRINT_REACTIONS, PRINT_REACTION_NETWORK};
-	PrintMode printMode = PRINT_SMILES;
-	
 	std::ostream* out = &std::cout;
 	std::ofstream* outFile = NULL;
 	
@@ -181,6 +192,9 @@ int main( int argc, char** argv ) {
 		return -1;
 	}
 
+	// TODO maybe enable multiset containers if not all atoms numbered
+	// TODO alternatively: read without atom ids and set automatically to all atoms
+
 	SMILES_container c1;
 	SMILES_container c2;
 	SMILES_container& targetSmiles = c1;
@@ -193,16 +207,30 @@ int main( int argc, char** argv ) {
 		// set up iteration parameters
 		//////////////////////////////////////////////////////////////
 		
-		if (opts.getIntVal("iter") < 0) {
+		if (opts.getIntVal("iter") < 1) {
 			std::ostringstream oss;
 			oss	<<"number of rule application iterations (" 
-			<<opts.getIntVal("iter") <<") has to be at least 0";
+			<<opts.getIntVal("iter") <<") has to be at least 1";
 			throw ArgException(oss.str());
 		}
 		iterations = (size_t)opts.getIntVal("iter");
 		
 		const bool allowAllIntra = opts.getBoolVal("allowAllIntra");
 		
+		//////////////////////////////////////////////////////////////
+		// set up random number generator
+		//////////////////////////////////////////////////////////////
+
+		if (opts.getIntVal("srand") < 0) {
+			// initialize with system time
+			const unsigned int randSeed = time(NULL);
+			srand( randSeed );
+			std::cerr <<"## seed init = "<<randSeed<<std::endl;
+		} else {
+			// initialize with provided seed value
+			srand( (unsigned int) opts.getIntVal("srand") );
+		}
+
 		//////////////////////////////////////////////////////////////
 		// check for multiple use of STDIN as input parameter value
 		//////////////////////////////////////////////////////////////
@@ -245,37 +273,6 @@ int main( int argc, char** argv ) {
 			out = outFile;
 		}
 
-		//////////////////////////////////////////////////////////////
-		// setup output details
-		//////////////////////////////////////////////////////////////
-		
-		switch(opts.getCharVal("outMode")) {
-		case 's' :
-		case 'S' : printMode = PRINT_SMILES; break;
-		case 'a' :
-		case 'A' : printMode = PRINT_GRAPHS; break;
-		case 'g' :
-		case 'G' : printMode = PRINT_GML; break;
-		case 'r' :
-		case 'R' : printMode = PRINT_REACTIONS; break;
-		case 'n' :
-		case 'N' : printMode = PRINT_REACTION_NETWORK; break;
-		default:
-				std::ostringstream oss;
-				oss	<<"output mode outmode='" <<opts.getCharVal("outMode") <<"'"
-					<<" not supported";
-				throw ArgException(oss.str());
-		}
-		
-		
-		//////////////////////////////////////////////////////////////
-		// setup reaction rate calculation
-		//////////////////////////////////////////////////////////////
-		
-		  // creates a dummy rate calculator to enforce ITS generation
-		  // TODO : check if needed
-		rateCalc = new RRC_TState();
-		
 
 		//////////////////////////////////////////////////////////////
 		// setup aromaticity perception model
@@ -364,7 +361,7 @@ int main( int argc, char** argv ) {
 		if (rules.empty()) {
 			(*out)	<<"\n PROBLEM : no rules found in given input!\n"
 						<<std::endl;
-			return 0;
+			return -1;
 		}
 		
 		if (!opts.argExist("noRuleCheck")) {
@@ -384,7 +381,7 @@ int main( int argc, char** argv ) {
 				}
 			}
 			if (!allRulesOK) {
-				return 0;
+				return -1;
 			}
 			if (infoMode == OUT_VERBOSE) {
 				(*out) <<" DONE\n"; out->flush();
@@ -455,7 +452,7 @@ int main( int argc, char** argv ) {
 				}
 			}
 			if (!allMolOK) {
-				return 0;
+				return -1;
 			}
 			if (infoMode == OUT_VERBOSE) {
 				(*out) <<" DONE\n"; out->flush();
@@ -491,242 +488,150 @@ int main( int argc, char** argv ) {
 		//////////////////////////////////////////////////////////////
 
 
-		ggl::Graph_Storage* gs = NULL;
-		
 		  // set up graph matcher
 		sgm::SGM_vf2 sgm;
 		
-		  // the produced reactions
+		  // the list of all possible reaction instances
 		MR_Reactions::Reaction_Container producedReactions;
 		
+		  // make target molecules virtuelly the ones produced in the last iteration
+		std::swap(producedSmiles, targetSmiles);
+
 		  // perform iterations
 		for (size_t it=0; it<iterations; ++it ) {
-			  // check if something to do
-			if (targetSmiles.size() == 0)
-				break;
-			
-			if (printMode == PRINT_REACTIONS || printMode == PRINT_REACTION_NETWORK) {
-				
-				(*out)	<<"\n " <<(it) <<". iteration done : molecules = "
-							<<(targetSmiles.size()+producedSmiles.size()) <<std::endl;
-				
-				if (it==0) {// in first iteration are targetSmiles the produced ones of 'last' iteration
-					std::swap(producedSmiles, targetSmiles);
-				}
-				
+
+			// generate reactions possible for new molecules from the last iteration
+			if (producedSmiles.size() > 0) {
+
+				// all molecules that can be produced by a reaction involving a molecule from producedSmiles
 				SMILES_container toFill;
-				applyRules(rulePattern, targetSmiles, producedSmiles, toFill, producedReactions, rateCalc, allowAllIntra, *aromaticityPrediction, opts.argExist("ignoreAtomClass"));
+				// apply all rules but ensure that always at least one molecule from producedSmiles is involved
+				applyRules(rulePattern, targetSmiles, producedSmiles, toFill, producedReactions, rateCalc, allowAllIntra, *aromaticityPrediction
+						, opts.argExist("ignoreAtomClass")
+						, true /* enforceUniqueAtomMatch */
+						);
+
+				// merge targetSmiles and producedSmiles into targetSmiles
 				targetSmiles.insert(producedSmiles.begin(), producedSmiles.end());
 				producedSmiles.clear();
-				producedSmiles.insert( toFill.begin(), toFill.end() );
+
+				// clear reaction product container, since most will not be needed
+				for (SMILES_container::iterator it=toFill.begin(); it!=toFill.end() ; ++it ) {
+					delete it->second;
+				}
 				toFill.clear();
-				
-				  // check for last iteration
-				if ((it+1)==iterations) {
-					targetSmiles.insert(producedSmiles.begin(), producedSmiles.end());
-				}
-			
-			} else {
-				
+			}
 
-				(*out)	<<"\n " <<(it) <<". iteration done : molecules = "
-							<<targetSmiles.size() <<std::endl;
-			
-
-//			// TODO does only function if all rules are applied and all old molecules are present in next iteration
-//			// copy all start molecules into produced set
-				for (SMILES_container::iterator oldSMILES=targetSmiles.begin(); oldSMILES!=targetSmiles.end() ; ++oldSMILES) {
-					if (producedSmiles.find(oldSMILES->first)==producedSmiles.end()) {
-						producedSmiles.insert(*oldSMILES);
-					}
-				}
-
-				  // set up storage interface for MR_ApplyRule
-				gs = new ggl::chem::GS_SMILES_MOLp<SMILES_container>(producedSmiles);
-			
-				  // FOR EACH set of rules with equal number of connected components
-				  //          in leftsidepattern :
-				  // find matches and apply rules
-				for (RulePatternMap::const_iterator pat = rulePattern.begin();
-						pat != rulePattern.end(); ++pat)
-				{
-//					size_t compNbr= pat->first;
-						
-					  // set up Rule applyer 
-					  // check if multicomponent rule can be applied to a single molecule or not
-					sgm::Match_Reporter * mr_applyRule = NULL;
-	
-					mr_applyRule = new ggl::MR_ApplyRule( *gs, !allowAllIntra );
-//					mr_applyRule = new ggl::MR_ApplyRule( *gs, (allowAllIntra ? 1 : compNbr), false);
-					
-					// for all rules
-					for (size_t curRule=0; curRule<pat->second.size(); ++curRule) {
-
-						// store old target smiles size to determine the number
-						// of new molecules produced by this reaction
-						size_t oldProducedSmilesSize = producedSmiles.size();
-						if (infoMode == OUT_VERBOSE) {
-							(*out)	<<" iteration " <<(it+1)<<" :"
-										<<" apply reaction '"
-										<<static_cast<const ggl::chem::LeftSidePattern*>(pat->second.at(curRule))->getRule().getID()
-										<<"'";
-							(*out).flush();
-						}
-
-						  // set up symmetry breaking conditions for current rule
-						sgm::PA_OrderCheck ga = static_cast<const ggl::chem::LeftSidePattern*>(pat->second.at(curRule))->getGraphAutomorphism();
-						  // rule application
-						singleRuleApplication(  sgm
-												, *(static_cast<const ggl::chem::LeftSidePattern*>(pat->second.at(curRule)))
-												, targetSmiles
-												, *mr_applyRule
-												, &ga
-												, opts.argExist("ignoreAtomClass")
-												);
-
-						// print number of molecules produced by this reaction
-						if (infoMode == OUT_VERBOSE) {
-							(*out) <<" : "
-										<<(producedSmiles.size()-oldProducedSmilesSize)
-										<<std::endl;
-						}
-					}
-					
-					delete mr_applyRule; mr_applyRule = NULL;
-				}
-			
-			  // make all produced SMILES target molecules for the next iteration
-//			for (SMILES_container::iterator it=targetSmiles.begin(); it!=targetSmiles.end() ; ++it ) {
-//				if (producedSmiles.find(it->first) == producedSmiles.end()) {
-//					producedSmiles[it->first] = it->second;
-//				} else {
-//					delete it->second;
-//					it->second = NULL;
-//				}
-//			}
-			
-				std::swap(producedSmiles, targetSmiles);
-				
-				if (gs != NULL) {
-					delete gs; gs = NULL;
+			// pick a reaction TODO change accordingly !!!
+			// get number of reaction instances for each rule
+			typedef std::map< std::string, size_t > RuleHist;
+			RuleHist ruleId2reactions;
+			for (MR_Reactions::Reaction_Container::const_iterator r=producedReactions.begin(); r != producedReactions.end(); r++) {
+				// check if not seen so far
+				if (ruleId2reactions.find(r->rule_id) == ruleId2reactions.end()) {
+					ruleId2reactions[r->rule_id] = 1;
+				} else {
+					// increase counter
+					ruleId2reactions[r->rule_id]++;
 				}
 			}
+
+			// print stats on molecules and reactions
+			(*out)	<<"\n " <<(it) <<". iteration :\n"
+					"\t molecules = " <<targetSmiles.size() <<"\n"
+					"\t reactions = " <<producedReactions.size() <<"\n";
+			for( RuleHist::const_iterator r=ruleId2reactions.begin(); r != ruleId2reactions.end(); r++) {
+				(*out) <<"\t\t" <<r->second<<"\t" <<r->first <<"\n";
+			}
+			(*out)	<<std::endl;
+			// print all reactions
+			for (MR_Reactions::Reaction_Container::const_iterator r=producedReactions.begin(); r != producedReactions.end(); r++) {
+				(*out) <<"\t\t"<<*r<<std::endl;
+			}
+
+			// stop processing if no reactions possible
+			if (producedReactions.empty()) {
+				break;
+			}
+
+			// pick a random rule
+			size_t pickedRule = getRandomNumber( ruleId2reactions.size() );
+			// get hist data of picked rule
+			RuleHist::const_iterator pickedRuleHist = ruleId2reactions.begin();
+			while( pickedRule > 0 ) {
+				pickedRuleHist++;
+				pickedRule--;
+			}
+			// pick a reaction for this rule
+			size_t pickedReactionNumber = getRandomNumber( pickedRuleHist->second );
+			// find according reaction (TODO could be done via binary search since reactions are ordered by ruleID)
+			MR_Reactions::Reaction_Container::const_iterator pickedReaction = producedReactions.end();
+			for (MR_Reactions::Reaction_Container::const_iterator r=producedReactions.begin(); r != producedReactions.end(); r++) {
+				// check if reaction for picked rule
+				if (r->rule_id == pickedRuleHist->first) {
+					// check if this is the reaction to report
+					if (pickedReactionNumber == 0) {
+						// store picked reaction
+						pickedReaction = r;
+						// stop search
+						break;
+					}
+					pickedReactionNumber--;
+				}
+			}
+
+			// print information for picked reaction
+			(*out)	<<"\tapply: "<<(*pickedReaction) <<"\n"
+					<<std::endl;
+
+			// remove educts from targetSmiles
+			for (Reaction::Metabolite_Container::const_iterator m = pickedReaction->metabolites.begin(); m != pickedReaction->metabolites.end(); m++) {
+				// get molecule
+				SMILES_container::iterator metabolite = targetSmiles.find( *m );
+				assert( metabolite != targetSmiles.end() ); // should never happen...
+				// delete molecule graph
+				delete( metabolite->second );
+				// remove metabolite from targetSmiles
+				targetSmiles.erase( metabolite );
+			}
+
+			// store products for next iteration in producedSmiles
+			for (Reaction::Product_Container::const_iterator p = pickedReaction->products.begin(); p != pickedReaction->products.end(); p++) {
+				if ( producedSmiles.find( *p ) == producedSmiles.end() ) {
+					  // parse product SMILES to graph representation
+					std::pair<ggl::chem::Molecule,int> result
+						= ggl::chem::SMILESparser::parseSMILES( *p );
+					  // check parsing result
+					assert( result.second == -1 ); // parsing should always succeed!
+					  // store molecule for next iteration
+					producedSmiles[ *p ] = new ggl::chem::Molecule(result.first);
+				}
+			}
+
+			// remove all reactions that share metabolites with picked reaction
+			Reaction::Metabolite_Container consumedMetabolites(pickedReaction->metabolites);
+			MR_Reactions::Reaction_Container::const_iterator r = producedReactions.begin();
+			while (r != producedReactions.end()) {
+				bool keepCurReaction = true;
+				for (Reaction::Metabolite_Container::const_iterator m = consumedMetabolites.begin(); keepCurReaction && m != consumedMetabolites.end(); m++) {
+					// check if no consumed metabolite is part of the metabolites of this reaction
+					keepCurReaction = (r->metabolites.find(*m) == r->metabolites.end());
+				}
+				if ( ! keepCurReaction ) {
+					// memorize element to be deleted
+					MR_Reactions::Reaction_Container::const_iterator toRemove = r;
+					// go to next reaction
+					r++;
+					// remove checked reaction (should keep r valid)
+					producedReactions.erase( toRemove );
+				} else {
+					// go to next reaction
+					r++;
+				}
+			}
+
 			
 		} // end rule application iteration loop
-		
-		//////////////////////////////////////////////////////////////
-		// write output to stream
-		//////////////////////////////////////////////////////////////
-		
-		(*out)	<<"\n " <<(iterations) <<". iteration done : molecules = "
-					<<targetSmiles.size() <<"\n" 
-					<<std::endl;
-		
-		if (infoMode == OUT_VERBOSE) {
-			(*out) <<std::endl;
-			
-			(*out) <<"\n\n ######## FINAL SMILES ######\n\n";
-		}
-		  // print according output
-		switch (printMode) {
-			case PRINT_SMILES:
-				printSMILES( *out, targetSmiles );
-				break;
-			case PRINT_GRAPHS:
-				printMoleculeGraphs( *out, targetSmiles );
-				break;
-			case PRINT_GML:
-				printMoleculeGraphsGML( *out, targetSmiles, true );
-				break;
-			case PRINT_REACTIONS:
-				(*out) <<"\n number of produced reactions = " <<producedReactions.size() <<std::endl;
-				(*out) <<"\n Produced Reactions :\n\n";
-				for ( MR_Reactions::Reaction_Container::const_iterator 
-						curReaction = producedReactions.begin();
-						curReaction != producedReactions.end(); ++curReaction)
-				{
-					(*out) <<(*curReaction) <<"\n";
-				}
-				break;
-			case PRINT_REACTION_NETWORK:
-			{
-				  // print reactions and store network information
-				std::map< std::string, size_t > reaction2nodeid;
-				size_t reactionID = 0;
-				std::map< std::string, size_t > reactionMolecules;
-				size_t moleculeID = 0;
-				(*out) <<"\n number of produced reactions = " <<producedReactions.size() <<std::endl;
-				(*out) <<"\n Produced Reactions :\n\n";
-				for ( MR_Reactions::Reaction_Container::const_iterator
-						curReaction = producedReactions.begin();
-						curReaction != producedReactions.end(); ++curReaction)
-				{
-					(*out) <<(*curReaction) <<"\n";
-					  // set new reaction ID if the reaction type is unknown so far
-					if (reaction2nodeid.find(curReaction->rule_id) == reaction2nodeid.end()) {
-						reaction2nodeid[curReaction->rule_id] = reactionID;
-						++reactionID;
-					}
-					  // store all occurring molecules, ie. node in the network
-					for (Reaction::Metabolite_Container::const_iterator m = curReaction->metabolites.begin();
-							m != curReaction->metabolites.end(); ++m)
-					{
-						if (reactionMolecules.find(*m) == reactionMolecules.end()) {
-							reactionMolecules[*m] = moleculeID;
-							++moleculeID;
-						}
-					}
-					for (Reaction::Product_Container::const_iterator p = curReaction->products.begin();
-							p != curReaction->products.end(); ++p)
-					{
-						if (reactionMolecules.find(*p) == reactionMolecules.end()) {
-							reactionMolecules[*p] = moleculeID;
-							++moleculeID;
-						}
-					}
-				}
-
-				  // print reaction network in DOT format
-				(*out) <<"\n\ndigraph reactionNetwork {\n";
-				  // print all participating molecules
-				for (std::map< std::string, size_t >::const_iterator m = reactionMolecules.begin();
-						m != reactionMolecules.end(); ++m)
-				{
-					(*out) <<"  M" <<m->second <<" [shape=oval label=\""<<m->first<<"\"];\n";
-				}
-				  // print all reactions
-				size_t reactionCount = 0;
-				for ( MR_Reactions::Reaction_Container::const_iterator
-						curReaction = producedReactions.begin();
-						curReaction != producedReactions.end(); ++curReaction)
-				{
-					  // create reaction node
-					(*out) <<"  " <<"R"<<reactionCount
-							<<" [shape=box label=\"R"<<reaction2nodeid.find(curReaction->rule_id)->second;
-					if (curReaction->rate == curReaction->rate) {
-						(*out) <<" " <<curReaction->rate;
-					}
-					(*out) <<"\"]; // " <<curReaction->rule_id <<";\n";
-					  // make connections
-					for (Reaction::Metabolite_Container::const_iterator m = curReaction->metabolites.begin();
-							m != curReaction->metabolites.end(); ++m)
-					{
-						(*out) <<"  M" <<reactionMolecules.find(*m)->second <<" -> R" <<reactionCount<<";\n";
-					}
-					for (Reaction::Product_Container::const_iterator p = curReaction->products.begin();
-							p != curReaction->products.end(); ++p)
-					{
-						(*out) <<"  " <<"R" <<reactionCount<<" -> M" <<reactionMolecules.find(*p)->second <<";\n";
-					}
-					  // increase reaction node counter
-					++reactionCount;
-				}
-				(*out) <<"} // visualization: eg. 'dot -Tpng -O GRAPHOUTPUTFILE'\n";
-			}	break;
-			default:
-				break;
-		}
-		(*out)	<<std::endl;
 		
 		
 	
@@ -790,6 +695,10 @@ initAllowedArguments(biu::OptionMap & allowedArgs, std::string &infoText )
 							"iter", true, biu::COption::INT, 
 							"Number of rule application iterations",
 							"1"));
+	allowedArgs.push_back(biu::COption(
+							"srand", true, biu::COption::INT,
+							"Seed value for random number generator initialization. If -1, the current time is used.",
+							"-1"));
 	allowedArgs.push_back(biu::COption(	
 							"allowAllIntra", true, biu::COption::BOOL, 
 							"If present, all intra-molecular reactions are allowed, i.e. the application of rules with 2 or more unconnected components in the left side patter can applied to one molecule, otherwise NOT."));
@@ -797,10 +706,6 @@ initAllowedArguments(biu::OptionMap & allowedArgs, std::string &infoText )
 							"out", true, biu::COption::STRING, 
 							"Output file name or 'STDOUT' when to write to standard output",
 							"STDOUT"));
-	allowedArgs.push_back(biu::COption(	
-							"outMode", true, biu::COption::CHAR, 
-							"Output mode : (S)MILES string, (A)djacency list, (G)ML graph representations, (R)eactions, or reaction (N)etwork",
-							"S"));
 	allowedArgs.push_back(biu::COption(
 							"aromaticity", true, biu::COption::CHAR,
 							"The aromaticity perception model to be used : (M)arvin general model, (O)penBabel model, or (N)o aromaticity perception.",

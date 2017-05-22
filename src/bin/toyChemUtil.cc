@@ -1,5 +1,6 @@
 
 #include "toyChemUtil.hh"
+#include "MR_UniqueAtomMatch.hh"
 
 #include "ggl/chem/ReactionRateCalculation.hh"
 #include "ggl/Graph_GML_writer.hh"
@@ -1545,6 +1546,7 @@ applyRules( const RulePatternMap & rules
 			, const ggl::chem::ReactionRateCalculation * rateCalc
 			, const ggl::chem::AromaticityPerception & aromaticity
 			, const bool ignoreAtomClassLabel
+			, const bool ensureUniqueAtomMatch
 		)
 {
 	  // set up graph matcher
@@ -1564,6 +1566,11 @@ applyRules( const RulePatternMap & rules
 						, rateCalc
 						, aromaticity );
 		
+		  // setup final match reporter to be used
+		sgm::Match_Reporter * mrFinal = ensureUniqueAtomMatch
+						? new MR_UniqueAtomMatch( mr )
+						: (sgm::Match_Reporter *)(& mr);
+
 		// for all rules with given number of components
 		for (size_t curRule=0; curRule<pat->second.size(); ++curRule) {
 			  // set up symmetry breaking conditions for current rule
@@ -1576,6 +1583,12 @@ applyRules( const RulePatternMap & rules
 									, &ga
 									, ignoreAtomClassLabel );
 		}
+
+		// garbage collection
+		if (ensureUniqueAtomMatch) {
+			delete mrFinal;
+		}
+
 	}
 
 }
@@ -1597,6 +1610,12 @@ applyRules( const RulePatternMap & rules
  *         produced by the rule application are added
  * @param producedReactions (OUT) the container where the reaction 
  *         information of the rule application is stored in
+ * @param rateCalc The object to use to calculate a reaction
+ *        rate for each new reaction created. If not present (==NULL)
+ *        no reaction rate will be calculated.
+ * @param aromaticity the aromaticity perception class to be used to
+ *        correct rings in the product molecules after the rule
+ *        application was done.
  */
 void
 applyRules( const RulePatternMap & rules
@@ -1608,6 +1627,7 @@ applyRules( const RulePatternMap & rules
 			, const bool allowAllIntra
 			, const ggl::chem::AromaticityPerception & aromaticity
 			, const bool ignoreAtomClassLabel
+			, const bool ensureUniqueAtomMatch
 		)
 {
 	  // set up graph matcher
@@ -1619,6 +1639,8 @@ applyRules( const RulePatternMap & rules
 	for (RulePatternMap::const_iterator pat = rules.begin();
 			pat != rules.end(); ++pat)
 	{
+		sgm::Match_Reporter * mrFinal = NULL;
+
 		  // check if single component rules are currently handled
 		if (pat->first == 1) {
 			
@@ -1632,6 +1654,11 @@ applyRules( const RulePatternMap & rules
 							, rateCalc
 							, aromaticity );
 			
+			  // setup final match reporter to be used
+			mrFinal = ensureUniqueAtomMatch
+							? new MR_UniqueAtomMatch( mr )
+							: (sgm::Match_Reporter *)(& mr);
+
 			// for all rules with given number of components
 			for (size_t curRule=0; curRule<pat->second.size(); ++curRule) {
 				  // set up symmetry breaking conditions for current rule
@@ -1640,11 +1667,12 @@ applyRules( const RulePatternMap & rules
 				singleRuleApplication(  matcher
 										, *(pat->second.at(curRule))
 										, newMolecules
-										, mr
+										, *mrFinal
 										, &ga
 										, ignoreAtomClassLabel
 										);
 			}
+
 		} else {
 			
 			// --> multi component rule --> at least one component has to be
@@ -1659,6 +1687,11 @@ applyRules( const RulePatternMap & rules
 							, rateCalc
 							, aromaticity );
 			
+			  // setup final match reporter to be used
+			mrFinal = ensureUniqueAtomMatch
+							? new MR_UniqueAtomMatch( mr )
+							: (sgm::Match_Reporter *)(& mr);
+
 			// for all rules with given number of components
 			for (size_t curRule=0; curRule<pat->second.size(); ++curRule) {
 				  // set up symmetry breaking conditions for current rule
@@ -1668,11 +1701,16 @@ applyRules( const RulePatternMap & rules
 										, *(pat->second.at(curRule))
 										, newMolecules
 										, oldMolecules
-										, mr
+										, *mrFinal
 										, &ga
 										, ignoreAtomClassLabel
 										);
 			}
+		}
+
+		// garbage collection
+		if (ensureUniqueAtomMatch) {
+			delete mrFinal;
 		}
 	}
 	
