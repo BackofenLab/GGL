@@ -33,8 +33,6 @@ toyChem_SOURCES =	\
 					version.hh \
 					RRC_QuantumMechanics.hh \
 					RRC_QuantumMechanics.cc \
-					MR_UniqueAtomMatch.hh \
-					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					toyChem.cc
@@ -58,8 +56,6 @@ toyKin_SOURCES =	\
 					biu/OptionParser.cc \
 					biu/Timer.hh \
 					version.hh \
-					MR_UniqueAtomMatch.hh \
-					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					toyKin.cc
@@ -82,8 +78,6 @@ molTool_SOURCES =	\
 					biu/OptionParser.hh \
 					biu/OptionParser.cc \
 					version.hh \
-					MR_UniqueAtomMatch.hh \
-					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					molTool.cc
@@ -106,8 +100,6 @@ molMatch_SOURCES =	\
 					biu/OptionParser.hh \
 					biu/OptionParser.cc \
 					version.hh \
-					MR_UniqueAtomMatch.hh \
-					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					molMatch.cc
@@ -146,8 +138,6 @@ molRings_SOURCES =	\
 					biu/OptionParser.hh \
 					biu/OptionParser.cc \
 					version.hh \
-					MR_UniqueAtomMatch.hh \
-					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					molRings.cc
@@ -170,8 +160,6 @@ reactionTool_SOURCES =	\
 					biu/OptionParser.hh \
 					biu/OptionParser.cc \
 					version.hh \
-					MR_UniqueAtomMatch.hh \
-					MR_UniqueAtomMatch.cc \
 					toyChemUtil.hh \
 					toyChemUtil.cc \
 					reactionTool.cc
