@@ -215,7 +215,6 @@ int main( int argc, char** argv ) {
 		}
 		iterations = (size_t)opts.getIntVal("iter");
 		
-		const bool allowAllIntra = opts.getBoolVal("allowAllIntra");
 		
 		//////////////////////////////////////////////////////////////
 		// set up random number generator
@@ -503,10 +502,28 @@ int main( int argc, char** argv ) {
 			// generate reactions possible for new molecules from the last iteration
 			if (producedSmiles.size() > 0) {
 
+//				std::cout <<"## new mols : \n";
+//				for (SMILES_container::const_iterator m=producedSmiles.begin(); m!=producedSmiles.end(); m++) {
+//					std::cout <<"\t\t\t"<<m->first<<" "<<m->second<<std::endl;
+//				}
+
+
 				// all molecules that can be produced by a reaction involving a molecule from producedSmiles
 				SMILES_container toFill;
 				// apply all rules but ensure that always at least one molecule from producedSmiles is involved
-				applyRules(rulePattern, targetSmiles, producedSmiles, toFill, producedReactions, rateCalc, allowAllIntra, *aromaticityPrediction
+				// single-molecule application
+				applyRules(rulePattern
+						, producedSmiles
+						, toFill, producedReactions
+						, rateCalc, *aromaticityPrediction
+						, opts.argExist("ignoreAtomClass")
+						, true /* enforceUniqueAtomMatch */
+						);
+				// multi-molecule application
+				applyRules(rulePattern
+						, targetSmiles, producedSmiles
+						, toFill, producedReactions
+						, rateCalc, false, *aromaticityPrediction
 						, opts.argExist("ignoreAtomClass")
 						, true /* enforceUniqueAtomMatch */
 						);
@@ -537,16 +554,21 @@ int main( int argc, char** argv ) {
 			}
 
 			// print stats on molecules and reactions
-			(*out)	<<"\n " <<(it) <<". iteration :\n"
-					"\t molecules = " <<targetSmiles.size() <<"\n"
-					"\t reactions = " <<producedReactions.size() <<"\n";
-			for( RuleHist::const_iterator r=ruleId2reactions.begin(); r != ruleId2reactions.end(); r++) {
-				(*out) <<"\t\t" <<r->second<<"\t" <<r->first <<"\n";
-			}
-			(*out)	<<std::endl;
-			// print all reactions
-			for (MR_Reactions::Reaction_Container::const_iterator r=producedReactions.begin(); r != producedReactions.end(); r++) {
-				(*out) <<"\t\t"<<*r<<std::endl;
+			(*out)	<<"\n " <<(it) <<". iteration :"
+					<<"\t molecules = " <<targetSmiles.size()
+					<<"\t reactions = " <<producedReactions.size() <<"\n";
+
+			if (infoMode == OUT_VERBOSE) {
+				// print number of reactions per rule
+				for( RuleHist::const_iterator r=ruleId2reactions.begin(); r != ruleId2reactions.end(); r++) {
+					(*out) <<"\t\t" <<r->second<<"\t" <<r->first <<"\n";
+				}
+				(*out)	<<std::endl;
+				// print all reactions
+				for (MR_Reactions::Reaction_Container::const_iterator r=producedReactions.begin(); r != producedReactions.end(); r++) {
+					(*out) <<"\t\t"<<*r<<"\n";
+				}
+				(*out) <<std::endl;
 			}
 
 			// stop processing if no reactions possible
@@ -581,7 +603,7 @@ int main( int argc, char** argv ) {
 			}
 
 			// print information for picked reaction
-			(*out)	<<"\tapply: "<<(*pickedReaction) <<"\n"
+			(*out)	<<"        apply : "<<(*pickedReaction) <<"\n"
 					<<std::endl;
 
 			// remove educts from targetSmiles
@@ -634,6 +656,20 @@ int main( int argc, char** argv ) {
 		} // end rule application iteration loop
 		
 		
+		//////////////////////////////////////////////////////////////
+		// print final set of molecules
+		//////////////////////////////////////////////////////////////
+
+		// print stats on molecules and reactions
+		(*out)	<<"\n final molecules :\n\n";
+		for (SMILES_container::const_iterator m=targetSmiles.begin();m!=targetSmiles.end();m++) {
+			(*out) <<m->first <<"\n";
+		}
+		for (SMILES_container::const_iterator m=producedSmiles.begin();m!=producedSmiles.end();m++) {
+			(*out) <<m->first <<"\n";
+		}
+
+
 	
 	} catch (std::exception& ex) {
 		(*out) <<"\n\n ERROR : " <<ex.what() <<"\n"<<std::endl;
@@ -699,9 +735,6 @@ initAllowedArguments(biu::OptionMap & allowedArgs, std::string &infoText )
 							"srand", true, biu::COption::INT,
 							"Seed value for random number generator initialization. If -1, the current time is used.",
 							"-1"));
-	allowedArgs.push_back(biu::COption(	
-							"allowAllIntra", true, biu::COption::BOOL, 
-							"If present, all intra-molecular reactions are allowed, i.e. the application of rules with 2 or more unconnected components in the left side patter can applied to one molecule, otherwise NOT."));
 	allowedArgs.push_back(biu::COption(	
 							"out", true, biu::COption::STRING, 
 							"Output file name or 'STDOUT' when to write to standard output",
