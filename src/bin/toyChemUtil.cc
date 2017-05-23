@@ -1,6 +1,5 @@
 
 #include "toyChemUtil.hh"
-#include "MR_UniqueAtomMatch.hh"
 
 #include "ggl/chem/ReactionRateCalculation.hh"
 #include "ggl/Graph_GML_writer.hh"
@@ -1192,6 +1191,7 @@ singleRuleApplication(	sgm::SubGraphMatching& sgm
 						, sgm::Match_Reporter& mrApplyRule
 						, const sgm::Pattern_Automorphism* ruleSymmetry
 						, const bool ignoreAtomClassLabel
+						, const bool noRedundantMolecules
 						)
 {
 	  // target graph holding compNbr different targets
@@ -1206,7 +1206,9 @@ singleRuleApplication(	sgm::SubGraphMatching& sgm
 										, curTargets
 										, mrApplyRule
 										, ruleSymmetry
-										, ignoreAtomClassLabel );
+										, ignoreAtomClassLabel
+										, noRedundantMolecules
+										);
 }
 
 
@@ -1221,6 +1223,7 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 							, sgm::Match_Reporter& mrApplyRule
 							, const sgm::Pattern_Automorphism* ruleSymmetry
 							, const bool ignoreAtomClassLabel
+							, const bool noRedundantMolecules
 							)
 {
 	assert(ruleComponent <= rulePattern.getFirstOfEachComponent().size() /* ruleComponent exeeds number of rule components */);
@@ -1228,6 +1231,13 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 	  // check for recursion abort
 	  // --> all component targets have been determined and allTargets is full
 	if (ruleComponent == rulePattern.getFirstOfEachComponent().size()) {
+
+//		std::cout <<"## final target : ";
+//		for (size_t i=0; i<curTargets.size(); i++) {
+//			std::cout <<curTargets.at(i)<<" ";
+//		}
+//		std::cout <<std::endl;
+
 		 // represent all target molecules as one graph to search
 		sgm::Graph_boostV_p< ggl::chem::Molecule > targets(curTargets);
 		 // create final target graph to search
@@ -1280,6 +1290,19 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 	for (	SMILES_container::const_iterator it=allTargets.begin(); 
 			it!=allTargets.end() ; ++it ) 
 	{
+		// check if molecule is not already present
+		if (noRedundantMolecules) {
+			bool curMolNotPresent = true;
+			for (size_t p=0; curMolNotPresent && p<ruleComponent; p++)  {
+				// check if current molecule is not already present as a component
+				curMolNotPresent = (curTargets.at(p) != it->second);
+			}
+			// check if molecule is already present
+			if (!curMolNotPresent) {
+				// skip this molecule and continue with next
+				continue;
+			}
+		}
 		
 		  // set up wrapper for current target for matching
 		sgm::Graph_boost< ggl::chem::Molecule > curTarget(*(it->second));
@@ -1289,6 +1312,9 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 						: (sgm::Graph_Interface*)&curTarget;
 		  // check if current target contains this component at least once
 		const size_t numOfMatches = sgm.findMatches( component, *finalTarget, mrCounting,1 );
+		  // cleanup
+		if (ignoreAtomClassLabel) { delete finalTarget; }
+		  // check if component was found
 		if (numOfMatches == 0) {
 			// this component is not contained in current target
 			// --> go to next target
@@ -1296,8 +1322,6 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		} else {
 			thisComponentPresent = true;
 		}
-		  // cleanup
-		if (ignoreAtomClassLabel) { delete finalTarget; }
 		  // add current target to the overall graph to apply this rule to
 		curTargets[ruleComponent] = it->second;
 		  // recursive call to handle next component or to start matching
@@ -1308,7 +1332,9 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 															, curTargets
 															, mrApplyRule
 															, ruleSymmetry
-															, ignoreAtomClassLabel );
+															, ignoreAtomClassLabel
+															, noRedundantMolecules
+															);
 		if (!remMatched)
 			return false;
 	}	
@@ -1331,6 +1357,7 @@ singleRuleApplication(	sgm::SubGraphMatching& sgm
 						, sgm::Match_Reporter& mrApplyRule
 						, const sgm::Pattern_Automorphism* ruleSymmetry
 						, const bool ignoreAtomClassLabel
+						, const bool noRedundantMolecules
 						)
 {
 	  // target graph holding compNbr different targets
@@ -1347,7 +1374,9 @@ singleRuleApplication(	sgm::SubGraphMatching& sgm
 										, curTargets
 										, mrApplyRule
 										, ruleSymmetry
-										, ignoreAtomClassLabel );
+										, ignoreAtomClassLabel
+										, noRedundantMolecules
+										);
 }
 
 
@@ -1364,6 +1393,7 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 							, sgm::Match_Reporter& mrApplyRule
 							, const sgm::Pattern_Automorphism* ruleSymmetry
 							, const bool ignoreAtomClassLabel
+							, const bool noRedundantMolecules
 							)
 {
 	assert(ruleComponent <= rulePattern.getFirstOfEachComponent().size() /* ruleComponent exeeds number of rule components */);
@@ -1433,6 +1463,19 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 	for (	SMILES_container::const_iterator it=newTargets.begin(); 
 			otherComponentsPresent && it!=newTargets.end() ; ++it ) 
 	{
+		// check if molecule is not already present
+		if (noRedundantMolecules) {
+			bool curMolNotPresent = true;
+			for (size_t p=0; curMolNotPresent && p<ruleComponent; p++)  {
+				// check if current molecule is not already present as a component
+				curMolNotPresent = (curTargets.at(p) != it->second);
+			}
+			// check if molecule is already present
+			if (!curMolNotPresent) {
+				// skip this molecule and continue with next
+				continue;
+			}
+		}
 		
 		  // set up wrapper for current target for matching
 		sgm::Graph_boost< ggl::chem::Molecule > curTarget(*(it->second));
@@ -1443,6 +1486,9 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		  // check if current target contains this component at least once
 		mrCounting.resetHits();
 		sgm.findMatches( component, *finalTarget, mrCounting, 1 );
+		  // cleanup
+		if (ignoreAtomClassLabel) { delete finalTarget; }
+		  // check if component was found
 		if (mrCounting.getHits() == 0) {
 			// this component is not contained in current target
 			// --> go to next target
@@ -1450,8 +1496,7 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		} else {
 			thisComponentPresent = true;
 		}
-		  // cleanup
-		if (ignoreAtomClassLabel) { delete finalTarget; }
+
 		  // add current target to the overall graph to apply this rule to
 		curTargets[ruleComponent] = it->second;
 		  // recursive call to handle next component or to start matching
@@ -1464,7 +1509,9 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 															, curTargets
 															, mrApplyRule
 															, ruleSymmetry
-															, ignoreAtomClassLabel );
+															, ignoreAtomClassLabel
+															, noRedundantMolecules
+															);
 		otherComponentsPresent = (recCall == 0);
 	}	
 	
@@ -1482,6 +1529,19 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 	for (	SMILES_container::const_iterator it=oldTargets.begin(); 
 			oldMolsPresent && it!=oldTargets.end() ; ++it ) 
 	{
+		// check if molecule is not already present
+		if (noRedundantMolecules) {
+			bool curMolNotPresent = true;
+			for (size_t p=0; curMolNotPresent && p<ruleComponent; p++)  {
+				// check if current molecule is not already present as a component
+				curMolNotPresent = (curTargets.at(p) != it->second);
+			}
+			// check if molecule is already present
+			if (!curMolNotPresent) {
+				// skip this molecule and continue with next
+				continue;
+			}
+		}
 		
 		  // set up wrapper for current target for matching
 		sgm::Graph_boost< ggl::chem::Molecule > curTarget(*(it->second));
@@ -1492,6 +1552,9 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		 // check if current target contains this component at least once
 		mrCounting.resetHits();
 		sgm.findMatches( component, *finalTarget, mrCounting, 1 );
+		  // cleanup
+		if (ignoreAtomClassLabel) { delete finalTarget; }
+		  // check if component was found
 		if (mrCounting.getHits() == 0) {
 			// this component is not contained in current target
 			// --> go to next target
@@ -1499,8 +1562,6 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 		} else {
 			thisComponentPresent = true;
 		}
-		  // cleanup
-		if (ignoreAtomClassLabel) { delete finalTarget; }
 		  // add current target to the overall graph to apply this rule to
 		curTargets[ruleComponent] = it->second;
 		  // recursive call to handle next component or to start matching
@@ -1513,7 +1574,9 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 															, curTargets
 															, mrApplyRule
 															, ruleSymmetry
-															, ignoreAtomClassLabel );
+															, ignoreAtomClassLabel
+															, noRedundantMolecules
+															);
 		switch (recCall) {
 		case 0 : oldMolsPresent = true;  break;
 		case 1 : oldMolsPresent = false; break;
@@ -1546,7 +1609,7 @@ applyRules( const RulePatternMap & rules
 			, const ggl::chem::ReactionRateCalculation * rateCalc
 			, const ggl::chem::AromaticityPerception & aromaticity
 			, const bool ignoreAtomClassLabel
-			, const bool ensureUniqueAtomMatch
+			, const bool noRedundantMolecules
 		)
 {
 	  // set up graph matcher
@@ -1566,10 +1629,6 @@ applyRules( const RulePatternMap & rules
 						, rateCalc
 						, aromaticity );
 		
-		  // setup final match reporter to be used
-		sgm::Match_Reporter * mrFinal = ensureUniqueAtomMatch
-						? new MR_UniqueAtomMatch( mr )
-						: (sgm::Match_Reporter *)(& mr);
 
 		// for all rules with given number of components
 		for (size_t curRule=0; curRule<pat->second.size(); ++curRule) {
@@ -1581,12 +1640,9 @@ applyRules( const RulePatternMap & rules
 									, initialMolecules
 									, mr
 									, &ga
-									, ignoreAtomClassLabel );
-		}
-
-		// garbage collection
-		if (ensureUniqueAtomMatch) {
-			delete mrFinal;
+									, ignoreAtomClassLabel
+									, noRedundantMolecules
+									);
 		}
 
 	}
@@ -1595,28 +1651,6 @@ applyRules( const RulePatternMap & rules
 	
 //////////////////////////////////////////////////////////////////////////
 
-/* Applies all rules onto a set of initial molecules. The resulting 
- * molecules from the applications as well as the reaction information is
- * written to provided containers.
- * 
- * @param rules (IN) the left side pattern of the rules to apply 
- * @param oldMolecules (IN) molecules to that the rules have been applied
- *        already (e.g. in last iteration), such that no rule application 
- *        to this set of rules only is done
- * @param newMolecules (IN) molecules the rules were not applied on 
- *        already such that at least one of these molecules will be within
- *        a single rule application target
- * @param producedMolecules (OUT) the container where the molecules 
- *         produced by the rule application are added
- * @param producedReactions (OUT) the container where the reaction 
- *         information of the rule application is stored in
- * @param rateCalc The object to use to calculate a reaction
- *        rate for each new reaction created. If not present (==NULL)
- *        no reaction rate will be calculated.
- * @param aromaticity the aromaticity perception class to be used to
- *        correct rings in the product molecules after the rule
- *        application was done.
- */
 void
 applyRules( const RulePatternMap & rules
 			, const SMILES_container & oldMolecules
@@ -1627,7 +1661,7 @@ applyRules( const RulePatternMap & rules
 			, const bool allowAllIntra
 			, const ggl::chem::AromaticityPerception & aromaticity
 			, const bool ignoreAtomClassLabel
-			, const bool ensureUniqueAtomMatch
+			, const bool noRedundantMolecules
 		)
 {
 	  // set up graph matcher
@@ -1639,8 +1673,6 @@ applyRules( const RulePatternMap & rules
 	for (RulePatternMap::const_iterator pat = rules.begin();
 			pat != rules.end(); ++pat)
 	{
-		sgm::Match_Reporter * mrFinal = NULL;
-
 		  // check if single component rules are currently handled
 		if (pat->first == 1) {
 			
@@ -1654,10 +1686,6 @@ applyRules( const RulePatternMap & rules
 							, rateCalc
 							, aromaticity );
 			
-			  // setup final match reporter to be used
-			mrFinal = ensureUniqueAtomMatch
-							? new MR_UniqueAtomMatch( mr )
-							: (sgm::Match_Reporter *)(& mr);
 
 			// for all rules with given number of components
 			for (size_t curRule=0; curRule<pat->second.size(); ++curRule) {
@@ -1667,9 +1695,10 @@ applyRules( const RulePatternMap & rules
 				singleRuleApplication(  matcher
 										, *(pat->second.at(curRule))
 										, newMolecules
-										, *mrFinal
+										, mr
 										, &ga
 										, ignoreAtomClassLabel
+										, noRedundantMolecules
 										);
 			}
 
@@ -1687,11 +1716,6 @@ applyRules( const RulePatternMap & rules
 							, rateCalc
 							, aromaticity );
 			
-			  // setup final match reporter to be used
-			mrFinal = ensureUniqueAtomMatch
-							? new MR_UniqueAtomMatch( mr )
-							: (sgm::Match_Reporter *)(& mr);
-
 			// for all rules with given number of components
 			for (size_t curRule=0; curRule<pat->second.size(); ++curRule) {
 				  // set up symmetry breaking conditions for current rule
@@ -1701,16 +1725,12 @@ applyRules( const RulePatternMap & rules
 										, *(pat->second.at(curRule))
 										, newMolecules
 										, oldMolecules
-										, *mrFinal
+										, mr
 										, &ga
 										, ignoreAtomClassLabel
+										, noRedundantMolecules
 										);
 			}
-		}
-
-		// garbage collection
-		if (ensureUniqueAtomMatch) {
-			delete mrFinal;
 		}
 	}
 	

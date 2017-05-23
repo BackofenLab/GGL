@@ -375,6 +375,9 @@ typedef
 	 *        be ignored for the rule pattern matching, i.e. all the atom
 	 *        labels from all initialMolecules are reduced to the atom label
 	 *        prefix substring up to the class label separator ':' (if present)
+	 * @param noRedundantMolecules whether or not the same molecule is allowed
+	 *        to be part of the target molecule compilation for multi-component
+	 *        left-side rule pattern compilations
 	 * @return true if this component and all of the remaining were present to 
 	 * allow for an early abortion if one of the component cannot be matched
 	 */
@@ -384,7 +387,9 @@ typedef
 							, const SMILES_container & allTargets
 							, sgm::Match_Reporter& mrApplyRule
 							, const sgm::Pattern_Automorphism* ruleSymmetry=NULL
-							, const bool ignoreAtomClassLabel = false );
+							, const bool ignoreAtomClassLabel = false
+							, const bool noRedundantMolecules = false
+							);
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -409,6 +414,9 @@ typedef
 	 *        be ignored for the rule pattern matching, i.e. all the atom
 	 *        labels from all initialMolecules are reduced to the atom label
 	 *        prefix substring up to the class label separator ':' (if present)
+	 * @param noRedundantMolecules whether or not the same molecule is allowed
+	 *        to be part of the target molecule compilation for multi-component
+	 *        left-side rule pattern compilations
 	 * @return true if this component and all of the remaining were present to 
 	 * allow for an early abortion if one of the component cannot be matched
 	 */
@@ -420,7 +428,9 @@ typedef
 						, std::vector< const ggl::chem::Molecule* >& curTargets
 						, sgm::Match_Reporter& mrApplyRule
 						, const sgm::Pattern_Automorphism* ruleSymmetry = NULL
-						, const bool ignoreAtomClassLabel = false );
+						, const bool ignoreAtomClassLabel = false
+						, const bool noRedundantMolecules = false
+						);
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -447,6 +457,9 @@ typedef
 	 *        be ignored for the rule pattern matching, i.e. all the atom
 	 *        labels from all initialMolecules are reduced to the atom label
 	 *        prefix substring up to the class label separator ':' (if present)
+	 * @param noRedundantMolecules whether or not the same molecule is allowed
+	 *        to be part of the target molecule compilation for multi-component
+	 *        left-side rule pattern compilations
 	 * @return true if this component and all of the remaining were present to 
 	 * allow for an early abortion if one of the component cannot be matched
 	 */
@@ -457,7 +470,9 @@ typedef
 							, const SMILES_container & oldTargets
 							, sgm::Match_Reporter& mrApplyRule
 							, const sgm::Pattern_Automorphism* ruleSymmetry=NULL
-							, const bool ignoreAtomClassLabel = false );
+							, const bool ignoreAtomClassLabel = false
+							, const bool noRedundantMolecules = false
+							);
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -484,6 +499,9 @@ typedef
 	 *        be ignored for the rule pattern matching, i.e. all the atom
 	 *        labels from all initialMolecules are reduced to the atom label
 	 *        prefix substring up to the class label separator ':' (if present)
+	 * @param noRedundantMolecules whether or not the same molecule is allowed
+	 *        to be part of the target molecule compilation for multi-component
+	 *        left-side rule pattern compilations
 	 * @return 0 if this component and all of the remaining were present
 	 *         1 if one of the remaining components cannot be matched to 
 	 *           allow for an early abortion
@@ -500,7 +518,9 @@ typedef
 						, std::vector< const ggl::chem::Molecule* >& curTargets
 						, sgm::Match_Reporter& mrApplyRule
 						, const sgm::Pattern_Automorphism* ruleSymmetry = NULL
-						, const bool ignoreAtomClassLabel = false );
+						, const bool ignoreAtomClassLabel = false
+						, const bool noRedundantMolecules = false
+						);
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -527,9 +547,9 @@ typedef
 	  *        be ignored for the rule pattern matching, i.e. all the atom
 	  *        labels from all initialMolecules are reduced to the atom label
 	  *        prefix substring up to the class label separator ':' (if present)
-	  * @param ensureUniqueAtomMatch if set to true, each match is checked if
-	  *        if covers distinct molecule atoms, e.g. important when a rule is
-	  *        applied to two copies of the same molecule
+	  * @param noRedundantMolecules whether or not the same molecule is allowed
+	  *        to be part of the target molecule compilation for multi-component
+	  *        left-side rule pattern compilations
 	  */
 	void
 	applyRules( const RulePatternMap & rules
@@ -539,7 +559,7 @@ typedef
 				, const ggl::chem::ReactionRateCalculation * rateCalc
 				, const ggl::chem::AromaticityPerception & aromaticity
 				, const bool ignoreAtomClassLabel = false
-				, const bool ensureUniqueAtomMatch = false
+				, const bool noRedundantMolecules = false
 		);
 	
 	
@@ -572,9 +592,9 @@ typedef
 	  *        be ignored for the rule pattern matching, i.e. all the atom
 	  *        labels from all initialMolecules are reduced to the atom label
 	  *        prefix substring up to the class label separator ':' (if present)
-	  * @param ensureUniqueAtomMatch if set to true, each match is checked if
-	  *        if covers distinct molecule atoms, e.g. important when a rule is
-	  *        applied to two copies of the same molecule
+	  * @param noRedundantMolecules whether or not the same molecule is allowed
+	  *        to be part of the target molecule compilation for multi-component
+	  *        left-side rule pattern compilations
 	  */
 	void
 	applyRules( const RulePatternMap & rules
@@ -586,7 +606,7 @@ typedef
 				, const bool allowAllIntra
 				, const ggl::chem::AromaticityPerception & aromaticity
 				, const bool ignoreAtomClassLabel = false
-				, const bool ensureUniqueAtomMatch = false
+				, const bool noRedundantMolecules = false
 			);
 	
 	
