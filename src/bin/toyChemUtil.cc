@@ -1232,7 +1232,7 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 	  // --> all component targets have been determined and allTargets is full
 	if (ruleComponent == rulePattern.getFirstOfEachComponent().size()) {
 
-//		std::cout <<"## final target : ";
+//		std::cout <<"## final target : noRed("<<(noRedundantMolecules?"true":"false") <<") ";
 //		for (size_t i=0; i<curTargets.size(); i++) {
 //			std::cout <<curTargets.at(i)<<" ";
 //		}

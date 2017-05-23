@@ -224,7 +224,7 @@ int main( int argc, char** argv ) {
 			// initialize with system time
 			const unsigned int randSeed = time(NULL);
 			srand( randSeed );
-			std::cerr <<"## seed init = "<<randSeed<<std::endl;
+			std::cerr <<"# seed init = "<<randSeed<<std::endl;
 		} else {
 			// initialize with provided seed value
 			srand( (unsigned int) opts.getIntVal("srand") );
@@ -471,12 +471,6 @@ int main( int argc, char** argv ) {
 			(*out) <<"\n ######## PARSED RULES #######\n";
 			printRules( *out, rules );
 			
-			for (size_t i=0; i<rules.size(); ++i ) {
-			(*out) <<" transition state of "<<rules.at(i).getID();
-			out->flush();
-			(*out) <<" = " <<rules.at(i).getTransitionState().getSMILES() <<std::endl;
-			}
-
 			(*out) <<"\n ###### PARSED MOLECULES #####\n\n";
 			printSMILES( *out, targetSmiles );
 			(*out) <<std::endl; out->flush();
@@ -511,19 +505,12 @@ int main( int argc, char** argv ) {
 				// all molecules that can be produced by a reaction involving a molecule from producedSmiles
 				SMILES_container toFill;
 				// apply all rules but ensure that always at least one molecule from producedSmiles is involved
-				// single-molecule application
-				applyRules(rulePattern
-						, producedSmiles
-						, toFill, producedReactions
-						, rateCalc, *aromaticityPrediction
-						, opts.argExist("ignoreAtomClass")
-						, true /* enforceUniqueAtomMatch */
-						);
-				// multi-molecule application
 				applyRules(rulePattern
 						, targetSmiles, producedSmiles
 						, toFill, producedReactions
-						, rateCalc, false, *aromaticityPrediction
+						, rateCalc
+						, true
+						, *aromaticityPrediction
 						, opts.argExist("ignoreAtomClass")
 						, true /* enforceUniqueAtomMatch */
 						);
@@ -554,7 +541,7 @@ int main( int argc, char** argv ) {
 			}
 
 			// print stats on molecules and reactions
-			(*out)	<<"\n " <<(it) <<". iteration :"
+			(*out)	<<"\n# " <<(it) <<". iteration :"
 					<<"\t molecules = " <<targetSmiles.size()
 					<<"\t reactions = " <<producedReactions.size() <<"\n";
 
@@ -603,7 +590,7 @@ int main( int argc, char** argv ) {
 			}
 
 			// print information for picked reaction
-			(*out)	<<"        apply : "<<(*pickedReaction) <<"\n"
+			(*out)	<<"  "<<(*pickedReaction) <<"\n"
 					<<std::endl;
 
 			// remove educts from targetSmiles
@@ -661,7 +648,7 @@ int main( int argc, char** argv ) {
 		//////////////////////////////////////////////////////////////
 
 		// print stats on molecules and reactions
-		(*out)	<<"\n final molecules :\n\n";
+		(*out)	<<"\n# final molecules :\n\n";
 		for (SMILES_container::const_iterator m=targetSmiles.begin();m!=targetSmiles.end();m++) {
 			(*out) <<m->first <<"\n";
 		}
