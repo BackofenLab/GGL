@@ -10,6 +10,7 @@
 
 #include "ggl/RuleGraph.hh"
 #include "ggl/MR_ApplyRule.hh"
+#include "ggl/MR_ApplyRule_NodeLabelPrefix.hh"
 
 #include "ggl/chem/Molecule.hh"
 #include "ggl/chem/SMILESwriter.hh"
@@ -166,6 +167,8 @@ typedef
 		   * @param aromaticity the aromaticity perception class to be used to
 		   *        correct rings in the product molecules after the rule
 		   *        application was done.
+		   * @param keepAtomClass whether or not atom class label information is
+		   *        to be preserved during rule rewrite
 		   */
 		MR_Reactions(	const Smiles2GraphMap& smiles2graph
 						, Smiles2GraphMap& newSmiles2graph
@@ -173,7 +176,8 @@ typedef
 						, const bool addEachComponent = false
 						, const ReactionRateCalculation * rateCalculation = NULL
 						, const AromaticityPerception & aromaticity =
-								AP_NSPDK("Marvin:general:2013"));
+								AP_NSPDK("Marvin:general:2013")
+						, const bool keepAtomClass = false );
 		
 
 		  /*! Construction
@@ -194,6 +198,8 @@ typedef
 		   * @param aromaticity the aromaticity perception class to be used to
 		   *        correct rings in the product molecules after the rule
 		   *        application was done.
+		   * @param keepAtomClass whether or not atom class label information is
+		   *        to be preserved during rule rewrite
 		   */
 		MR_Reactions(	const Smiles2GraphMap& smiles2graph
 						, const Smiles2GraphMap& smiles2graph2
@@ -202,7 +208,9 @@ typedef
 						, const bool addEachComponent = false
 						, const ReactionRateCalculation * rateCalculation = NULL
 						, const AromaticityPerception & aromaticity =
-								AP_NSPDK("Marvin:general:2013"));
+								AP_NSPDK("Marvin:general:2013")
+						, const bool keepAtomClass = false
+						);
 		
 		  /*! Destruction
 		   */
