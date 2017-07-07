@@ -378,6 +378,31 @@ int main( int argc, char** argv ) {
 								" or contains unsupported properties:\n";
 					rules.at(r).decodeConsistencyStatus( conStatus, (*out) );
 				}
+				// check if nodes of leftside pattern are ok
+				ggl::chem::LeftSidePattern leftRule( rules.at(r) );
+				for (size_t i=0; allRulesOK && i<leftRule.getNodeNumber(); i++) {
+					// check if node label contains class separator (not allowed)
+					if ( leftRule.getNodeLabel(i).find(":") != std::string::npos ) {
+						allRulesOK = false;
+						(*out) <<"\n PROBLEM : rule " <<(r+1) <<" '"
+								<<rules.at(r).getID() <<"' : left side node "<<i<<" = '"
+								<<leftRule.getNodeLabel(i)
+								<<"' contains a class label separator ':', which is not allowed for toyKin\n";
+					}
+				}
+				// check if nodes of rightside pattern are ok
+				ggl::chem::RightSidePattern rightRule( rules.at(r) );
+				for (size_t i=0; allRulesOK && i<rightRule.getNodeNumber(); i++) {
+					// check if node label contains class separator (not allowed)
+					if ( rightRule.getNodeLabel(i).find(":") != std::string::npos ) {
+						allRulesOK = false;
+						(*out) <<"\n PROBLEM : rule " <<(r+1) <<" '"
+								<<rules.at(r).getID() <<"' : right side node "<<i<<" = '"
+								<<rightRule.getNodeLabel(i)
+								<<"' contains a class label separator ':', which is not allowed for toyKin\n";
+					}
+				}
+
 			}
 			if (!allRulesOK) {
 				return -1;
