@@ -1,0 +1,45 @@
+
+#include "MR_restoreNodeLabel.hh"
+
+namespace sgm
+{
+
+////////////////////////////////////////////////////////////////////////
+
+	MR_restoreNodeLabel::
+	MR_restoreNodeLabel( sgm::Match_Reporter & forwardMR )
+	 :	forwardMR(forwardMR)
+	{}
+
+////////////////////////////////////////////////////////////////////////
+
+	MR_restoreNodeLabel::
+	~MR_restoreNodeLabel()
+	{}
+
+////////////////////////////////////////////////////////////////////////
+
+	void
+	MR_restoreNodeLabel::
+	reportHit (	const sgm::Pattern_Interface & pattern,
+				const sgm::Graph_Interface & target,
+				const sgm::Match & match )
+	{
+		// try to cast
+		const sgm::Graph_NodeLabelPrefix * targetGraph
+			= dynamic_cast<const sgm::Graph_NodeLabelPrefix *>( &target );
+
+		// check if we can undo the node label change (if any)
+		if ( targetGraph != NULL ) {
+			// forward match information but use fully labeled original molecule
+			forwardMR.reportHit( pattern, targetGraph->getWithFullAtomLabels(), match );
+		} else {
+			// forward with current target, since no instance of sgm::Graph_NodeLabelPrefix
+			forwardMR.reportHit( pattern, target, match );
+		}
+	}
+
+////////////////////////////////////////////////////////////////////////
+
+} /* namespace sgm */
+
