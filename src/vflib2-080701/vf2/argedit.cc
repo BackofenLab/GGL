@@ -278,7 +278,7 @@ void ARGEdit::DeleteNode(node_id id)
         p=p->next;
       }
 
-    if (p==NULL || !p->id==id)
+    if (p==NULL || !(p->id==id))
       error("Bad param in ARGEdit::DeleteNode");
 
     while (p->edges != NULL)
