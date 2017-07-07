@@ -25,7 +25,7 @@ namespace ggl {
 		, reactions( reactions_ )
 		, addEachComponent(addEachComponent_)
 		, molchecker( *this, aromaticity )
-		, Ruler( molchecker, addEachComponent )
+		, Ruler( new MR_ApplyRule( molchecker, addEachComponent ) )
 		, rateCalculation(rateCalculation_)
 	{
 		typedef Graph2SmilesMap::value_type V_T;
@@ -166,7 +166,7 @@ namespace ggl {
 
 		  // forward the hit to the rule applier to collect the resulting
 		  // molecules via this->add() function
-		Ruler.reportHit( pattern, target, match );
+		Ruler->reportHit( pattern, target, match );
 		
 		  // check if a molecule was produced, if not abort
 		if (curReaction.products.size() == 0) {

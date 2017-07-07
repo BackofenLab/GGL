@@ -90,6 +90,8 @@ typedef
 	   * maintained storage, to enable a fast lookup of their SMILES !!!
 	   * Finaly, SMILES are generated using an instance of SMILESwriter !!!
 	   * 
+	   * NOTE : objects of this class are not safe to copy due to Ruler member!
+	   *
 	   *  @author Martin Mann (c) 2009 http://www.bioinf.uni-freiburg.de/~mmann/
 	   *
 	   */ 
@@ -141,7 +143,7 @@ typedef
 
 		  //! the Match_Reporter utilized to apply the rule and to produce the 
 		  //! resulting molecules that will be stored in the reaction
-		ggl::MR_ApplyRule Ruler;
+		ggl::MR_ApplyRule * Ruler;
 							
 		  //! if != NULL, for each new reaction a rate is calculated
 		const ReactionRateCalculation* rateCalculation;
@@ -173,7 +175,7 @@ typedef
 						, const AromaticityPerception & aromaticity =
 								AP_NSPDK("Marvin:general:2013"));
 		
-		
+
 		  /*! Construction
 		   * 
 		   * @param smiles2graph the initial container that contains all
