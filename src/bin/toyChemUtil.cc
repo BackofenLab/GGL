@@ -1,6 +1,8 @@
 
 #include "toyChemUtil.hh"
 
+#include "sgm/MR_restoreNodeLabel.hh"
+
 #include "ggl/chem/ReactionRateCalculation.hh"
 #include "ggl/Graph_GML_writer.hh"
 
@@ -19,69 +21,6 @@
 #include <algorithm>
 
 
-
-//////////////////////////////////////////////////////////////////////////
-
-#include <sgm/Match_Reporter.hh>
-
-/**
- * Wrapper class to restore the atom label information of the target graph that
- * was ignored using ggl::chem::Molecule_Graph_noClass, which is forwarded to
- * a given Match_Reporter instance.
- *
- */
-class MR_restoreAtomClass : public sgm::Match_Reporter {
-
-protected:
-
-	//! the Match_Reporter to forward the match information to with full atom
-	//! label information for the target graph
-	sgm::Match_Reporter & forwardMR;
-
-public:
-
-	//! construction
-	//! @param forwardMR the Match_Reporter to forward the match information
-	//!            to with full atom label information for the target graph
-	MR_restoreAtomClass( sgm::Match_Reporter & forwardMR )
-	 :	forwardMR(forwardMR)
-	{}
-
-	virtual
-	~MR_restoreAtomClass()
-	{}
-
-	  //! Reports a match. The match is encoded using a vector. The length
-	  //! of the vector corresponds to the number of vertices in the pattern
-	  //! and position i encodes the matched position of pattern node i in
-	  //! the target graph.
-	  //! @param pattern the pattern graph that was searched for
-	  //! @param target the graph the pattern was found within
-	  //! @param match contains the indices of the matched pattern nodes in
-	  //! the target graph. match[i] corresponds to the mapping of the ith
-	  //! vertex in the pattern graph.
-	virtual
-	void
-	reportHit (	const sgm::Pattern_Interface & pattern,
-				const sgm::Graph_Interface & target,
-				const sgm::Match & match )
-	{
-		// try to cast
-		const ggl::chem::Molecule_Graph_noClass * targetMol
-			= dynamic_cast<const ggl::chem::Molecule_Graph_noClass *>( &target );
-
-		// check if we can undo the atom label change (if any)
-		if ( targetMol != NULL ) {
-			// forward match information but use fully labeled original molecule
-			forwardMR.reportHit( pattern, targetMol->getWithFullAtomLabels(), match );
-		} else {
-			// forward with current target, since no instance of Molecule_Graph_noClass
-			forwardMR.reportHit( pattern, target, match );
-		}
-	}
-
-
-};
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -1246,7 +1185,7 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 						: (sgm::Graph_Interface*)&targets;
 		 // create final match reported for rule application
 		sgm::Match_Reporter* mrApplyRuleFinal = ignoreAtomClassLabel
-						? new MR_restoreAtomClass( mrApplyRule )
+						? new sgm::MR_restoreNodeLabel( mrApplyRule )
 						: &mrApplyRule;
 		if (ruleSymmetry != NULL) {
 			  // set up symmetry breaking interface
@@ -1409,7 +1348,7 @@ singleRuleApplicationRec(	sgm::SubGraphMatching& sgm
 						: (sgm::Graph_Interface*)&targets;
 		 // create final match reported for rule application
 		sgm::Match_Reporter* mrApplyRuleFinal = ignoreAtomClassLabel
-						? new MR_restoreAtomClass( mrApplyRule )
+						? new sgm::MR_restoreNodeLabel( mrApplyRule )
 						: &mrApplyRule;
 
 		if (ruleSymmetry != NULL) {
