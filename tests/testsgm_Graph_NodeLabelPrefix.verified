@@ -1,0 +1,32 @@
+
+==============  BEGIN TEST  ==================
+==============================================
+             sgm::Graph_NodeLabelPrefix  
+==============================================
+
+
+ == molecule : ignore class label ==
+
+--> applied node pattern : ':'
+
+--> create sgm::Graph_boost og 
+
+--> create sgm::Graph_SubNodeLabel( og, nodePattern )
+
+ #0	: N	=> N
+ #1	: C	=> C
+ #2	: C+2	=> C+2
+ #3	: C:1	=> C
+ #4	: C-1:1	=> C-1
+ #5	: CH	=> CH
+ #6	: CH:823	=> CH
+ #7	: CH-1	=> CH-1
+ #8	: CH-3:34	=> CH-3
+ #9	: CH2	=> CH2
+ #10	: CH2:2	=> CH2
+ #11	: CH2-3	=> CH2-3
+ #12	: CH2-3:1	=> CH2-3
+
+===============  TEST END  ===================
+==============================================
+

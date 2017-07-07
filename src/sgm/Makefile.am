@@ -45,7 +45,8 @@ lib_sgm_HEADERS = \
 					RingReporter.hh \
 					RingPerception.hh \
 					RP_Hanser96.hh \
-					GraphScaffold.hh
+					GraphScaffold.hh \
+					Graph_NodeLabelPrefix.hh
 
 # header install directory via dummy lib
 lib_sgmdir = $(includedir)/sgm
