@@ -1,0 +1,51 @@
+
+
+namespace ggl {
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+	inline
+	MR_ApplyRule_NodeLabelPrefix
+	::MR_ApplyRule_NodeLabelPrefix( Graph_Storage & storage_
+					, const std::string & nodeLabelSeparator_
+					, const bool addEachComponent_ )
+	 :	MR_ApplyRule(storage_, addEachComponent_)
+		, nodeLabelSeparator(nodeLabelSeparator_)
+	{
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+	inline
+	MR_ApplyRule_NodeLabelPrefix
+	::~MR_ApplyRule_NodeLabelPrefix()
+	{
+	}
+	
+	
+////////////////////////////////////////////////////////////////////////////////
+
+	inline
+	std::string
+	MR_ApplyRule_NodeLabelPrefix::
+	getAlteredNodeLabel( const std::string & oldNodeLabel, const std::string & newNodeLabel ) const
+	{
+		// check for node label separator in old node label
+		const size_t posSepOld = oldNodeLabel.find(nodeLabelSeparator);
+
+		if (posSepOld == std::string::npos) {
+			// no separator found -> just overwrite
+			return newNodeLabel;
+		} else {
+			// separator found -> append to new label
+			return newNodeLabel + oldNodeLabel.substr(posSepOld);
+		}
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+} // namespace ggl
+

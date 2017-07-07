@@ -31,6 +31,8 @@ lib_ggl_HEADERS = \
 					GS_STL.icc \
 					MR_ApplyRule.hh \
 					MR_ApplyRule.icc \
+					MR_ApplyRule_NodeLabelPrefix.hh \
+					MR_ApplyRule_NodeLabelPrefix.icc \
 					DFS_ApplyRule.hh \
 					DFS_ApplyRule.icc \
 					Rule_GML_error.hh \

@@ -51,6 +51,7 @@ TESTSOURCES =   \
 				testggl_Rule_GMLparser.cc \
 				testggl_Rule_GML_writer.cc \
 				testggl_MR_ApplyRule.cc \
+				testggl_MR_ApplyRule_NodeLabelPrefix.cc \
 				testggl_GS_STL_pushAll.cc \
 				testggl_GS_STL_pushAllP.cc \
 				testggl_GS_STL_pushUnique.cc \
