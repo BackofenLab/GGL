@@ -76,6 +76,20 @@ namespace ggl {
 					const sgm::Graph_Interface & target,
 					const sgm::Match & match );
 
+
+	protected:
+
+		//! Produces the new node label that results from a label rewrite.
+		//! This function just returns newNodeLabel but it serves as proxy for
+		//! alternative behaviour of node label rewrites
+		//! @param oldNodeLabel the old node label (matched by the rule)
+		//! @param newNodeLabel the new node label (to be set by the rule)
+		//! @return newNodeLabel
+		virtual
+		std::string
+		getAlteredNodeLabel( const std::string & oldNodeLabel, const std::string & newNodeLabel ) const;
+
+
 	};
 
 
@@ -85,4 +99,4 @@ namespace ggl {
 
 #include "ggl/MR_ApplyRule.icc"
 
-#endif /*MR_APPLYRULE_HH_*/
+#endif /*GGL_MR_APPLYRULE_HH_*/

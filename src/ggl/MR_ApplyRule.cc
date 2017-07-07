@@ -413,7 +413,7 @@ namespace ggl {
 								t2r.find( ruleNodeIdx )->second
 					            , result);
 					  // change label of matched node
-					resultNodeLabel[rNode] = ruleNodeRightLabel[node];
+					resultNodeLabel[rNode] = getAlteredNodeLabel( resultNodeLabel[rNode], ruleNodeRightLabel[node] );
 					break;
 				}
 				  // add new target node
