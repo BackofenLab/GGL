@@ -1566,7 +1566,8 @@ applyRules( const RulePatternMap & rules
 //						, pat->first
 						, true
 						, rateCalc
-						, aromaticity );
+						, aromaticity
+						, ignoreAtomClassLabel );
 		
 
 		// for all rules with given number of components
@@ -1623,7 +1624,9 @@ applyRules( const RulePatternMap & rules
 							, !allowAllIntra
 //							, pat->first, false
 							, rateCalc
-							, aromaticity );
+							, aromaticity
+							, ignoreAtomClassLabel
+							);
 			
 
 			// for all rules with given number of components
@@ -1653,7 +1656,9 @@ applyRules( const RulePatternMap & rules
 //							, (allowAllIntra ? 1 : pat->first) 
 //							, false
 							, rateCalc
-							, aromaticity );
+							, aromaticity
+							, ignoreAtomClassLabel
+							);
 			
 			// for all rules with given number of components
 			for (size_t curRule=0; curRule<pat->second.size(); ++curRule) {
