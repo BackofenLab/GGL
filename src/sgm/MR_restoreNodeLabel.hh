@@ -57,4 +57,8 @@ public:
 
 } /* namespace sgm */
 
+
+#include "sgm/MR_restoreNodeLabel.icc"
+
+
 #endif /* MR_RESTORENODELABEL_HH_ */
