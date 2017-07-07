@@ -182,11 +182,18 @@ typedef
 	 * @param toFill the container to add the found SMILES and molecules to
 	 * @param groups molecule groups IDs and the according molecule components
 	 *       to insert instead
+	 * @param setNextAtomClass if > 0, atoms will be numbered starting from the
+	 *       given value and the numbering will be added as class label;
+	 *       replace class labels will be reported
+	 * @return if setNextAtomClass > 0, the successive atom class label that was
+	 *       not used yet (for iterative calls); 0 otherwise
 	 */
-	void
+	size_t
 	parseSMILES(	const std::string & inSource
 					, SMILES_container & toFill
-					, const ggl::chem::GroupMap & groups ) throw(std::exception);
+					, const ggl::chem::GroupMap & groups
+					, const size_t setNextAtomClass = 0
+					) throw(std::exception);
 
 	
 //////////////////////////////////////////////////////////////////////////
@@ -202,12 +209,19 @@ typedef
 	 *                  error reporting)
 	 * @param groups molecule groups IDs and the according molecule components
 	 *       to insert instead
+	 * @param setNextAtomClass if > 0, atoms will be numbered starting from the
+	 *       given value and the numbering will be added as class label;
+	 *       replace class labels will be reported
+	 * @return if setNextAtomClass > 0, the successive atom class label that was
+	 *       not used yet (for iterative calls); 0 otherwise
 	 */
-	void
+	size_t
 	parseSMILES(	std::istream & in
 					, SMILES_container & toFill
 					, const size_t linesRead
-					, const ggl::chem::GroupMap & groups ) throw(std::exception);
+					, const ggl::chem::GroupMap & groups
+					, const size_t setNextAtomClass = 0
+					) throw(std::exception);
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -221,11 +235,16 @@ typedef
 	 * @param toFill the container to add the found SMILES and molecules to
 	 * @param groups molecule groups IDs and the according molecule components
 	 *       to insert instead
+	 * @param setNextAtomClass if > 0, atoms will be numbered starting from the
+	 *       given value and the numbering will be added as class label;
+	 * @return if setNextAtomClass > 0, the successive atom class label that was
+	 *       not used yet (for iterative calls); 0 otherwise
 	 */
-	void
+	size_t
 	parseMolGML(	const std::string & inSource
 					, SMILES_container & toFill
 					, const ggl::chem::GroupMap & groups
+					, const size_t setNextAtomClass = 0
 					) throw(std::exception);
 
 	
@@ -256,16 +275,22 @@ typedef
 	 *           exceptions.
 	 * @param correctNodeByBonds if true, aromaticity of node labels is correct
 	 *           according to the presence of adjacent aromatic bonds.
+	 * @param setNextAtomClass if > 0, atoms will be numbered starting from the
+	 *       given value and the numbering will be added as class label;
+	 * @return if setNextAtomClass > 0, the successive atom class label that was
+	 *       not used yet (for iterative calls); 0 otherwise
 	 */
-	void
+	size_t
 	parseMolGML(	std::istream & in
 					, SMILES_container & toFill
 					, const size_t linesRead
 					, const ggl::chem::GroupMap & groups
+					, const size_t setNextAtomClass = 0
 					, const bool pruneProtons = false
 					, const bool reportConversion = false
 					, std::ostream *error = NULL
-					, const bool correctNodeByBonds = false ) throw(std::exception);
+					, const bool correctNodeByBonds = false
+					) throw(std::exception);
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -637,15 +662,41 @@ typedef
 	
 //////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * adds an atom class information to all atoms without using consecutive
+	 * numbers starting at nextClassLabelOption
+	 *
+	 * @param mol the molecule to correct
+	 * @param setNextAtomClass atoms without class label will be numbered
+	 *       starting from the given value and the numbering will be added
+	 *       as class label;
+	 * @param overwriteExistingClass whether or not to overwrite existing class
+	 *       labels; if true, a warning is produced with the new class label
+	 *       mapping
+	 * @return the successive atom class label that was
+	 *       not used yet (for iterative calls)
+	 */
+	size_t
+	setAtomClass( ggl::chem::Molecule & mol
+					, const size_t nextClassLabelOption
+					, const bool overwriteExistingClass );
+
+//////////////////////////////////////////////////////////////////////////
+
 
 	/*!
 	 *
+	 * @param setNextAtomClass if > 0, atoms will be numbered starting from the
+	 *       given value and the numbering will be added as class label;
+	 * @return if setNextAtomClass > 0, the successive atom class label that was
+	 *       not used yet (for iterative calls); 0 otherwise
 	 */
-	void
+	size_t
 	correctInputMolecules( const SMILES_container & targetSmiles
 							, SMILES_container & producedSmiles
 							, ggl::chem::AromaticityPerception * aromaticity_full
 							, const bool protonFilling = true
+							, const size_t setNextAtomClass = 0
 							);
 
 //////////////////////////////////////////////////////////////////////////

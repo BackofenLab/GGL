@@ -395,12 +395,17 @@ parseRules(	const std::string & inSource
  * @param toFill the inserter to add the found SMILES to
  * 
  */
-void
+size_t
 parseSMILES(	std::istream & in
 				, SMILES_container & toFill
 				, const size_t linesRead
-				, const ggl::chem::GroupMap & groups ) throw(std::exception)
+				, const ggl::chem::GroupMap & groups
+				, const size_t setNextAtomClass
+				) throw(std::exception)
 {
+	// get next atom class that is non-redundant
+	size_t nextClassLabel = setNextAtomClass;
+
 	std::string line;
 	std::string smiles;
 	size_t lineNumber = linesRead;
@@ -449,16 +454,12 @@ parseSMILES(	std::istream & in
 						<<"' at position " <<result.second;
 					throw ArgException(oss.str());
 				}
-				// --> consistency check of molecules is done AFTER parsing
-//				size_t checkResult = ggl::chem::MoleculeUtil::isConsistent(result.first);
-//				if ( checkResult != ggl::chem::MoleculeUtil::C_Consistent ) {
-//					std::ostringstream oss;
-//					oss	<<"ERROR : The parsed SMILES string '"
-//						<<smiles <<"' is not valid:\n";
-//					  // get error description
-//					ggl::chem::MoleculeUtil::decodeConsistencyStatus(checkResult, oss);
-//					throw ArgException(oss.str());
-//				}
+
+				// add atom class labels if needed
+				if (nextClassLabel > 0) {
+					// set class labels and overwrite existing labels
+					nextClassLabel = setAtomClass( result.first, nextClassLabel, true );
+				}
 
 				try {
 					  // derive canonical SMILES with own writer
@@ -476,6 +477,8 @@ parseSMILES(	std::istream & in
 			}
 		}
 	}
+
+	return nextClassLabel;
 }
 
 
@@ -483,15 +486,16 @@ parseSMILES(	std::istream & in
 //////////////////////////////////////////////////////////////////////////
 
 
-void
+size_t
 parseSMILES(	const std::string & inSource
 				, SMILES_container & toFill
-				, const ggl::chem::GroupMap & groups ) throw(std::exception)
+				, const ggl::chem::GroupMap & groups
+				, const size_t setNextAtomClass
+				) throw(std::exception)
 {
 	if (inSource.compare("STDIN") == 0) {
 		size_t linesRead = 0;
-		parseSMILES( std::cin, toFill, linesRead, groups );
-		return;
+		return parseSMILES( std::cin, toFill, linesRead, groups, setNextAtomClass );
 	}
 	
 	  // split inSource into file name list if any
@@ -499,6 +503,7 @@ parseSMILES(	const std::string & inSource
 	
 	  // read all files
 	size_t i=0;
+	size_t nextAtomClass = setNextAtomClass;
 	for (	std::vector< std::string >::const_iterator file=files.begin(); 
 			file != files.end(); ++file)
 	{
@@ -519,10 +524,12 @@ parseSMILES(	const std::string & inSource
 		}
 		 // parse current file
 		size_t linesRead = 0;
-		parseSMILES( inFile, toFill, linesRead, groups );
+		nextAtomClass = parseSMILES( inFile, toFill, linesRead, groups, nextAtomClass );
 		 // close file
 		inFile.close();
 	}
+
+	return nextAtomClass;
 }
 
 
@@ -535,18 +542,23 @@ parseSMILES(	const std::string & inSource
 
 ////////////////////////////////////////////////////////////////////////////
 
-void
+size_t
 parseMolGML(	std::istream & in
 				, SMILES_container & toFill
 				, const size_t linesRead
 				, const ggl::chem::GroupMap & groups
+				, const size_t setNextAtomClass
 				, const bool pruneProtons
 				, const bool reportToStream
 				, std::ostream *error
-				, const bool correctNodeByBonds )  throw(std::exception)
+				, const bool correctNodeByBonds
+				)  throw(std::exception)
 {
 	using namespace ggl;
 	using namespace ggl::chem;
+
+	// get next atom class that is non-redundant
+	size_t nextClassLabel = setNextAtomClass;
 
 	typedef 
 		ggl::Graph_GMLparser GraphParser;
@@ -593,23 +605,12 @@ parseMolGML(	std::istream & in
 					  // according subgraphs from 'groups'
 					MoleculeUtil::insertGroups(ret.first, groups);
 
-					// --> consistency check of molecules is done AFTER parsing
-//					//   check final molecule
-//					size_t checkResult = ggl::chem::MoleculeUtil::isConsistent(ret.first);
-//					if ( checkResult != ggl::chem::MoleculeUtil::C_Consistent ) {
-//						noParsingError = false;
-//						std::ostringstream oss;
-//						oss	<<"the parsed molecule in GML format\n'"
-//							<<graphString<<"'\n is not valid:\n";
-//						  // get error description
-//						ggl::chem::MoleculeUtil::decodeConsistencyStatus(checkResult, oss);
-//						if (error != NULL){
-//							*error <<oss.str();
-//						} else {
-//							throw ArgException(oss.str());
-//						}
-//
-//					}
+					// add atom class labels if needed
+					if (nextClassLabel > 0) {
+						// set class labels and overwrite existing labels
+						nextClassLabel = setAtomClass( ret.first, nextClassLabel, true );
+					}
+
 					  // check if final processing possible
 					if (noParsingError) {
 
@@ -721,21 +722,23 @@ parseMolGML(	std::istream & in
 			graphString.append(line);
 		}
 	}
+
+	return nextClassLabel;
 }
 
 //////////////////////////////////////////////////////////////////////////
 
 
-void
+size_t
 parseMolGML(	const std::string & inSource
 				, SMILES_container & toFill
 				, const ggl::chem::GroupMap & groups
+				, const size_t setNextAtomClass
 				) throw(std::exception)
 {
 	if (inSource.compare("STDIN") == 0) {
 		size_t linesRead = 0;
-		parseMolGML( std::cin, toFill, linesRead, groups );
-		return;
+		return parseMolGML( std::cin, toFill, linesRead, groups, setNextAtomClass );
 	}
 	
 	  // split inSource into file name list if any
@@ -743,6 +746,7 @@ parseMolGML(	const std::string & inSource
 	
 	  // read all files
 	size_t i=0;
+	size_t nextAtomClass = setNextAtomClass;
 	for (	std::vector< std::string >::const_iterator file=files.begin(); 
 			file != files.end(); ++file)
 	{
@@ -764,10 +768,11 @@ parseMolGML(	const std::string & inSource
 		}
 		 // parse current file
 		size_t linesRead = 0;
-		parseMolGML( inFile, toFill, linesRead, groups );
+		nextAtomClass = parseMolGML( inFile, toFill, linesRead, groups, nextAtomClass );
 		 // close file
 		inFile.close();
 	}
+	return nextAtomClass;
 }
 
 
@@ -1765,16 +1770,18 @@ applyRules( const RulePatternMap & rules
 //////////////////////////////////////////////////////////////////////////
 
 
-void
+size_t
 correctInputMolecules( const SMILES_container & targetSmiles
 						, SMILES_container & producedSmiles
 						, ggl::chem::AromaticityPerception * aromaticity_full
 						, const bool protonFilling
+						, const size_t setNextAtomClass
 						)
 {
 	using namespace ggl;
 	using namespace ggl::chem;
 
+	size_t nextAtomClass = setNextAtomClass;
 
 	GS_SMILES_MOLp<SMILES_container> storage(producedSmiles);
 	GS_MolCheck *molChecker = NULL;
@@ -1796,6 +1803,10 @@ correctInputMolecules( const SMILES_container & targetSmiles
 			if (protonFilling) {
 				  // fill
 				MoleculeUtil::fillProtons( mol );
+				if (nextAtomClass > 0) {
+					 // add atom class if needed
+					nextAtomClass = setAtomClass( mol, nextAtomClass, false );
+				}
 			}
 
 			if (molChecker != NULL) {
@@ -1817,8 +1828,49 @@ correctInputMolecules( const SMILES_container & targetSmiles
 	if (molChecker != NULL) {
 		delete molChecker; molChecker = NULL;
 	}
+
+	return nextAtomClass;
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+
+size_t
+setAtomClass( ggl::chem::Molecule & mol
+		, const size_t nextClassLabelOption
+		, const bool overwriteExistingClass )
+{
+	// get next atom class that is non-redundant
+	size_t nextClassLabel = nextClassLabelOption;
+
+	// access to node labels of graph
+	boost::property_map< ggl::chem::Molecule, ggl::PropNodeLabel >::type
+		nodeLabel = boost::get( ggl::PropNodeLabel(), mol );
+
+	  // update property map
+	typename ggl::chem::Molecule::vertex_iterator vi, v_end;
+	boost::tie(vi,v_end) = boost::vertices(mol);
+
+	// relabel all nodes not already with class label
+	// i.e. add nextClassLabel suffix
+	while (vi != v_end) {
+		// ensure the class label was not known
+		const size_t classLabel = ggl::chem::MoleculeUtil::getClass( nodeLabel[*vi] );
+		// check if not labeled yet
+		if ( classLabel == 0 ) {
+			// set class label
+			nodeLabel[*vi] += ":" + boost::lexical_cast<std::string>( nextClassLabel++ );
+		} else if (overwriteExistingClass) {
+			std::cerr <<"# overwriting atom class label "<<nodeLabel[*vi] <<" with "<<nextClassLabel<<std::endl;
+			// replace class label
+			nodeLabel[*vi]
+			        = nodeLabel[*vi].substr(0,nodeLabel[*vi].find(":"))
+					+ ":" + boost::lexical_cast<std::string>( nextClassLabel++ );
+		}
+		vi++;
+	}
+	return nextClassLabel;
+}
 
 //////////////////////////////////////////////////////////////////////////
 
