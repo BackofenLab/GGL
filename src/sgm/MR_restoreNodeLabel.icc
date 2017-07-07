@@ -1,5 +1,6 @@
 
-#include "MR_restoreNodeLabel.hh"
+#include "sgm/MR_restoreNodeLabel.hh"
+#include "sgm/Graph_NodeLabelPrefix.hh"
 
 namespace sgm
 {
