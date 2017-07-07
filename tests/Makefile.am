@@ -34,7 +34,7 @@ endif
 # set the list of all test routines to compile
 TESTSOURCES =   \
 				testsgm_Graph_boost.cc \
-				testsgm_Graph_SubNodeLabel.cc \
+				testsgm_Graph_NodeLabelPrefix.cc \
 				testsgm_Graph_boostV_p.cc \
 				testsgm_SubGraph.cc \
 				testsgm_MR_stream.cc \
