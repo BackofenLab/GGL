@@ -210,9 +210,6 @@ int main( int argc, char** argv ) {
 		return -1;
 	}
 
-	// TODO maybe enable multiset containers if not all atoms numbered
-	// TODO alternatively: read without atom ids and set automatically to all atoms
-
 	SMILES_container c1;
 	SMILES_container c2;
 	SMILES_container& targetSmiles = c1;
